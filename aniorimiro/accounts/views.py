@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import TemplateView, CreateView
-from accounts.forms import ProfileForm
+from accounts.forms import ProfileForm, CreateUserForm
 from accounts.models import Profile
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -40,7 +40,7 @@ def profile_edit(request):
 
 signup = CreateView.as_view(
   model = User,
-  form_class = UserCreationForm,
+  form_class = CreateUserForm,
   success_url = settings.LOGIN_URL,
   template_name = 'accounts/signup_form.html',
 
