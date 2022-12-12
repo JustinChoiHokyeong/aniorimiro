@@ -13,18 +13,16 @@ class CreateUserForm(UserCreationForm):
   email = forms.EmailField(required=True)
   first_name = forms.CharField(max_length=50)
   last_name = forms.CharField(max_length=50)
-  email_is_agreed = forms.BooleanField(required=True)
 
   class Meta:
     model = User
-    fields = ("username", "password1", "password2", "email", "first_name", "last_name", "email_is_agreed")
+    fields = ("username", "password1", "password2", "email", "first_name", "last_name")
 
   def save(self, commit=True):
     user = super(CreateUserForm, self).save(commit=False)
     user.email = self.cleaned_data["email"]
     user.first_name = self.cleaned_data["first_name"]
     user.last_name = self.cleaned_data["last_name"]
-    user.email_is_agreed = self.cleaned_data["email_is_agreed"]
     if commit:
       user.save()
     return user
