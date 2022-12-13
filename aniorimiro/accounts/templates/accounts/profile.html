@@ -2,9 +2,8 @@
 
 {% block content %}
   <h2>User : {{ user }}</h2>
-  {{user.is_authenticated}}
 
-  {% if user.profile %}
+  {% if user %}
     <ul>
       <li>{{user.email}}</li>
       <li>{{user.first_name}}</li>
@@ -13,7 +12,7 @@
     </ul>
   {% endif %}
 
-  <a href="{% url 'profile_edit' %}" class="btn btn-primary">
+  <a href="{% url 'update' %}" class="btn btn-primary">
     프로필 수정
   </a>
 
