@@ -1,5 +1,21 @@
+
+
 {% extends "base.html" %}
 
 {% block content %}
-<h2>인덱스 페이지입니다.</h2>
+    <!--로고-->
+    <div class="index-logo" >
+        <a class="logo" href="{% url 'index' %}">ANIORIMIRO</a>
+    </div>
+    <!--/로고-->
+    <!--버튼-->
+    <div class="main-box">
+        <a class="box" href="{% url 'map' %}">
+            상권분석
+        </a>
+        <a class="box" href="">
+
+        </a>
+    </div>  
+    <!--/버튼-->
 {% endblock content %}

@@ -1,0 +1,25 @@
+a{
+    text-decoration: none;
+}
+.index-logo{
+    width: 100%;
+    height: 200px;
+    text-align: center;    
+}
+.index-logo .logo{
+    color:white;
+}
+.logo{
+    width: 175px;
+    height: 35px;
+    
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 35px;
+    
+    color: #192E61; 
+    letter-spacing: -3px;
+    text-decoration: none;
+}
