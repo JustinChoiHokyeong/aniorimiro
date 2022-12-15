@@ -1,19 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>User : {{ user }}</h2>
+  <h2>아이디 : {{ user }}</h2>
 
   {% if user %}
     <ul>
-      <li>{{user.email}}</li>
-      <li>{{user.first_name}}</li>
-      <li>{{user.last_name}}</li>
-      {% comment %} <li>{{user.profile.email_is_agreed}}</li> {% endcomment %}
+      <li>이메일 : {{user.email}}</li>
+      <li>영문 이름 : {{user.first_name}}</li>
+      <li>영문 성 : {{user.last_name}}</li>
     </ul>
   {% endif %}
 
   <a href="{% url 'update' %}" class="btn btn-primary">
     프로필 수정
   </a>
+
+
+
 
 {% endblock content %}

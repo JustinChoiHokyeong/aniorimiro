@@ -56,9 +56,6 @@ signup = CreateView.as_view(
   model = User,
   form_class = CreateUserForm,
   success_url = settings.LOGIN_URL,
-  template_name = 'accounts/signup_form.html',
+  template_name = 'accounts/signup.html',
 
 )
-
-def logout(request):
-  pass
