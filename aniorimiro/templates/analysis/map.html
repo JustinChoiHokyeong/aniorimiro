@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>다각형에 이벤트 등록하기2</title>
+    <title>map</title>
     <style>
 .area {
     position: absolute;
@@ -26,75 +26,222 @@
 .info .title {
     font-weight: bold;
 }
+html, body {width:100%;height:100%;margin:0;padding:0;} 
+.map_wrap {position:relative;overflow:hidden;width:100%;height:550px;}
+.radius_border{border:1px solid #919191;border-radius:5px;}
+.areacontrol {font-size:12px;position:absolute;top:10px;right:10px;overflow:hidden;height:30px;margin:0;padding:0;z-index:1;font-family:'Malgun Gothic', '맑은 고딕', 'sans-serif';}
+.areacontrol span {display:block;width:65px;height:30px;float:left;text-align:center;line-height:30px;cursor:pointer;}
+.areacontrol .btn {padding:0;font-size:12px;line-height:30px;background:#fff;background:linear-gradient(#fff,  #e6e6e6);}
+.areacontrol .btn:hover {background:#f5f5f5;background:linear-gradient(#f5f5f5,#e3e3e3);}
+.areacontrol .btn:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);}
+.areacontrol .selected_btn {color:#fff;background:#425470;background:linear-gradient(#425470, #5b6d8a);}
+.areacontrol .selected_btn:hover {color:#fff;}
 </style>
 </head>
 <body>
-<div id="map" style="width:100%;height:500px;"></div>
+<div class="map_wrap">
+  <div id="map" style="width:100%;height:500px;"></div>
+  <div class="areacontrol radius_border">
+    <span id="btnBd" class="btn" onclick="setComArea('bd')">발달상권</span>
+    <span id="btnGg" class="btn" onclick="setComArea('gg')">관광특구</span>
+    <span id="btnGm" class="btn" onclick="setComArea('gm')">골목상권</span>
+    <span id="btnJt" class="btn" onclick="setComArea('jt')">전통시장</span>    
+  </div>
+</div>
+
+
+
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51806ebafe88ce5dbfc859c1db2a1f13"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script>
 
-
-// *** 지도에 폴리곤으로 표시할 영역데이터 배열 생성 로직입니다 ***
-
 // 새로운 빈 배열을 생성한다. []
-let areas = new Array();
-//제이쿼리를 사용해서 스태틱 폴더에 저장된 json 파일을 불러온다.
-let jsonLocation = '/static/data/gm.json';
-$.getJSON(jsonLocation, function(data){
-  //반복문 돌면서 상권별 데이터를 담을 준비
-  $.each(data, function(I, item){
-      //상권명과 좌표정보를 담을 객체를 생성하고 {}
-      let area = new Object();
-      //상권명은 바로 name이라는 키값에 전달한다 name:""
-      area.name = item.name;
-      //좌표정보는 path라는 키값에 전달할건데
-      //우선 새로운 배열을 생성해서
-      area.path = new Array();
-      //for문을 이용해 돌면서 좌표정보를 담을 것이다
-      for (let i=0; i<item.LatLng.length; i++){
-        //위에서 제이쿼리 each 반복문에서 가져온 위도경도 값을 카카오 LatLng 메소드에 넣고
-        //생성된 객체를 newlatlng 변수에 담았다
-        let newlatlng = new kakao.maps.LatLng(item.LatLng[i][0], item.LatLng[i][1])
-        //그리고 area라는 배열에 반복문을 돌면서 담았다
-        area.path.push(newlatlng)
-      }        
-      //담은 name과 path를 모두 담은 객체는 areas 배열에 each 반복문을 돌면서 push로 추가시킨다.
-      areas.push(area);
-  })
+let areas_gm = new Array();
+let areas_gg = new Array();
+let areas_bd = new Array();
+let areas_jt = new Array();
 
-  //for 반복문을 돌면서 displayArea 메소드를 사용해서 상권 영역을 지도에 그린다.
-  for (var i = 0, len = areas.length; i < len; i++) {
-    displayArea(areas[i]);
+//제이쿼리를 사용해서 스태틱 폴더에 저장된 json 파일을 불러온다.
+let jsonLoca_gm = '/static/data/gm.json';
+let jsonLoca_gg = '/static/data/gg.json';
+let jsonLoca_bd = '/static/data/bd.json';
+let jsonLoca_jt = '/static/data/jt.json';
+
+//지도에서 표시할 상권영역 4가지를 독립적으로 선택할 수 있는 함수
+function setComArea(areatype){
+  let bdControl = document.getElementById('btnBd');
+  let ggControl = document.getElementById('btnGg');
+  let gmControl = document.getElementById('btnGm');
+  let jtControl = document.getElementById('btnJt');
+
+// *** $.getJSON으로 묶인 그룹은 지도에 폴리곤으로 표시할 영역데이터 배열 생성 로직입니다 ***
+  if(areatype === 'bd'){
+    //기존의 그려져있던 영역 삭제하고
+    $("path").remove();
+    //새로운 영역 그리기
+    //lineColor : 2838F2
+    $.getJSON(jsonLoca_bd, function(data){
+      //반복문 돌면서 상권별 데이터를 담을 준비
+      $.each(data, function(I, item){
+          //상권명과 좌표정보를 담을 객체를 생성하고 {}
+          let area = new Object();
+          //상권명은 바로 name이라는 키값에 전달한다 name:""
+          area.name = item.name;
+          //좌표정보는 path라는 키값에 전달할건데
+          //우선 새로운 배열을 생성해서
+          area.path = new Array();
+          //for문을 이용해 돌면서 좌표정보를 담을 것이다
+          for (let i=0; i<item.LatLng.length; i++){
+            //위에서 제이쿼리 each 반복문에서 가져온 위도경도 값을 카카오 LatLng 메소드에 넣고
+            //생성된 객체를 newlatlng 변수에 담았다
+            let newlatlng = new kakao.maps.LatLng(item.LatLng[i][0], item.LatLng[i][1])
+            //그리고 area라는 배열에 반복문을 돌면서 담았다
+            area.path.push(newlatlng)
+          }        
+          //담은 name과 path를 모두 담은 객체는 areas 배열에 each 반복문을 돌면서 push로 추가시킨다.
+          areas_bd.push(area);
+      })
+      //for 반복문을 돌면서 displayArea 메소드를 사용해서 상권 영역을 지도에 그린다.
+      for (var i = 0, len = areas_bd.length; i < len; i++) {
+        displayArea(areas_bd[i], '#2838F2');
+    }});
+    bdControl.className = "selected_btn";
+    ggControl.className = "btn";
+    gmControl.className = "btn";
+    jtControl.className = "btn";
+
+  }else if(areatype === 'gg'){
+    //기존의 그려져있던 영역 삭제하고
+    $("path").remove();
+    //새로운 영역 그리기
+    //lineColor : F038DE
+    $.getJSON(jsonLoca_gg, function(data){
+      //반복문 돌면서 상권별 데이터를 담을 준비
+      $.each(data, function(I, item){
+          //상권명과 좌표정보를 담을 객체를 생성하고 {}
+          let area = new Object();
+          //상권명은 바로 name이라는 키값에 전달한다 name:""
+          area.name = item.name;
+          //좌표정보는 path라는 키값에 전달할건데
+          //우선 새로운 배열을 생성해서
+          area.path = new Array();
+          //for문을 이용해 돌면서 좌표정보를 담을 것이다
+          for (let i=0; i<item.LatLng.length; i++){
+            //위에서 제이쿼리 each 반복문에서 가져온 위도경도 값을 카카오 LatLng 메소드에 넣고
+            //생성된 객체를 newlatlng 변수에 담았다
+            let newlatlng = new kakao.maps.LatLng(item.LatLng[i][0], item.LatLng[i][1])
+            //그리고 area라는 배열에 반복문을 돌면서 담았다
+            area.path.push(newlatlng)
+          }        
+          //담은 name과 path를 모두 담은 객체는 areas 배열에 each 반복문을 돌면서 push로 추가시킨다.
+          areas_gg.push(area);
+      })
+      //for 반복문을 돌면서 displayArea 메소드를 사용해서 상권 영역을 지도에 그린다.
+      for (var i = 0, len = areas_gg.length; i < len; i++) {
+        displayArea(areas_gg[i], '#F038DE');
+    }});
+    bdControl.className = "btn";
+    ggControl.className = "selected_btn";
+    gmControl.className = "btn";
+    jtControl.className = "btn";
+
+  }else if(areatype === 'gm'){
+    //기존의 그려져있던 영역 삭제하고
+    $("path").remove();
+    //새로운 영역 그리기
+    //lineColor : 9A3D23
+    $.getJSON(jsonLoca_gm, function(data){
+      //반복문 돌면서 상권별 데이터를 담을 준비
+      $.each(data, function(I, item){
+          //상권명과 좌표정보를 담을 객체를 생성하고 {}
+          let area = new Object();
+          //상권명은 바로 name이라는 키값에 전달한다 name:""
+          area.name = item.name;
+          //좌표정보는 path라는 키값에 전달할건데
+          //우선 새로운 배열을 생성해서
+          area.path = new Array();
+          //for문을 이용해 돌면서 좌표정보를 담을 것이다
+          for (let i=0; i<item.LatLng.length; i++){
+            //위에서 제이쿼리 each 반복문에서 가져온 위도경도 값을 카카오 LatLng 메소드에 넣고
+            //생성된 객체를 newlatlng 변수에 담았다
+            let newlatlng = new kakao.maps.LatLng(item.LatLng[i][0], item.LatLng[i][1])
+            //그리고 area라는 배열에 반복문을 돌면서 담았다
+            area.path.push(newlatlng)
+          }        
+          //담은 name과 path를 모두 담은 객체는 areas 배열에 each 반복문을 돌면서 push로 추가시킨다.
+          areas_gm.push(area);
+      })
+      //for 반복문을 돌면서 displayArea 메소드를 사용해서 상권 영역을 지도에 그린다.
+      for (var i = 0, len = areas_gm.length; i < len; i++) {
+        displayArea(areas_gm[i], '#9A3D23');
+    }}); 
+    bdControl.className = "btn";
+    ggControl.className = "btn";
+    gmControl.className = "selected_btn";
+    jtControl.className = "btn";
+
+  }else if(areatype === 'jt'){
+    //기존의 그려져있던 영역 삭제하고
+    $("path").remove();
+    //새로운 영역 그리기
+    //lineColor : F03838
+    $.getJSON(jsonLoca_jt, function(data){
+      //반복문 돌면서 상권별 데이터를 담을 준비
+      $.each(data, function(I, item){
+          //상권명과 좌표정보를 담을 객체를 생성하고 {}
+          let area = new Object();
+          //상권명은 바로 name이라는 키값에 전달한다 name:""
+          area.name = item.name;
+          //좌표정보는 path라는 키값에 전달할건데
+          //우선 새로운 배열을 생성해서
+          area.path = new Array();
+          //for문을 이용해 돌면서 좌표정보를 담을 것이다
+          for (let i=0; i<item.LatLng.length; i++){
+            //위에서 제이쿼리 each 반복문에서 가져온 위도경도 값을 카카오 LatLng 메소드에 넣고
+            //생성된 객체를 newlatlng 변수에 담았다
+            let newlatlng = new kakao.maps.LatLng(item.LatLng[i][0], item.LatLng[i][1])
+            //그리고 area라는 배열에 반복문을 돌면서 담았다
+            area.path.push(newlatlng)
+          }        
+          //담은 name과 path를 모두 담은 객체는 areas 배열에 each 반복문을 돌면서 push로 추가시킨다.
+          areas_jt.push(area);
+      })
+      //for 반복문을 돌면서 displayArea 메소드를 사용해서 상권 영역을 지도에 그린다.
+      for (var i = 0, len = areas_jt.length; i < len; i++) {
+        displayArea(areas_jt[i], '#F03838');
+    }});
+    bdControl.className = "btn";
+    ggControl.className = "btn";
+    gmControl.className = "btn";
+    jtControl.className = "selected_btn";
+
+  }
+
 }
-});
 
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
-        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-        level: 8 // 지도의 확대 레벨
+        center: new kakao.maps.LatLng(37.53481662194368, 126.9809016009247), // 지도의 중심좌표
+        level: 7 // 지도의 확대 레벨
     };
 
 var map = new kakao.maps.Map(mapContainer, mapOption),
     customOverlay = new kakao.maps.CustomOverlay({}),
     infowindow = new kakao.maps.InfoWindow({removable: true});
 
-// 지도에 영역데이터를 폴리곤으로 표시합니다 
-// area 는 areas[i] 와 같다
-
 
 // 다각형을 생상하고 이벤트를 등록하는 함수입니다
-function displayArea(area) {
+function displayArea(area, lineColor) {
 
     // 다각형을 생성합니다 
     var polygon = new kakao.maps.Polygon({
         map: map, // 다각형을 표시할 지도 객체
         path: area.path,
         strokeWeight: 2,
-        strokeColor: '#9A2EFE',
+        strokeColor: lineColor,
         strokeOpacity: 0.8,
         fillColor: '#fff',
         fillOpacity: 0.7 
