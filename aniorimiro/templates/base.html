@@ -7,6 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <title>aniorimiro</title>
+    <style>
+        body{
+            background-color:#98A7BD;
+            margin:0;
+        }
+        
+    </style>
 </head>
 <body class="base-body">
 <!-- 네비게이션 바 -->
@@ -17,6 +24,6 @@
 {% block content %}
 {% endblock %}
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
-
+{% include 'etc/footer.html' %}
 </body>
 </html>

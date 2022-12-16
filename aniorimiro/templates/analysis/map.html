@@ -29,26 +29,17 @@
 </style>
 </head>
 <body>
-<<<<<<< HEAD
-
 <!-- 지도를 표시할 div 입니다 -->
 <div id="map" style="width:100%;height:350px;"></div>
-=======
-<div id="map" style="width:100%;height:500px;"></div>
-
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51806ebafe88ce5dbfc859c1db2a1f13"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
->>>>>>> b63af1464e12142e4dd1b480c8fc525e95ea7595
-
 <script>
-
-
 // *** 지도에 폴리곤으로 표시할 영역데이터 배열 생성 로직입니다 ***
 
 // 새로운 빈 배열을 생성한다. []
 let areas = new Array();
 //제이쿼리를 사용해서 스태틱 폴더에 저장된 json 파일을 불러온다.
-let jsonLocation = '/static/data/gm.json';
+let jsonLocation = '/static/data/jt.json';
 $.getJSON(jsonLocation, function(data){
   //반복문 돌면서 상권별 데이터를 담을 준비
   $.each(data, function(I, item){
