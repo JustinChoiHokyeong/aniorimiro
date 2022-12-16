@@ -5,60 +5,26 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <title>aniorimiro</title>
-    <link rel="stylesheet" href="{% static 'bootstrap-5.2.2-dist/css/bootstrap.min.css' %}">
-    <script src="{% static 'bootstrap-5.2.2-dist/js/bootstrap.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'css/test.css' %}">
-
+    <style>
+        body{
+            background-color:#98A7BD;
+            margin:0;
+        }
+        
+    </style>
 </head>
-<body>
+
+<body class="base-body">
 <!-- 네비게이션 바 -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'index' %}">aniorimiro</a>
-        <button class="navbar-toggler" type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'map' %}">상권분석</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'predict' %}">매출예측</a>
-                </li>
-
-                {% if not user.is_authenticated %}
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}?next={{ request.get_full_path}}">로그인</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'signup' %}">회원가입</a>
-                  </li>
-                {% else %} 
-                  <li class="nav-item">
-                      <a class="nav-link" href="{% url 'profile' %}">마이페이지</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="{% url 'logout' %}?next={{ request.get_full_path}}">로그아웃</a>
-                  </li>
-                {% endif %} 
-            </ul>
-        </div>
-    </div>
-</nav>
-
+{% include 'etc/navbar.html' %}
+<!-- /네비게이션 바 -->
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 {% block content %}
 {% endblock %}
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
-
-
+{% include 'etc/footer.html' %}
 </body>
 </html>
