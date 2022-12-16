@@ -1,21 +1,66 @@
 
 
 {% extends "base.html" %}
+{% load static %}
+
 
 {% block content %}
+    <!--배경-->    
+    <!--/배경--> 
+
     <!--로고-->
-    <div class="index-logo" >
+    <div class="container-logo">
         <a class="logo" href="{% url 'index' %}">ANIORIMIRO</a>
     </div>
     <!--/로고-->
-    <!--버튼-->
-    <div class="main-box">
-        <a class="box" href="{% url 'map' %}">
-            상권분석
-        </a>
-        <a class="box" href="">
 
+    <!--버튼-->    
+    <div class="container-box">
+        <a class="" href="{% url 'map' %}">     
+            <div class="main-box">
+                상권분석 
+            </div>
         </a>
-    </div>  
+        <a class="" href="{% url 'map' %}">     
+            <div class="main-box">
+                매출분석 
+            </div>
+        </a>
+    </div>
     <!--/버튼-->
+
+    <!--왓위두-->
+    
+    <div class="container-wwd">
+        <div class="container-logo">
+            <a class="logo" >What We Do</a>
+        </div>
+        
+        <div class="wwd">
+            Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.
+        </div>
+        <div class="wwd">
+            Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.
+        </div>
+        <div class="wwd">
+            Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.
+        </div>
+
+    </div>  
+    <!--/왓위두-->
+    <!--어바웃어스-->
+    <div class="container-au">
+        <div class="container-logo">
+            <a class="logo" >About Us</a>
+        </div>
+        
+        <div class="au">
+            Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.
+        </div>
+        <div class="au">
+            Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.
+        </div>
+    </div>  
+    <!--/어바웃어스-->
+    
 {% endblock content %}

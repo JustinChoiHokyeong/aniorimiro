@@ -5,19 +5,10 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% comment %} <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"> {% endcomment %}
-    <!-- pybo CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
     <title>aniorimiro</title>
-    <style>
-        body{
-        background-color:#98A7BD;
-        margin:0;
-        }
-    </style>
 </head>
-<body>
+<body class="base-body">
 <!-- 네비게이션 바 -->
 {% include 'etc/navbar.html' %}
 <!-- /네비게이션 바 -->
@@ -27,7 +18,5 @@
 {% endblock %}
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 
-{% comment %} <!-- Bootstrap JS -->
-<script src="{% static 'js/bootstrap.min.js' %}"></script> {% endcomment %}
 </body>
 </html>
