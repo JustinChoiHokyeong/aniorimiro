@@ -26,16 +26,17 @@
 .info .title {
     font-weight: bold;
 }
-html, body {width:100%;height:100%;margin:0;padding:0;} 
-.map_wrap {position:relative;overflow:hidden;width:100%;height:550px;}
+html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} 
+.map_wrap {position:relative;width:100%;height:550px;}
 .radius_border{border:1px solid #919191;border-radius:5px;}
-.areacontrol {font-size:12px;position:absolute;top:10px;right:10px;overflow:hidden;height:30px;margin:0;padding:0;z-index:1;font-family:'Malgun Gothic', '맑은 고딕', 'sans-serif';}
+.areacontrol {font-size:12px;position:absolute;top:10px;right:10px;height:30px;margin:0;padding:0;z-index:1;font-family:'Malgun Gothic', '맑은 고딕', 'sans-serif';}
 .areacontrol span {display:block;width:65px;height:30px;float:left;text-align:center;line-height:30px;cursor:pointer;}
 .areacontrol .btn {padding:0;font-size:12px;line-height:30px;background:#fff;background:linear-gradient(#fff,  #e6e6e6);}
 .areacontrol .btn:hover {background:#f5f5f5;background:linear-gradient(#f5f5f5,#e3e3e3);}
 .areacontrol .btn:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);}
 .areacontrol .selected_btn {color:#fff;background:#425470;background:linear-gradient(#425470, #5b6d8a);}
 .areacontrol .selected_btn:hover {color:#fff;}
+.rightReport {position:absolute;top:50px;right:10px;height:400px;margin:0;padding:0;z-index:1;background-color:#fff}
 </style>
 </head>
 <body>
@@ -47,6 +48,13 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
     <span id="btnGm" class="btn" onclick="setComArea('gm')">골목상권</span>
     <span id="btnJt" class="btn" onclick="setComArea('jt')">전통시장</span>    
   </div>
+  <aside class="rightReport analysis_report active">
+    <h3>상권 분석 리포트 출력화면입니다. </h3>
+    <dl>
+      <dt>함수 만들고 선언해서</dt>
+      <dd>분석 정보 출력하는 기능 만들기</dd>
+    </dl>
+  </aside>
 </div>
 
 
@@ -276,6 +284,7 @@ function displayArea(area, lineColor) {
         var content = '<div class="info">' + 
                     '   <div class="title">' + area.name + '</div>' +
                     '   <div class="size">총 면적 : 약 ' + Math.floor(polygon.getArea()) + ' m<sup>2</sup></div>' +
+                    '    <a href="#">분석 리포트</a>'
                     '</div>';
 
         infowindow.setContent(content); 
@@ -283,6 +292,10 @@ function displayArea(area, lineColor) {
         infowindow.setMap(map);
     });
 }
+
+//CSV 파일 HTML 테이블로 변환하기
+
+
 </script>
 </body>
 </html>

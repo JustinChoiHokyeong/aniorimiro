@@ -30,7 +30,7 @@
                     <a class="nav-link" href="{% url 'map' %}">상권분석</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">매출예측</a>
+                    <a class="nav-link" href="{% url 'predict' %}">매출예측</a>
                 </li>
 
                 {% if not user.is_authenticated %}
