@@ -6,5 +6,5 @@
 * [기능정의서](https://docs.google.com/spreadsheets/d/167e_ifRUj6Zdcu5U6ka96ypv0CCr_WbWnllNXcaQBX0/edit#gid=0)
 * [화면정의서](https://docs.google.com/presentation/d/1YypgBo2MCVdZVHRleeFGBvraXvuPCPOf4g5z-fwrZg0/edit#slide=id.p)
 * [WBS](https://docs.google.com/spreadsheets/d/1DsW8wfOfBu1VqastvK6YuBT5czBZfACZJwIsM4Kl9CA/edit#gid=0)
-* K-Digital Training 양식 PPT
+* [K-Digital Training 양식 PPT](https://docs.google.com/presentation/d/146hxgYJeqOGFNhv2qs-BU6hy4w3zv7Ng/edit#slide=id.p13)
 * 발표 PPT
