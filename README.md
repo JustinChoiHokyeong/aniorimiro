@@ -3,9 +3,9 @@
 * 총 개발기간 : 2022/11/26 ~ 2022/12/26 (4주)
 
 ## 프로젝트 개요
-### 프로젝트명 : aniorimiro (아니오리미로)
-#### 주제 : 용산구 상권분석 및 매출예측 서비스
-#### 목적 및 배경 : 
+#### 1. 프로젝트명 : aniorimiro (아니오리미로)
+#### 2. 주제 : 용산구 상권분석 및 매출예측 서비스
+#### 3. 목적 및 배경 : 
 > 의사결정에 도움을 줄 수 있는 다양한 상권분석 정보를 제공하여, 상권활성화 및 예비창업을 지원하기 위함
 
 ## 회의록
@@ -24,4 +24,17 @@
 * [화면정의서](https://docs.google.com/presentation/d/1YypgBo2MCVdZVHRleeFGBvraXvuPCPOf4g5z-fwrZg0/edit#slide=id.p)
 * [WBS](https://docs.google.com/spreadsheets/d/1DsW8wfOfBu1VqastvK6YuBT5czBZfACZJwIsM4Kl9CA/edit#gid=0)
 * [K-Digital Training 양식 PPT](https://docs.google.com/presentation/d/146hxgYJeqOGFNhv2qs-BU6hy4w3zv7Ng/edit#slide=id.p13)
-* 발표 PPT
+* 발표 PPT - ?
+
+## 사용 데이터
+#### 1.
+
+## 데이터 분석 과정
+#### 1. 
+#### 2. 
+
+## 웹 개발 과정
+#### 1. 
+#### 2. 
+
+
