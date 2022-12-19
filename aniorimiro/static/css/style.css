@@ -1,4 +1,3 @@
-
 a{
     text-decoration: none;
 }
@@ -23,12 +22,14 @@ a{
     text-align: center;  
     margin-top : 100px;
     margin-bottom : 100px; 
-    color:white
+    color:white;
 }
 .container-logo .logo{
     color:white;
 }
 /**로고끝*/
+
+
 
 /**메인박스*/
 .container-box{
@@ -47,6 +48,20 @@ a{
     margin-left: 200px;
 }
 /**메인박스 끝*/
+
+/**네비바*/
+
+/**네비바끝*/
+
+/**푸터*/
+footer{
+    position: static;
+    width: 100%;
+    height: 300px;
+    background: #FFFFFF; 
+}
+
+/**푸터끝*/
 
 /**왓위두*/
 .container-wwd{
@@ -90,12 +105,3 @@ a{
 }
 /**어바웃어스끝*/
 
-/**푸터*/
-footer{
-    position: relative;
-    width: 100%;
-    height: 300px;
-    background: #FFFFFF; 
-}
-
-/**푸터끝*/
