@@ -17,14 +17,13 @@
 6. [1차 멘토링 피드백 - WBS 작성 및 세부 기능 구현](https://justdojustin.tistory.com/55)
 7. [프로젝트 중간 점검 회의록 - 프로젝트 진행현황 점검](https://justdojustin.tistory.com/56)
 8. [2차 멘토링 피드백 - AWS 클라우드 서버 출력 시도](https://justdojustin.tistory.com/57)
-9. [3차 멘토링 피드백 - 테스트 및 피드백 개선](https://justdojustin.tistory.com/58)
+9. [3차 멘토링 피드백 - 작동 테스트 및 피드백 개선](https://justdojustin.tistory.com/58)
 
 ## 프로젝트 문서
 * [기능정의서](https://docs.google.com/spreadsheets/d/167e_ifRUj6Zdcu5U6ka96ypv0CCr_WbWnllNXcaQBX0/edit#gid=0)
 * [화면정의서](https://docs.google.com/presentation/d/1YypgBo2MCVdZVHRleeFGBvraXvuPCPOf4g5z-fwrZg0/edit#slide=id.p)
-* [WBS](https://docs.google.com/spreadsheets/d/1DsW8wfOfBu1VqastvK6YuBT5czBZfACZJwIsM4Kl9CA/edit#gid=0)
-* [K-Digital Training 양식 PPT](https://docs.google.com/presentation/d/146hxgYJeqOGFNhv2qs-BU6hy4w3zv7Ng/edit#slide=id.p13)
-* 발표 PPT - ?
+* [WBS(Work Breakdown Structure)](https://docs.google.com/spreadsheets/d/1DsW8wfOfBu1VqastvK6YuBT5czBZfACZJwIsM4Kl9CA/edit#gid=0)
+* [발표 PPT (K-Digital Training 양식)](https://docs.google.com/presentation/d/146hxgYJeqOGFNhv2qs-BU6hy4w3zv7Ng/edit#slide=id.p13)
 
 ## 사용 데이터
 #### 1.
@@ -37,4 +36,6 @@
 #### 1. 
 #### 2. 
 
-
+## 서비스 개선 방향성
+#### 1. 
+#### 2. 
