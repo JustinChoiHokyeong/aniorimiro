@@ -1,11 +1,13 @@
 from django.shortcuts import render
 import pandas as pd
+import asyncio
 
 df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiro_data/master/yongsan_192021.csv", encoding='utf-8')
 
-def map(request):
-
-  return render(request, 'analysis/map.html')
+async def map(request):
+    sum = df
+    context = {'sum': sum}
+    return render(request, 'analysis/map.html', context)
 
 
 
@@ -14,6 +16,15 @@ def ListFunc(request):
   context = {'sum': sum}
   return render(request,'analysis/predict.html', context)
 # 함수
+
+async def mapDbFunc(request):
+  if request.method=="GET":
+    id=request.GET['query']
+    data = {
+      'data' : id
+    }
+  return render(request, 'analysis/map.html', data)
+
 
 
 
