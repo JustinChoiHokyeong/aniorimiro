@@ -1,5 +1,5 @@
-
 a {
+
     text-decoration: none;
 }
 /**로고*/
@@ -23,12 +23,14 @@ a {
     text-align: center;  
     margin-top : 100px;
     margin-bottom : 100px; 
-    color:white
+    color:white;
 }
 .container-logo .logo{
     color:white;
 }
 /**로고끝*/
+
+
 
 /**메인박스*/
 .container-box{
@@ -47,6 +49,20 @@ a {
     margin-left: 200px;
 }
 /**메인박스 끝*/
+
+/**네비바*/
+
+/**네비바끝*/
+
+/**푸터*/
+footer{
+    position: static;
+    width: 100%;
+    height: 300px;
+    background: #FFFFFF; 
+}
+
+/**푸터끝*/
 
 /**왓위두*/
 .container-wwd{
@@ -89,6 +105,7 @@ a {
     color: #FFFFFF;
 }
 /**어바웃어스끝*/
+
 
 /**푸터*/
 footer{
@@ -203,3 +220,4 @@ ul.pred_list > li.summary {margin-bottom:16px; font-size:22px; font-weight:700;}
 ul.pred_list > li.summary strong {color:#0676dd; font-size:inherit;}
 ul.pred_list > li.detail {margin-bottom:24px; padding:20px; border:1px solid #ddd; font-size:14px; line-height:1.4;}
 ul.pred_list > li.detail strong {color:#0676dd; font-size:inherit; font-weight:500;}
+
