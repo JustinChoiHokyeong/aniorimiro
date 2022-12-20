@@ -18,26 +18,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
 profile = ProfileView.as_view()
 
-# @login_required
-# def profile_edit(request):
-#   try:
-#     profile = request.user.profile
-#   except Profile.DoesNotExist:
-#     profile = None
-  
-#   if request.method == 'POST':
-#     form = ProfileForm(request.POST, request.FILES, instance=profile)
-#     if form.is_valid():
-#       profile = form.save(commit=False)
-#       profile.user = request.user
-#       profile.save()
-#       return redirect('profile')
-#   else:
-#     form = ProfileForm(instance=profile)
-#   return render(request, 'accounts/profile_form.html', {
-#     'form' : form,
-#   })
-
 @login_required
 def update(request):
   if request.method == 'POST':
