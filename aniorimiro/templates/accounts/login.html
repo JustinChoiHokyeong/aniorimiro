@@ -2,44 +2,48 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<div class="jumbotron jumbotronfluid">
-
-<div class="container my-5" >
-
-    <h3 class="my-3">로그인</h3>
-
-    <hr>
-
+<style>
+  .login-page{
+    height: 80vh;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .login-page .logo{
+    margin: 0px 0px 50px 0px;
+  }
+  .login-box{
+    width: 350px;
+    height: 30px;
+    left: 689px;
+    top: 453px;
+    background: #F8F8F8;
+    border-radius: 5px;
+  }
+</style>
+<div class="login-page">
+  <a class="logo" href="{% url 'index' %}">ANIORIMIRO</a>
     {% if form.errors %}
-    <p style="color:red;">아이디, 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</p>
+    <div style="color:#f3f3f3;">아이디, 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</div>
     {% endif %}
-
     <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
-
-
     <div class="form-group row">
-            <label for="staticEmail" class="col-sm-2 col-form-label">아이디</label>
-            <div class="col-sm-10 mt-1">
-              {{ form.username }}
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">비밀번호</label>
-            <div class="col-sm-10 mt-1">
-                {{ form.password }}
-            </div>
-          </div>
-
-
+      <label for="staticEmail" class="col-sm-2 col-form-label">아이디</label>
+      <div>
+        {{ form.username }}
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">비밀번호</label>
+      <div class="col-sm-10 mt-1">
+          {{ form.password }}
+      </div>
+    </div>
     <button class="btn btn-info mt-3" type="submit"> Sign in </button>
     <input type="hidden" name="next" value="{{ next }}">
     </form>
-
-    
-</div>
-
 </div>
 {% endblock content %}
 

@@ -1,7 +1,9 @@
 from django.shortcuts import render
 import pandas as pd
+import asyncio
 
 df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiro_data/master/yongsan_192021.csv", encoding='utf-8')
+
 
 def map(request):
   analData = df.head(2)
@@ -51,3 +53,5 @@ def map(request):
 #     result= test3[strnai].sort_values(ascending=False)
 #     return result
 
+
+  
