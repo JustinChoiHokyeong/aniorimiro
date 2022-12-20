@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse-pydev version="1.0"?><pydev_project>
+    <pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
+    <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python interpreter</pydev_property>
+    <pydev_variables_property name="org.python.pydev.PROJECT_VARIABLE_SUBSTITUTION">
+        <key>env_var:CommonProgramFiles</key>
+        <value>C:\Program Files\Common Files</value>
+        <key>env_var:COMPUTERNAME</key>
+        <value>DESKTOP-R6P50HN</value>
+        <key>DJANGO_MANAGE_LOCATION</key>
+        <value>aniorimiro/manage.py</value>
+        <key>env_var:ChocolateyInstall</key>
+        <value>C:\ProgramData\chocolatey</value>
+        <key>PY</key>
+        <value>39</value>
+        <key>env_var:PROCESSOR_REVISION</key>
+        <value>5e03</value>
+        <key>env_var:Path</key>
+        <value>C:/work/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.4.v20220903-1038/jre/bin/server;C:/work/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.4.v20220903-1038/jre/bin;C:\Python310\Scripts\;C:\Python310\;C:\oraclexe\app\oracle\product\10.2.0\server\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Bandizip\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Users\82108\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\82108\AppData\Local\Programs\Python\Python39\;C:\Users\82108\anaconda3;C:\Users\82108\anaconda3\Library\mingw-w64\bin;C:\Users\82108\anaconda3\Library\usr\bin;C:\Users\82108\anaconda3\Library\bin;C:\Users\82108\anaconda3\Scripts;C:\Users\82108\AppData\Local\Microsoft\WindowsApps;C:\Users\82108\AppData\Local\Programs\Microsoft VS Code\bin;C:\acorn202206\jdk-11\bin;C:\apache-maven-3.8.6\bin;C:\Users\82108\AppData\Roaming\npm;C:\Program Files (x86)\Graphviz2.38\bin;;C:\work\eclipse;</value>
+        <key>env_var:OneDrive</key>
+        <value>C:\Users\82108\OneDrive</value>
+        <key>env_var:ProgramFiles</key>
+        <value>C:\Program Files</value>
+        <key>env_var:USERDOMAIN_ROAMINGPROFILE</key>
+        <value>DESKTOP-R6P50HN</value>
+        <key>env_var:SystemDrive</key>
+        <value>C:</value>
+        <key>env_var:ChocolateyLastPathUpdate</key>
+        <value>133111819351926640</value>
+        <key>env_var:JAVA_HOME</key>
+        <value>C:\acorn202206\jdk-11</value>
+        <key>env_var:PROCESSOR_ARCHITECTURE</key>
+        <value>AMD64</value>
+        <key>env_var:PROCESSOR_IDENTIFIER</key>
+        <value>Intel64 Family 6 Model 94 Stepping 3, GenuineIntel</value>
+        <key>env_var:TEMP</key>
+        <value>C:\Users\82108\AppData\Local\Temp</value>
+        <key>env_var:PSModulePath</key>
+        <value>C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules</value>
+        <key>env_var:CommonProgramFiles(x86)</key>
+        <value>C:\Program Files (x86)\Common Files</value>
+        <key>env_var:USERDOMAIN</key>
+        <value>DESKTOP-R6P50HN</value>
+        <key>env_var:PATHEXT</key>
+        <value>.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW</value>
+        <key>env_var:ProgramW6432</key>
+        <value>C:\Program Files</value>
+        <key>env_var:PROCESSOR_LEVEL</key>
+        <value>6</value>
+        <key>env_var:NUMBER_OF_PROCESSORS</key>
+        <value>4</value>
+        <key>env_var:DriverData</key>
+        <value>C:\Windows\System32\Drivers\DriverData</value>
+        <key>env_var:USERNAME</key>
+        <value>HS</value>
+        <key>env_var:windir</key>
+        <value>C:\WINDOWS</value>
+        <key>env_var:ProgramFiles(x86)</key>
+        <value>C:\Program Files (x86)</value>
+        <key>env_var:LOCALAPPDATA</key>
+        <value>C:\Users\82108\AppData\Local</value>
+        <key>env_var:OS</key>
+        <value>Windows_NT</value>
+        <key>env_var:ComSpec</key>
+        <value>C:\WINDOWS\system32\cmd.exe</value>
+        <key>env_var:APPDATA</key>
+        <value>C:\Users\82108\AppData\Roaming</value>
+        <key>env_var:HOMEPATH</key>
+        <value>\Users\82108</value>
+        <key>env_var:FPS_BROWSER_APP_PROFILE_STRING</key>
+        <value>Internet Explorer</value>
+        <key>env_var:ProgramData</key>
+        <value>C:\ProgramData</value>
+        <key>env_var:=::</key>
+        <value>::\</value>
+        <key>env_var:SystemRoot</key>
+        <value>C:\WINDOWS</value>
+        <key>env_var:HOMEDRIVE</key>
+        <value>C:</value>
+        <key>env_var:PUBLIC</key>
+        <value>C:\Users\Public</value>
+        <key>env_var:CommonProgramW6432</key>
+        <value>C:\Program Files\Common Files</value>
+        <key>env_var:TMP</key>
+        <value>C:\Users\82108\AppData\Local\Temp</value>
+        <key>env_var:LOGONSERVER</key>
+        <value>\\DESKTOP-R6P50HN</value>
+        <key>env_var:FPS_BROWSER_USER_PROFILE_STRING</key>
+        <value>Default</value>
+        <key>env_var:USERPROFILE</key>
+        <value>C:\Users\82108</value>
+        <key>env_var:ALLUSERSPROFILE</key>
+        <value>C:\ProgramData</value>
+        <key>env_var:SESSIONNAME</key>
+        <value>Console</value>
+    </pydev_variables_property>
+</pydev_project>
