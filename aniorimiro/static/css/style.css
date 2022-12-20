@@ -166,8 +166,10 @@ ol, ul, li {
 
 /* 3. 상권 분석, 매출 예측 */
 
+html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} 
+
 /* 3-1. 상권 분석 map */
-.areacontrol {font-size:12px;position:fixed;top:80px;right:10px;height:30px;margin:0;padding:0;z-index:1;font-family:'Malgun Gothic', '맑은 고딕', 'sans-serif';}
+.areacontrol {font-size:12px;position:fixed;top:10px;left:10px;height:30px;margin:0;padding:0;z-index:1;font-family:'Malgun Gothic', '맑은 고딕', 'sans-serif';}
 .areacontrol .radius_border{border:1px solid #919191;border-radius:5px;}
 .areacontrol span {display:block;width:110px;height:50px;float:left;text-align:center;line-height:50px;cursor:pointer;}
 .areacontrol .btn {padding:0;font-size:20px;line-height:50px;background:#fff;background:linear-gradient(#fff,  #e6e6e6);border-radius: 10px;}
@@ -175,6 +177,10 @@ ol, ul, li {
 .areacontrol .btn:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);}
 .areacontrol .selected_btn {color:#fff;background:#425470;background:linear-gradient(#425470, #5b6d8a);font-size: 22px;border-radius: 10px;}
 .areacontrol .selected_btn:hover {color:#fff;}
+
+/* 3-1-1. 좌측 상단 카테고리 선택 (상권 & 업종) */
+.leftCategory {position:absolute;top:80px;left:10px;width:200px;height:100px;margin:0;padding:0;z-index:1;background-color:#fff;}
+
 
 /* 3-2. aside RightReport */
 .rightReport {position:fixed;top:140px;right:1px;height:580px;width:730px ;margin:0;padding:0;z-index:1;background-color:#fff;}

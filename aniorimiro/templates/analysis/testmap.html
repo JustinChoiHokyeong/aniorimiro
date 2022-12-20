@@ -417,13 +417,47 @@ function displayArea(area, lineColor) {
     })
   }) 
 
-      $(function init(){
-        document.getElementById('')
-      })
-      
+        {% comment %} $(document).ready(function(){
+          $('#submit').click(function(){
+            $.ajax({
+              url:'map/',
+              type:'POST',
+              dataType:'JSON',
+              data:{
+                'tradingArea':$('input[name=tradingArea]').val(),
+                'businessType':$('input[name=businessType]').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+              },
+              headers: { "X-CSRFToken": "{{ csrf_token }}" },
+              success : function(data){
+                $('message').html(data);
+              },
+              error : function(xhr, textStatus, thrownError) {
+                alert("Could not send URL to Django. Error: " + xhr.status + ": " + xhr.responseText);
+              }
+            });
+          })
+})  {% endcomment %}
 
     });
-
+    $(document).ready(function(){
+    	$("#btn1").click(getevent);
+    });
+    function getevent(){
+       	$.ajax({
+       		type:"GET",
+       		url: "analysis/map.html",
+       		dataType: 'html',
+       		success: function(data){
+       			console.log("hh")
+       			alert('good');
+       		},
+       		error: function(data){
+       			console.log("mm")
+       			alert('bad');
+       		}
+       	});
+    }
     
 }
 
