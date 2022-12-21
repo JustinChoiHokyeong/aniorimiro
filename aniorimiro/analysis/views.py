@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import pandas as pd
 import asyncio
-
+from django.http.response import JsonResponse
 df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiro_data/master/yongsan_192021.csv", encoding='utf-8')
 
 
@@ -22,6 +22,28 @@ def map(request):
     }
   return render(request, 'analysis/map.html', context)
 
+def calldbFunc(request):
+    if request.method=="POST":
+        # print('view옴')
+        businessType=request.POST.get('businessType')
+        # print(businessType)
+        tradingArea=request.POST.get('tradingArea')
+        # print(tradingArea)
+        
+        # test="호로로로로롤로로"
+        
+    return JsonResponse({'tradingArea':tradingArea, 'businessType':businessType})
+  
+  #if request.method == "POST":
+    #tradingArea = request.POST.get('tradingArea')
+    #businessType = request.POST.get('businessType')
+  # context = {
+  #   'sub1': sub1,
+  #   'sub2': sub2,
+  #   #'tradingArea':tradingArea,
+  #   #'businessType':businessType
+  #   }
+  # # return render(request, 'analysis/map.html', context)
 
 
 # def ListFunc(request):
