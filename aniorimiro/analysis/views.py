@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-from matplotlib import rc
-rc('font', family='malgun gothic') # 한글 깨짐 방지
+
 import warnings
 warnings.filterwarnings(action='ignore')# 경고출력안하기
 import scipy.stats as stats
-from sklearn.preprocessing import LabelEncoder
+# from sklearn.preprocessing import LabelEncoder   
 import statsmodels.formula.api as smf
-
+  
 # # Colab 한글 깨짐 현상 방지
-# !sudo apt-get install -y fonts-nanum
+# !sudo apt-get install -y fonts-nanum 
 # !sudo fc-cache -fv
 # !rm ~/.cache/matplotlib -rf
 
@@ -27,24 +23,14 @@ from django.http import JsonResponse
 #데이터 탐색용
 df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiro_data/master/yongsan_192021.csv", encoding='utf-8')
 
-#골목상권
-df_test1=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EA%B3%A8%EB%AA%A9%EC%83%81%EA%B6%8C_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
-#관광특구
-df_test2=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EA%B4%80%EA%B4%91%ED%8A%B9%EA%B5%AC_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
-#발달상권
-df_test3=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EB%B0%9C%EB%8B%AC%EC%83%81%EA%B6%8C_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
-#전통시장
-df_test4=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EC%A0%84%ED%86%B5%EC%8B%9C%EC%9E%A5_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
-
-
 def map(request):
-
 
   return render(request, 'analysis/map.html')
 
 
 
 def calldbFunc(request):
+    
     if request.method=="POST":
         print('view옴')
         tradingArea=request.POST.get('tradingArea')
@@ -63,7 +49,7 @@ def calldbFunc(request):
         if BigTradingArea == '발달상권':
             
             #발달상권
-            bal=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/BeFourAfterFinal/master/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EB%B0%9C%EB%8B%AC%EC%83%81%EA%B6%8C_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
+            bal=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EB%B0%9C%EB%8B%AC%EC%83%81%EA%B6%8C_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
             print('발달상권 매출 예상')
             sang_bal = bal[bal['상권_코드_명']==tradingArea]
             # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
@@ -151,7 +137,7 @@ def calldbFunc(request):
         elif BigTradingArea == '관광특구':
             
             #관광특구
-            cul=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/BeFourAfterFinal/master/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EA%B4%80%EA%B4%91%ED%8A%B9%EA%B5%AC_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
+            cul=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EA%B4%80%EA%B4%91%ED%8A%B9%EA%B5%AC_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
             print('관광특구 매출 예상')
             sang_cul = cul[cul['상권_코드']==0]
             # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
@@ -239,7 +225,7 @@ def calldbFunc(request):
         elif BigTradingArea == '골목상권':
             
             #골목상권
-            gol=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/BeFourAfterFinal/master/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EA%B3%A8%EB%AA%A9%EC%83%81%EA%B6%8C_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
+            gol=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EA%B3%A8%EB%AA%A9%EC%83%81%EA%B6%8C_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
             print('골목상권 매출 예상')
             sang_gol = gol[gol['상권_코드']==16]
             # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
@@ -326,7 +312,7 @@ def calldbFunc(request):
         elif BigTradingArea == '전통시장':
             
             #전통시장
-            jeon=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/BeFourAfterFinal/master/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EC%A0%84%ED%86%B5%EC%8B%9C%EC%9E%A5_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
+            jeon=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EC%A0%84%ED%86%B5%EC%8B%9C%EC%9E%A5_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
             print('전통시장 매출 예상')
             sang_jeon = jeon[jeon['상권_코드']==0]
             # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
@@ -366,6 +352,7 @@ def calldbFunc(request):
         
             print('실제값 1:',(jeon_1['분기당_매출_금액'].mean()) / jeon_1['점포수'].mean())
             print('예측값 1:',pred1 / jeon_1['점포수'].mean())
+            result1 = (pred1 / jeon_1['점포수'].mean()).values[0]
         
         
             # 2분기 모델
@@ -377,6 +364,7 @@ def calldbFunc(request):
         
             print('실제값 2:',(jeon_2['분기당_매출_금액'].mean()) / jeon_2['점포수'].mean())
             print('예측값 2:',pred2 / jeon_2['점포수'].mean())
+            result2 = (pred2 / jeon_2['점포수'].mean()).values[0]
         
         
             # 3분기 모델
@@ -388,7 +376,7 @@ def calldbFunc(request):
         
             print('실제값 3:',(jeon_3['분기당_매출_금액'].mean()) / jeon_3['점포수'].mean())
             print('예측값 3:',pred3 / jeon_3['점포수'].mean())
-        
+            result3 = (pred3 / jeon_3['점포수'].mean()).values[0]
         
             # 4분기 모델
             model_jeon_4 = smf.ols(formula = '분기당_매출_금액 ~ 월요일_매출_금액 + 수요일_매출_금액 + 목요일_매출_금액 + 분기당_매출_건수',data = service_jeon).fit()
@@ -398,16 +386,22 @@ def calldbFunc(request):
             pred4 = model_jeon_4.predict(x_new2)
         
             print('실제값 4:',(jeon_4['분기당_매출_금액'].mean()) / jeon_4['점포수'].mean())
-            print('예측값 4:',pred4 / jeon_4['점포수'].mean())    
-        
+            print('예측값 4:',pred4 / jeon_4['점포수'].mean())
+            result4 = (pred4 / jeon_4['점포수'].mean()).values[0]  
+            
             print(model_jeon_1.summary())
-    
+
+          
 
         context = {
           'businessType':businessType,
           'tradingArea':tradingArea,
           'BigTradingArea':BigTradingArea,
-          'smallBusiType':smallBusiType
+          'smallBusiType':smallBusiType,
+          'result1':result1,
+          'result2':result2,
+          'result3':result3,
+          'result4':result4
         }
         
     return JsonResponse(context)

@@ -29,6 +29,11 @@
             document.querySelector("#showData4").textContent =data.smallBusiType;
             //대분류 업종(고유 코드 필요X, 사용자 확인용)
             document.querySelector("#showData1").textContent =data.businessType;
+
+            document.querySelector("#showData5").textContent =data.result1
+            document.querySelector("#showData6").textContent =data.result2
+            document.querySelector("#showData7").textContent =data.result3
+            document.querySelector("#showData8").textContent =data.result4
             
           }
         })
@@ -204,10 +209,10 @@
 			<dt>매출 예측</dt>
 			<dd>
 				<ul class="pred_list">
-					<li class="summary">
-						<strong>{{data}}</strong>이 가장많고
-						<strong>{{data}}</strong> 이 증가하는 추세입니다.
-					</li>
+						<li class="summary">1분기 예측 매출은 <strong id="showData5"></strong> 입니다.</li>
+            <li class="summary">2분기 예측 매출은 <strong id="showData6"></strong> 입니다.</li>
+            <li class="summary">3분기 예측 매출은 <strong id="showData7"></strong> 입니다.</li>
+            <li class="summary">4분기 예측 매출은 <strong id="showData8"></strong> 입니다.</li>
 					<li class="detail">
 					
 					</li>
