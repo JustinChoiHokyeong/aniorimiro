@@ -1,7 +1,6 @@
 from django.shortcuts import render
 import pandas as pd
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiro_data/master/yongsan_192021.csv", encoding='utf-8')
 
@@ -27,10 +26,3 @@ def calldbFunc(request):
         }
         
     return JsonResponse(context)
-
-
-
-
-
-
-  

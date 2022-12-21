@@ -79,9 +79,9 @@
 <div>
   <div id="map" style="width:100%;height:650px;"></div>
   <div class="areacontrol radius_border">
-    <span id="btnBd" class="btn" onclick="setComArea('bd')">발달상권</span>
-    <span id="btnGg" class="btn" onclick="setComArea('gg')">관광특구</span>
     <span id="btnGm" class="btn" onclick="setComArea('gm')">골목상권</span>
+    <span id="btnGg" class="btn" onclick="setComArea('gg')">관광특구</span>
+    <span id="btnBd" class="btn" onclick="setComArea('bd')">발달상권</span>
     <span id="btnJt" class="btn" onclick="setComArea('jt')">전통시장</span>    
   </div>
 
@@ -105,7 +105,6 @@
         
       </select>
       
-
       <!-- form 에서 onclick 속성을 사용 시 새로고침을 피할 수 없다.-->
       <!-- 1. button -> div/span 로 바꾼다. 2. button 태그를 줬다면 type="button"속성을 추가해준다 -->
       <button onclick="ajaxSend()" type="button"> 제출</button>
@@ -119,19 +118,19 @@
 	    	<strong>상권 분석 리포트</strong>
 	    	<span id="dateString"></span>
 	    </dt>
-		<dd style="display:flex;justify-content: space-around;">
-			<hr />
+		<dd class="sang1">
+			
 			<div>
-				<strong class="spread-underline"><a href="#als">{{data}} 상권분석</a></strong>
+				<strong class="spread-underline" ><a href="#als" id="showData_b">분석</a></strong>
 			</div>
 			<hr />
 			<div>
-				<strong class="spread-underline"><a href="#pred">{{data}} 매출예측</a></strong>
+				<strong class="spread-underline"><a href="#pred" id="showData_p">예측</a></strong>
 			</div>
-			<hr />
+			
 		</dd>
 		<hr />
-	    <dd class="sang">
+	    <dd class="sang2">
 	    	<div>
           <dl> 
 	    			<dt><strong>대분류 상권</strong></dt>
@@ -153,14 +152,14 @@
 	    </dd>
 	</dl>
 	<div class="rightReport_info">
-		<span id="als" style="display: block;margin-top: 20px;margin-left: 21px;font-weight:bold;" class="spread-underline">상권 분석</span>
+		<span id="als" class="spread-underline">상권 분석</span>
 		<dl>
 			<dt>업종 분포현황</dt>
 			<dd>
 				<ul class="analysis_list">
 					<li class="summary">
-						<strong>{{data}}</strong>이 가장많고
-						<strong>{{data}}</strong> 이 증가하는 추세입니다.
+						<strong id="showData1"></strong>이 가장많고
+						<strong id="showData1"></strong> 이 증가하는 추세입니다.
 					</li>
 					<li class="detail">
 					
@@ -201,7 +200,7 @@
 				</ul>
 			</dd>
 		</dl>
-		<span id="pred" style="display: block;margin-top: 20px;margin-left: 21px;margin-top: 35px;font-weight:bold;" class="spread-underline">매출 예측</span>
+		<span id="pred" class="spread-underline">매출 예측</span>
 		<dl>
 			<dt>매출 예측</dt>
 			<dd>
@@ -554,6 +553,45 @@ var year = today.getFullYear();
 var month = ('0' + (today.getMonth() + 1)).slice(-2);
 var day = ('0' + today.getDate()).slice(-2);
 document.getElementById("dateString").innerHTML= year + '년' + month  + '월' + day + '일';
+
+
+//###
+//ajax
+function ajaxSend(){
+	//alert("제출클릭됨!!")
+	let data = $("#sform").serialize();
+	return $.ajax({
+		url:"/analysis/calldb/",
+	   	type:"post",
+	   	data:data,
+	   	dataType:"json",
+	   	success:function(data){
+		    //innerText보다 textContent가 속도가 빠르다
+			//document.querySelector("#showData1").textContent=data.tradingArea;  // 상권 이름
+			//querySelectorAll를 통해 name이라는 변수에 저장한다.
+			let name = document.querySelectorAll("#showData1");
+			// 반복문을 돌려서 
+			for(let i=0; i < name.length; i++) {
+				//name변수에 .textContent를 사용하여 i번 만큼 data.tradingArea를 넣는다.
+				name[i].textContent = data.tradingArea;
+			}
+			
+			let bun = document.querySelector("#showData_b");
+			bun.textContent = data.tradingArea+" 매출분석"; // data.tradingArea+" 매출분석"; -> ooo 매출분석 으로 출력
+			let pre = document.querySelector("#showData_p");
+			pre.textContent = data.tradingArea+" 매출예측";
+			
+			document.querySelector("#showData2").textContent=data.businessType; // 업종 종류
+			
+	   }
+   })
+}
+
+
+
+
+
+
 
 //CSV 파일 HTML 테이블로 변환하기
 
