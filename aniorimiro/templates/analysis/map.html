@@ -555,44 +555,6 @@ var day = ('0' + today.getDate()).slice(-2);
 document.getElementById("dateString").innerHTML= year + '년' + month  + '월' + day + '일';
 
 
-//###
-//ajax
-function ajaxSend(){
-	//alert("제출클릭됨!!")
-	let data = $("#sform").serialize();
-	return $.ajax({
-		url:"/analysis/calldb/",
-	   	type:"post",
-	   	data:data,
-	   	dataType:"json",
-	   	success:function(data){
-		    //innerText보다 textContent가 속도가 빠르다
-			//document.querySelector("#showData1").textContent=data.tradingArea;  // 상권 이름
-			//querySelectorAll를 통해 name이라는 변수에 저장한다.
-			let name = document.querySelectorAll("#showData1");
-			// 반복문을 돌려서 
-			for(let i=0; i < name.length; i++) {
-				//name변수에 .textContent를 사용하여 i번 만큼 data.tradingArea를 넣는다.
-				name[i].textContent = data.tradingArea;
-			}
-			
-			let bun = document.querySelector("#showData_b");
-			bun.textContent = data.tradingArea+" 매출분석"; // data.tradingArea+" 매출분석"; -> ooo 매출분석 으로 출력
-			let pre = document.querySelector("#showData_p");
-			pre.textContent = data.tradingArea+" 매출예측";
-			
-			document.querySelector("#showData2").textContent=data.businessType; // 업종 종류
-			
-	   }
-   })
-}
-
-
-
-
-
-
-
 //CSV 파일 HTML 테이블로 변환하기
 
 
