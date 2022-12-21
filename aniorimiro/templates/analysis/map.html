@@ -96,9 +96,9 @@
       <label for="tradingarea" >대분류 업종:</label>
       <select name="businessType" id="selectBusiType" onchange="selectBusi()">
         <option value="" selected disabled>업종을 선택해주세요</option>
-        <option value="food" >외식업</option>
-        <option value="service">서비스업</option>
-        <option value="retail">소매업</option>
+        <option value="외식업" >외식업</option>
+        <option value="서비스업">서비스업</option>
+        <option value="소매업">소매업</option>
       </select><br/>
       <label for="tradingarea" >소분류 업종:</label>
       <select name="smallBusiType" id="smallCategory">
@@ -107,13 +107,12 @@
       
       <!-- form 에서 onclick 속성을 사용 시 새로고침을 피할 수 없다.-->
       <!-- 1. button -> div/span 로 바꾼다. 2. button 태그를 줬다면 type="button"속성을 추가해준다 -->
-      <button onclick="ajaxSend()" type="button"> 제출</button>
+      <button onclick="ajaxSend()" type="button" id="reportBtn"> 제출</button>
     </form>
   </div>
 
   <aside class="rightReport">
-  	<button class="reduce" onclick="toggle_reduce(this);"> <!-- this는 aside태그를 가리킴 --></button>
-	<dl>
+ 	<dl>
 	    <dt>
 	    	<strong>상권 분석 리포트</strong>
 	    	<span id="dateString"></span>
@@ -279,7 +278,7 @@ function setComArea(areatype){
 
 // *** $.getJSON으로 묶인 그룹은 지도에 폴리곤으로 표시할 영역데이터 배열 생성 로직입니다 ***
   if(areatype === 'bd'){
-    $("#area3").attr("value", 1)
+    $("#area3").attr("value", "발달상권")
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -315,7 +314,7 @@ function setComArea(areatype){
     jtControl.className = "btn";
 
   }else if(areatype === 'gg'){
-    $("#area3").attr("value", 2)
+    $("#area3").attr("value", "관광특구")
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -351,7 +350,7 @@ function setComArea(areatype){
     jtControl.className = "btn";
 
   }else if(areatype === 'gm'){
-    $("#area3").attr("value", 3)
+    $("#area3").attr("value", "골목상권")
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -387,7 +386,7 @@ function setComArea(areatype){
     jtControl.className = "btn";
 
   }else if(areatype === 'jt'){
-    $("#area3").attr("value", 4)
+    $("#area3").attr("value", "전통시장")
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -496,14 +495,7 @@ function displayArea(area, lineColor) {
         $(document).ready(function(){
       $("button[name='chooseArea']").click(function(){
       $("#area1").text(area.name);
-      
-      // 추가 보완 필요함!! 효창동주민센터만 테스트용으로 사용해봄
-      if(area.name === "효창동주민센터"){
-        smallAreaValue = 1
-      }
-      $("#area2").attr("value", smallAreaValue)
-
-      
+      $("#area2").attr("value", area.name)
     })
   }) 
     });
@@ -530,22 +522,9 @@ marker.setMap(map);
 marker.setImage(markerImage); // 이미지도 함께
 
 /* 우측 리포트 - 축소, 확대 토글 버튼 */
-function toggle_reduce(obj, type) { //toggle_reduce라는 함수명
-	var report = $(obj).parent();
-	
-	if(type == "show") {
-		$(obj).removeClass('active');
-		report.css({'right' : '0'});
-	} else if ($(obj).hasClass('active') == false || type == "hide") {
-		$(obj).addClass('active');
-
-		var reportW = report.width();
-		report.css({'right' : '-' + reportW + 'px'});
-	} else {
-		$(obj).removeClass('active');
-		report.css({'right' : '0'});
-	}
-}
+document.querySelector("#reportBtn").addEventListener("click",function(){
+	document.querySelector(".rightReport").style.display='block'
+})
 
 //현재 날짜 불러오기
 var today = new Date();

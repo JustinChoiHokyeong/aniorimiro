@@ -190,12 +190,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;}
 .leftCategory {position:absolute;top:80px;left:10px;width:200px;height:300px;margin:0;padding:0;z-index:1;background-color:#fff;}
 
 /* 3-2. aside RightReport */
-.rightReport {position:fixed;top:10px;right:0px;height:710px;width:720px ;margin:0;padding:0;z-index:1;background-color:#fff;}
-.rightReport .active {display:block;}
-.rightReport .reduce {position:absolute; left:-40px; top:55%; z-index:10; width:40px; height:80px; margin-top:-40px; background:#fff;border:none;}
-.rightReport .reduce:before {display:block; position:absolute; top:50%; left:50%; width:27px; height:21px; margin:-10px 0 0 -12px; background:url('/static/pictures/arrow-bar-right.svg') no-repeat center/100% auto; content:'';}
-.rightReport .reduce.active:before {-webkit-transform:rotateY(180deg); -moz-transform:rotateY(180deg); transform:rotateY(180deg);}
-
+.rightReport {display:none; position:fixed;top:10px;right:0px;height:710px;width:40% ;margin:0;padding:0;z-index:1;background-color:#fff;}
 .rightReport > dl {margin:0;}
 .rightReport > dl > hr {margin-left: 22px;margin-right: 22px;border-bottom-width: 2px;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;}
 .rightReport > dl > .sang1 {display:flex; justify-content: space-around; padding-top: 0px; margin-inline-start: 0px;height: 45px;}
