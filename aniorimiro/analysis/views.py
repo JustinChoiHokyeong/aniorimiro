@@ -412,7 +412,7 @@ def calldbFunc(request):
                                     '월요일_매출_금액':[jeon_4_a],'수요일_매출_금액':[jeon_4_b],'목요일_매출_금액':[jeon_4_c],
                                     '분기당_매출_건수':[jeon_4_bun]})
                 pred4 = model_jeon.predict(x_new2)
-                result4 = (pred4 / jeon_4['점포수'].mean()).values[0]
+                result4 = round((pred4 / jeon_4['점포수'].mean()).values[0],-1)
                 result4 = np.nan_to_num(result4)
                 print('실제값 4:',(jeon_4['분기당_매출_금액'].mean()) / jeon_4['점포수'].mean())
                 print('예측값 4:',pred4 / jeon_4['점포수'].mean()) 

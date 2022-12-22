@@ -11,6 +11,7 @@
         <a href="{% url 'login' %}" style="animation-delay: 0.4s">로그인</a>
         <a href="{% url 'signup' %}" style="animation-delay: 0.5s">회원가입</a>
         {% else %} 
+        <a class="" href="{% url 'logout' %}">로그아웃</a>
         <a class="" href="{% url 'profile' %}">마이페이지</a>
         {% endif %}
     </nav>

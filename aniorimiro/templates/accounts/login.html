@@ -9,26 +9,36 @@
     {% if form.errors %}
     <div style="color:#f3f3f3;">아이디, 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</div>
     {% endif %}
-    <form method="post"  action="{% url 'login' %}">
+    <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
-    <div class="signin-container">
-        <input class="account-box" type="text" placeholder=" 이곳에 ID 를 입력해 주세요" {{ form.username }}
+    {% comment %} <div class="signin-container">
+        <input class="account-box" type="text" placeholder=" 이곳에 아이디를 입력해 주세요" name="{{ form.username }}" /> 
     </div>
 
     <div class="signin-container">
-        <input class="account-box" type="text" placeholder=" 이곳에 비밀번호를 입력해 주세요" {{ form.password }}
+        <input class="account-box" type="text" placeholder=" 이곳에 비밀번호를 입력해 주세요" name="{{ form.password }}" /> 
+    </div> {% endcomment %}
+
+    <div class="signin-container">
+        <div class="account-box" type="text">{{ form.username }}</div>
     </div>
+
+    <div class="signin-container">
+        <div class="account-box" type="text">{{ form.password }}</div>
+    </div>
+
+  
     <div style="text-align: center;">
       <button class="login-btn" type="submit"> Log in </button>
       <input type="hidden" name="next" value="{{ next }}">
     </div>
     <div class="btn-etc">
       <a href="/">뒤로가기</a>
-      <a href="/">아이디 찾기</a>
-      <a href="/">비밀번호 찾기</a>
+      <a href="#">아이디 찾기</a>
+      <a href="#">비밀번호 찾기</a>
       <a href="{% url 'signup' %}">회원 가입</a>
     </div>
-  </form>
+    </form>
 </div>
 {% endblock content %}
 
