@@ -2,6 +2,12 @@ a {
 
     text-decoration: none;
 }
+/*
+@font-face{font-family:'NotoSansKR-Regular'; src: url('/static/font/NotoSansKR-Regular.otf') format('opentype');}
+* {font-family:'NotoSansKR-Regular';font-size:16px;}*/
+@font-face {font-family: 'Pretendard-Regular';src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');font-weight: 500;font-style: normal;}
+* {font-family:'Pretendard-Regular';font-size:16px;}
+
 /**로고*/
 .logo{
     width: 175px;
@@ -120,11 +126,11 @@ footer{
 /* -- 밑줄 애니메이션 효과 -- */
 /*--- 가운데서 좌우로 펼쳐지는 라인 에니메이션 ---*/
 .rightReport > dl > dd > div > strong.spread-underline {color: #202772;text-decoration: none;display: inline-block;padding: 5px 0;position: relative;}
-.rightReport > dl > dd > div > strong.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #2c3481db;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
+.rightReport > dl > dd > div > strong.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #ffcc33;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
 .rightReport > dl > dd > div > strong.spread-underline:hover:after {width: 100%;left: 0;}
 /*--- 가운데서 오른쪽으로 펼쳐지는 라인 에니메이션 ---*/
 .rightReport > div.rightReport_info > span.spread-underline {color: #202772;text-decoration: none;display: inline-block;padding: 5px 0;position: relative;}
-.rightReport > div.rightReport_info > span.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #0676dd;;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
+.rightReport > div.rightReport_info > span.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #ffcc33;;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
 .rightReport > div.rightReport_info > span.spread-underline:hover:after {width: 71px;left: 0;}
 /* -- 밑줄 애니메이션 효과 끝 -- */
 
@@ -174,23 +180,23 @@ ol, ul, li {
 
 /* 3. 상권 분석, 매출 예측 */
 
-html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} 
+html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} /*margin:0;padding:0;overflow: auto;*/
 
 /* 3-1. 상권 분석 map */
 .areacontrol {font-size:12px;position:fixed;top:58px;left:10px;height:30px;margin:0;padding:0;z-index:1;font-family:'Malgun Gothic', '맑은 고딕', 'sans-serif';}
 .areacontrol .radius_border{border:1px solid #919191;border-radius:5px;}
-.areacontrol span {display:block;width:84px;height:50px;float:left;text-align:center;line-height:50px;cursor:pointer;border: 2px ridge;}
+.areacontrol span {display:block;width:88.5px;height:50px;float:left;text-align:center;line-height:50px;cursor:pointer;border: 2px;}
 
 
-.areacontrol .btn {padding:0;font-size:15px;line-height:50px;background:linear-gradient(#e8e8e8,  #fff);border-radius: 10px;}
+.areacontrol .btn {padding:0;font-size:15px;line-height:50px;background:linear-gradient(#fdf5e2,  #fdf5e6);border-radius: 10px;}
 .areacontrol .btn:hover {background:#f5f5f5;background:linear-gradient(#f5f5f5,#e3e3e3);border-color:#E9AA13; color:#E9AA13;}
 .areacontrol .btn:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);border-color:#F9AB00; color:#591035;}
 .areacontrol .selected_btn {color:#591035;background:linear-gradient(#fff7dc, #ffd442);font-size: 15px;border-radius: 10px;}/*background:linear-gradient(#425470, #5b6d8a);*/
 .areacontrol .selected_btn:hover {color:#591035;}
 
 /* 3-1-1. 좌측 상단 카테고리 선택 (상권 & 업종) */
-.leftCategory {position:absolute;top:115px;left:10px;width:315px; height:400px;margin:0;padding:0 20px; z-index:1;background-color:#fff;border-radius: 10px;}
-.leftCategory > h3 {font-size:24px;text-align: left;color: #0676DD; padding:15px 0;}
+.leftCategory {position:absolute;top:115px;left:10px;width:315px; height:430px;margin:0;padding:0 20px; z-index:1;background-color:#fff;border-radius: 10px;}
+.leftCategory > h3 {font-size:24px;text-align: center;color: #586068; padding:15px 0;}
 .leftCategory > hr {border-right-width: 0px;border-top-width: 0px;border-bottom-width: 2px;border-left-width: 0px;margin-bottom: 10px;}
 .leftCategory > form > ul > select{appearance:none;border-radius: 5px; width: 100% !important; height:36px;padding: 0 40px 0 20px; padding-top:2px; margin-top:5px; border: 1px solid #999;font-size: 14px;line-height: 34px; background:url(/static/pictures/arrow_bottom.svg) no-repeat right 20px center/10px auto #fff;}
 .leftCategory > form > input{height: 20px; padding: 5px 0;margin-top: 10px;margin-bottom:10px;padding-left: 10px;width: 205px;}
