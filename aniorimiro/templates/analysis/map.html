@@ -19,7 +19,7 @@
             data:data,
             dataType:"json",
             success:function(data){
-              <!-- innerText보다 textContent가 속도가 빠르다 -->
+            //innerText보다 textContent가 속도가 빠르다
             //상권 소분류(1~40)
             document.querySelector("#showData2").textContent =data.tradingArea;
             //상권 대분류(1~4)
@@ -29,13 +29,27 @@
             document.querySelector("#showData4").textContent =data.smallBusiType;
             //대분류 업종(고유 코드 필요X, 사용자 확인용)
             document.querySelector("#showData1").textContent =data.businessType;
-
-            document.querySelector("#showData5").textContent =data.result1
-            document.querySelector("#showData6").textContent =data.result2
-            document.querySelector("#showData7").textContent =data.result3
-            document.querySelector("#showData8").textContent =data.result4
-            
-          }
+			if (data.result1 == 0){
+				document.querySelector("#showData5").textContent = "데이터가 없습니다."
+			} else {
+				document.querySelector("#showData5").textContent = data.result1+' 원'
+          	}
+			if (data.result2 == 0){
+				document.querySelector("#showData6").textContent = "데이터가 없습니다."
+			} else {
+				document.querySelector("#showData6").textContent = data.result2+' 원'
+          	}
+			if (data.result3 == 0){
+				document.querySelector("#showData7").textContent = "데이터가 없습니다."
+			} else {
+				document.querySelector("#showData7").textContent = data.result3+' 원'
+          	}
+			if (data.result4 == 0){
+				document.querySelector("#showData8").textContent = "데이터가 없습니다."
+			} else {
+				document.querySelector("#showData8").textContent = data.result4+' 원'
+          	}
+			}
         })
       }
 
@@ -206,16 +220,14 @@
 		</dl>
 		<span id="pred" class="spread-underline">매출 예측</span>
 		<dl>
-			<dt>매출 예측</dt>
+			<dt></dt>
 			<dd>
 				<ul class="pred_list">
-						<li class="summary">1분기 예측 매출은 <strong id="showData5"></strong> 입니다.</li>
-            <li class="summary">2분기 예측 매출은 <strong id="showData6"></strong> 입니다.</li>
-            <li class="summary">3분기 예측 매출은 <strong id="showData7"></strong> 입니다.</li>
-            <li class="summary">4분기 예측 매출은 <strong id="showData8"></strong> 입니다.</li>
-					<li class="detail">
-					
-					</li>
+					<li class="summary">1분기 예상 매출액은 <strong id="showData5"></strong></li>
+		            <li class="summary">2분기 예측 매출액은 <strong id="showData6"></strong></li>
+		            <li class="summary">3분기 예측 매출액은 <strong id="showData7"></strong></li>
+		            <li class="summary">4분기 예측 매출액은 <strong id="showData8"></strong></li>
+					<li class="detail"></li>
 				</ul>
 			</dd>
 		</dl>
