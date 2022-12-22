@@ -26,16 +26,34 @@
 * [발표 PPT (K-Digital Training 양식)](https://docs.google.com/presentation/d/1JeNPFPwV64P2TyMtRyJBHAofCZ2TNr_g/edit?usp=sharing&ouid=112815532964849845221&rtpof=true&sd=true)
 
 ## 사용 데이터
-#### 1.
+1. [서울시_우리마을가게_상권분석서비스(신_상권_추정매출)_2019년.csv](https://data.seoul.go.kr/dataList/OA-15572/S/1/datasetView.do)
+2. [서울시_우리마을가게_상권분석서비스(신_상권_추정매출)_2020년.csv](https://data.seoul.go.kr/dataList/OA-15572/S/1/datasetView.do)
+3. [서울시_우리마을가게_상권분석서비스(신_상권_추정매출)_2021년.csv](https://data.seoul.go.kr/dataList/OA-15572/S/1/datasetView.do)
+4. [서울시 우리마을가게 상권분석서비스 상권영역 4개 유형 꼭짓점 좌표 데이터(TBGIS_TRDAR_RELM.shp)](https://data.seoul.go.kr/dataList/OA-15560/S/1/datasetView.do)
+
+
+## 참조 사이트
+1. [우리마을가게 상권분석서비스](https://golmok.seoul.go.kr/main.do)
+2. [소상공인마당 상권정보](https://sg.sbiz.or.kr/godo/index.sg)
+3. [shp 파일 영역좌표 추출 사이트(QGIS)](https://www.qgis.org/ko/site/)
+4. [JSON 파일 유효성 검증 사이트](https://jsonlint.com/)
 
 ## 데이터 분석 과정
-#### 1. 
-#### 2. 
+#### 1. 데이터 탐색 및 전처리
+* 변수 정의
+* 탐색 시각화 자료
+
+#### 2. 모델링
 
 ## 웹 개발 과정
-#### 1. 
-#### 2. 
+#### 1. 장고
+
+#### 2. 카카오 지도 API
+
+#### 3. JQuery Ajax 데이터 전달
+
+
 
 ## 차후 개선 방향성
-#### 1. 마이페이지 스크랩 기능
+#### 1. 마이페이지 스크랩 저장 기능
 #### 2. 
