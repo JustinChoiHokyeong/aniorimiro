@@ -36,7 +36,9 @@
 1. [서울시_우리마을가게_상권분석서비스(신_상권_추정매출)_2019년.csv](https://data.seoul.go.kr/dataList/OA-15572/S/1/datasetView.do)
 2. [서울시_우리마을가게_상권분석서비스(신_상권_추정매출)_2020년.csv](https://data.seoul.go.kr/dataList/OA-15572/S/1/datasetView.do)
 3. [서울시_우리마을가게_상권분석서비스(신_상권_추정매출)_2021년.csv](https://data.seoul.go.kr/dataList/OA-15572/S/1/datasetView.do)
-4. [서울시 우리마을가게 상권분석서비스 상권영역 4개 유형 꼭짓점 좌표 데이터(TBGIS_TRDAR_RELM.shp)](https://data.seoul.go.kr/dataList/OA-15560/S/1/datasetView.do)
+4. [covid19/서울시 코로나19 자치구별 확진자 발생동향.csv](https://github.com/JustinChoiHokyeong/aniorimiro/blob/master/aniorimiro/static/data/covid/%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%BD%94%EB%A1%9C%EB%82%9819%20%EC%9E%90%EC%B9%98%EA%B5%AC%EB%B3%84%20%ED%99%95%EC%A7%84%EC%9E%90%20%EB%B0%9C%EC%83%9D%EB%8F%99%ED%96%A5.csv)
+5. [covid19/서울시 코로나19 확진자 발생동향.csv](https://github.com/JustinChoiHokyeong/aniorimiro/blob/master/aniorimiro/static/data/covid/%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%BD%94%EB%A1%9C%EB%82%9819%20%ED%99%95%EC%A7%84%EC%9E%90%20%EB%B0%9C%EC%83%9D%EB%8F%99%ED%96%A5.csv)
+6. [서울시 우리마을가게 상권분석서비스 상권영역 4개 유형 꼭짓점 좌표 데이터(TBGIS_TRDAR_RELM.shp)](https://data.seoul.go.kr/dataList/OA-15560/S/1/datasetView.do)
 
 
 ## 프로젝트 개요
@@ -45,6 +47,7 @@
 #### 3. 목적 및 배경 : 
 --------프로젝트 제작 배경 및 이유 보완해서 적기 ----------
 > 의사결정에 도움을 줄 수 있는 다양한 상권분석 정보를 제공하여, 상권활성화 및 예비창업을 지원하기 위함
+
 
 ## 데이터 분석 과정
 ### 1. 데이터 탐색 및 전처리
@@ -140,10 +143,12 @@ class CustomUserChangeForm(UserChangeForm):
 ### 2. 카카오 지도 API
 #### 1) 
 #### 2) 
-#### 3) 
+#### 3) 공부해서 다른 조에게 공유했던 점
 #### 4) 외부 CSS 파일로 한번에 정리 
 
 ### 3. JQuery Ajax 데이터 전달
+------- 예전 플젝에서 보완해서 연구해서 업그레이드 --------
+제이슨 공부해서 쓴거
 
 
 ## 사용 방법(동작법) 
@@ -156,13 +161,14 @@ class CustomUserChangeForm(UserChangeForm):
 ### 2. 웹 개발
 #### 1) 마이페이지 스크랩 저장 기능
 #### 2) 인포윈도우 -> 커스텀 오버레이로 수정
+3) AWS 클라우드 서버 출력
 
 
 
 
 ## Skills
 * **OS** : Windows, MacOS
-* **Language** : HTML5, CSS3, JavaScript(ES6), Python
+* **Language** : Python, HTML5, CSS3, JavaScript(ES6)
 * **Framework/Library** : Django, jQurey, Pandas, SciPy, -------데이터에서 사용한 라이브러리 추가하기--------
 * **Database** : MariaDB
 * **IDE** : Eclipse, VS Code

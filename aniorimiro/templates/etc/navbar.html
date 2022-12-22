@@ -1,0 +1,21 @@
+    <!-- 네비바 -->
+    <nav class="navbar">
+        <a class="logo" href="{% url 'index' %}">ANIORIMIRO</a> 
+    </nav>
+    <button class="navbar-burger" onclick="toggleMenu()"></button>
+    <nav class="menu">
+        <a href="{% url 'index' %}" style="animation-delay: 0.1s">메인페이지</a>
+        <a href="{% url 'map' %}" style="animation-delay: 0.2s">상권분석</a>
+        <br>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'login' %}" style="animation-delay: 0.4s">로그인</a>
+        <a href="{% url 'signup' %}" style="animation-delay: 0.5s">회원가입</a>
+        {% else %} 
+        <a class="" href="{% url 'logout' %}">로그아웃</a>
+        <a class="" href="{% url 'profile' %}">마이페이지</a>
+        {% endif %}
+    </nav>
+    <script type="text/javascript">
+        const toggleMenu = () => {document.body.classList.toggle("open");};
+    </script>
+<!-- /네비바 -->

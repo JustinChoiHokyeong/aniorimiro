@@ -2,47 +2,42 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-  .login-page{
-    height: 80vh;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-  }
-  .login-page .logo{
-    margin: 0px 0px 50px 0px;
-  }
-  .login-box{
-    width: 350px;
-    height: 30px;
-    left: 689px;
-    top: 453px;
-    background: #F8F8F8;
-    border-radius: 5px;
-  }
-</style>
-<div class="login-page">
+{% load static %}
+
+<div class="account-page">
   <a class="logo" href="{% url 'index' %}">ANIORIMIRO</a>
     {% if form.errors %}
     <div style="color:#f3f3f3;">아이디, 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</div>
     {% endif %}
     <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
-    <div class="form-group row">
-      <label for="staticEmail" class="col-sm-2 col-form-label">아이디</label>
-      <div>
-        {{ form.username }}
-      </div>
+    {% comment %} <div class="signin-container">
+        <input class="account-box" type="text" placeholder=" 이곳에 아이디를 입력해 주세요" name="{{ form.username }}" /> 
     </div>
-    <div class="form-group row">
-      <label for="inputPassword" class="col-sm-2 col-form-label">비밀번호</label>
-      <div class="col-sm-10 mt-1">
-          {{ form.password }}
-      </div>
+
+    <div class="signin-container">
+        <input class="account-box" type="text" placeholder=" 이곳에 비밀번호를 입력해 주세요" name="{{ form.password }}" /> 
+    </div> {% endcomment %}
+
+    <div class="signin-container">
+        <div class="account-box" type="text">{{ form.username }}</div>
     </div>
-    <button class="btn btn-info mt-3" type="submit"> Sign in </button>
-    <input type="hidden" name="next" value="{{ next }}">
+
+    <div class="signin-container">
+        <div class="account-box" type="text">{{ form.password }}</div>
+    </div>
+
+  
+    <div style="text-align: center;">
+      <button class="login-btn" type="submit"> Log in </button>
+      <input type="hidden" name="next" value="{{ next }}">
+    </div>
+    <div class="btn-etc">
+      <a href="/">뒤로가기</a>
+      <a href="#">아이디 찾기</a>
+      <a href="#">비밀번호 찾기</a>
+      <a href="{% url 'signup' %}">회원 가입</a>
+    </div>
     </form>
 </div>
 {% endblock content %}
