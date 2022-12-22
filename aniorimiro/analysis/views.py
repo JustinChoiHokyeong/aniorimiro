@@ -139,9 +139,9 @@ def calldbFunc(request):
             #관광특구
             cul=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EA%B4%80%EA%B4%91%ED%8A%B9%EA%B5%AC_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
             print('관광특구 매출 예상')
-            sang_cul = cul[cul['상권_코드']==0]
+            sang_cul = cul[cul['상권_코드_명']==tradingArea]
             # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
-            service_cul = sang_cul[sang_cul['서비스_업종_코드']==14] 
+            service_cul = sang_cul[sang_cul['서비스_업종_코드_명']==smallBusiType] 
         
             # 업종의 분기별 평균을 토대로 예상매출액을 계산
             cul_1 = service_cul[service_cul['기준_분기_코드']==1]
@@ -227,9 +227,9 @@ def calldbFunc(request):
             #골목상권
             gol=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EA%B3%A8%EB%AA%A9%EC%83%81%EA%B6%8C_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
             print('골목상권 매출 예상')
-            sang_gol = gol[gol['상권_코드']==16]
+            sang_gol = gol[gol['상권_코드_명']==tradingArea]
             # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
-            service_gol = sang_gol[sang_gol['서비스_업종_코드']==58] 
+            service_gol = sang_gol[sang_gol['서비스_업종_코드_명']==smallBusiType] 
         
             # 업종의 분기별 평균을 토대로 예상매출액을 계산
             gol_1 = service_gol[service_gol['기준_분기_코드']==1]
@@ -314,9 +314,9 @@ def calldbFunc(request):
             #전통시장
             jeon=pd.read_csv("https://raw.githubusercontent.com/JustinChoiHokyeong/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EC%A0%84%ED%86%B5%EC%8B%9C%EC%9E%A5_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
             print('전통시장 매출 예상')
-            sang_jeon = jeon[jeon['상권_코드']==0]
+            sang_jeon = jeon[jeon['상권_코드_명']==tradingArea]
             # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
-            service_jeon = sang_jeon[sang_jeon['서비스_업종_코드']==48] 
+            service_jeon = sang_jeon[sang_jeon['서비스_업종_코드_명']==smallBusiType] 
         
             # 업종의 분기별 평균을 토대로 예상매출액을 계산
             jeon_1 = service_jeon[service_jeon['기준_분기_코드']==1]
