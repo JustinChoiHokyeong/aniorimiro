@@ -7,72 +7,7 @@
 <head>
     <meta charset="utf-8">
     <title>map</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script>
-      //ajax
-      function ajaxSend(){
-        //alert("제출클릭됨!!")
-        let data = $("#sform").serialize();
-        return $.ajax({
-            url:"/analysis/calldb/",
-            type:"post",
-            data:data,
-            dataType:"json",
-            success:function(data){
-              <!-- innerText보다 textContent가 속도가 빠르다 -->
-            //상권 소분류(1~40)
-            document.querySelector("#showData2").textContent =data.tradingArea;
-            //상권 대분류(1~4)
-            document.querySelector("#showData3").textContent =data.BigTradingArea;
-
-            //소분류 업종(1~30)
-            document.querySelector("#showData4").textContent =data.smallBusiType;
-            //대분류 업종(고유 코드 필요X, 사용자 확인용)
-            document.querySelector("#showData1").textContent =data.businessType;
-            
-          }
-        })
-      }
-
-      
-
-      function selectBusi(){
-        var bigBusi = document.querySelector("#selectBusiType")
-        var smallBusi = document.querySelector("#smallCategory")
-        var bigOption = bigBusi.options[bigBusi.selectedIndex].innerText;
-
-        var subOptions = {
-        food:["한식음식점", "중식음식점", "일식음식점"],
-        service:["일반의원","치과의원","당구장"],
-        retail:["의약품","서적","문구"]
-        }
-
-        switch(bigOption){
-          case "외식업":
-            var subOption = subOptions.food;
-            break;
-          case "서비스업":
-            var subOption = subOptions.service;
-            break;
-          case "소매업":
-            var subOption = subOptions.retail;
-            break;
-        }
-
-        smallBusi.options.length = 0;
-
-        for(var i=0; i < subOption.length; i++){
-          var option = document.createElement('option');
-          option.innerText = subOption[i];
-          option.value = subOption[i];
-          smallBusi.append(option);
-        }
-      }
-
-      
-       
-    </script>
-
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v={% now 'u' %}"><!-- 캐시 방지 -->
 </head>
 <body>
 
@@ -83,36 +18,42 @@
     <span id="btnGg" class="btn" onclick="setComArea('gg')">관광특구</span>
     <span id="btnBd" class="btn" onclick="setComArea('bd')">발달상권</span>
     <span id="btnJt" class="btn" onclick="setComArea('jt')">전통시장</span>    
-  </div>
-
+  </div> 
+  
   <div class="leftCategory">
     <h3>상권, 업종 선택하기 </h3>
+    <hr />
     <form method="post" id="sform">{% csrf_token %}
-      <label for="tradingarea" >대분류 상권:</label>
-      <input type="text" id=area3 value="" name="BigTradingArea"><br/>
-      <label for="tradingarea" >소분류 상권:</label>
-      <span id=area1> </span><br/>
+      <!-- <label for="tradingarea" >대분류 상권:</label> -->
+      <!-- <input type="text" id=area3 value="" name="BigTradingArea"><br/> -->
+      <label for="tradingarea" >상권 이름:</label><br />
+      <!-- <span id=area1> </span><br/> -->
       <input type="text" id=area2 value="" name="tradingArea"><br/>
       <label for="tradingarea" >대분류 업종:</label>
-      <select name="businessType" id="selectBusiType" onchange="selectBusi()">
-        <option value="" selected disabled>업종을 선택해주세요</option>
-        <option value="외식업" >외식업</option>
-        <option value="서비스업">서비스업</option>
-        <option value="소매업">소매업</option>
-      </select><br/>
+      <ul>
+	      <select name="businessType" id="selectBusiType" onchange="selectBusi()" class="sele">
+	        <option value="" selected disabled>업종을 선택해주세요</option>
+	        <option value="외식업" >외식업</option>
+	        <option value="서비스업">서비스업</option>
+	        <option value="소매업">소매업</option>
+	      </select>
+	  </ul>  
+	  <br/>
       <label for="tradingarea" >소분류 업종:</label>
-      <select name="smallBusiType" id="smallCategory">
-        
-      </select>
-      
+      <ul>
+	      <select name="smallBusiType" id="smallCategory">
+	      </select>
+	  </ul>
+      <br />
+      <hr />
       <!-- form 에서 onclick 속성을 사용 시 새로고침을 피할 수 없다.-->
       <!-- 1. button -> div/span 로 바꾼다. 2. button 태그를 줬다면 type="button"속성을 추가해준다 -->
-      <button onclick="ajaxSend()" type="button" id="reportBtn"> 제출</button>
+      <button onclick="ajaxSend()" type="button" id="reportBtn">분석하기</button>
     </form>
   </div>
 
   <aside class="rightReport">
- 	<dl>
+	<dl>
 	    <dt>
 	    	<strong>상권 분석 리포트</strong>
 	    	<span id="dateString"></span>
@@ -131,15 +72,15 @@
 		<hr />
 	    <dd class="sang2">
 	    	<div>
-          <dl> 
-	    			<dt><strong>대분류 상권</strong></dt>
+        	    <dl> 
+	    			<dt>대분류 상권</dt>
 	    			<dd id="showData3"></dd>
 	    		</dl>
-          <dl> 
+                <dl> 
 	    			<dt><strong>소분류 상권</strong></dt>
 	    			<dd id="showData2"></dd>
 	    		</dl>
-          <dl>
+                <dl>
 	    			<dt><strong>대분류 업종</strong></dt>
 	    			<dd id="showData1"></dd>
 	    		</dl>
@@ -152,6 +93,18 @@
 	</dl>
 	<div class="rightReport_info">
 		<span id="als" class="spread-underline">상권 분석</span>
+		<dl>
+			<dt>모델에 대한 결과</dt>
+			<dd>
+				<ul class="analysis_list">
+					<li class="summary">
+					</li>
+					<li class="detail">
+					
+					</li>
+				</ul>
+			</dd>
+		</dl>
 		<dl>
 			<dt>업종 분포현황</dt>
 			<dd>
@@ -278,7 +231,7 @@ function setComArea(areatype){
 
 // *** $.getJSON으로 묶인 그룹은 지도에 폴리곤으로 표시할 영역데이터 배열 생성 로직입니다 ***
   if(areatype === 'bd'){
-    $("#area3").attr("value", "발달상권")
+    $("#area3").attr("value", 1)
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -314,7 +267,7 @@ function setComArea(areatype){
     jtControl.className = "btn";
 
   }else if(areatype === 'gg'){
-    $("#area3").attr("value", "관광특구")
+    $("#area3").attr("value", 2)
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -350,7 +303,7 @@ function setComArea(areatype){
     jtControl.className = "btn";
 
   }else if(areatype === 'gm'){
-    $("#area3").attr("value", "골목상권")
+    $("#area3").attr("value", 3)
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -386,7 +339,7 @@ function setComArea(areatype){
     jtControl.className = "btn";
 
   }else if(areatype === 'jt'){
-    $("#area3").attr("value", "전통시장")
+    $("#area3").attr("value", 4)
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -478,9 +431,9 @@ function displayArea(area, lineColor) {
     // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다 
     kakao.maps.event.addListener(polygon, 'click', function(mouseEvent) {
 
-        var content = '<div class="info">' + 
-                    '   <div class="title">' + area.name + '</div>' +
-                    '   <div class="size">총 면적 : 약 ' + Math.floor(polygon.getArea()) + ' m<sup>2</sup></div>' +
+        var content ='<div class="info">' + 
+                    '   <p class="title">' + area.name + '</p>' +
+                    '   <p class="size">총 면적 : 약 ' + Math.floor(polygon.getArea()) + ' m<sup>2</sup></p>' +
                     '   <button type="button" name="chooseArea"> 상권 선택</button>'
                     '</div>';
 
@@ -501,7 +454,7 @@ function displayArea(area, lineColor) {
     });
 
     
-}
+}      
 
 
 
@@ -521,7 +474,7 @@ let marker = new kakao.maps.Marker({
 marker.setMap(map);
 marker.setImage(markerImage); // 이미지도 함께
 
-/* 우측 리포트 - 축소, 확대 토글 버튼 */
+/* 우측 리포트 이벤트 */
 document.querySelector("#reportBtn").addEventListener("click",function(){
 	document.querySelector(".rightReport").style.display='block'
 })
@@ -535,6 +488,65 @@ document.getElementById("dateString").innerHTML= year + '년' + month  + '월' +
 
 
 //CSV 파일 HTML 테이블로 변환하기
+//ajax
+function ajaxSend(){
+  //alert("제출클릭됨!!")
+  let data = $("#sform").serialize();
+  return $.ajax({
+      url:"/analysis/calldb/",
+      type:"post",
+      data:data,
+      dataType:"json",
+      success:function(data){
+      	  //innerText보다 textContent가 속도가 빠르
+     	  //상권 소분류(1~40)
+	      document.querySelector("#showData2").textContent =data.trading;
+	      //상권 대분류(1~4)
+	      document.querySelector("#showData3").textContent =data.BigTrading;
+	
+	      //소분류 업종(1~30)
+	      document.querySelector("#showData4").textContent =data.smallBusi;
+	      //대분류 업종(고유 코드 필요X, 사용자 확인용)
+	      document.querySelector("#showData1").textContent =data.business;
+      
+       }
+  });
+}
+
+      
+
+function selectBusi(){
+  var bigBusi = document.querySelector("#selectBusiType")
+  var smallBusi = document.querySelector("#smallCategory")
+  var bigOption = bigBusi.options[bigBusi.selectedIndex].innerText;
+
+  var subOptions = {
+  food:["한식음식점", "중식음식점", "일식음식점"],
+  service:["일반의원","치과의원","당구장"],
+  retail:["의약품","서적","문구"]
+  }
+
+  switch(bigOption){
+    case "외식업":
+      var subOption = subOptions.food;
+      break;
+    case "서비스업":
+      var subOption = subOptions.service;
+      break;
+    case "소매업":
+      var subOption = subOptions.retail;
+      break;
+  }
+
+  smallBusi.options.length = 0;
+
+  for(var i=0; i < subOption.length; i++){
+    var option = document.createElement('option');
+    option.innerText = subOption[i];
+    option.value = subOption[i];
+    smallBusi.append(option);
+  }
+}
 
 
 </script>

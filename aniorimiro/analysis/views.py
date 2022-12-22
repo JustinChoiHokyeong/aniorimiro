@@ -14,15 +14,15 @@ def map(request):
 def calldbFunc(request):
     if request.method=="POST":
         print('view옴')
-        tradingArea=request.POST.get('tradingArea')
-        BigTradingArea=request.POST.get('BigTradingArea')
-        businessType=request.POST.get('businessType')
-        smallBusiType=request.POST.get('smallBusiType')
+        trading=request.POST.get('tradingArea')
+        BigTrading=request.POST.get('BigTradingArea')
+        business=request.POST.get('businessType')
+        smallBusi=request.POST.get('smallBusiType')
         context = {
-          'businessType':businessType,
-          'tradingArea':tradingArea,
-          'BigTradingArea':BigTradingArea,
-          'smallBusiType':smallBusiType
+          'trading':trading,
+          'BigTrading':BigTrading,
+          'business':business,
+          'smallBusi':smallBusi
         }
         
     return JsonResponse(context)
