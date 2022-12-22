@@ -238,6 +238,7 @@ def calldbFunc(request):
                 result2 = 0
                 result3 = 0
                 result4 = 0
+
         # 골목상권 예측모델 실행 
         elif BigTradingArea == '골목상권':
             
@@ -334,6 +335,7 @@ def calldbFunc(request):
                 result2 = 0
                 result3 = 0
                 result4 = 0
+
         # 전통시장 예측모델 실행
         elif BigTradingArea == '전통시장':
             
