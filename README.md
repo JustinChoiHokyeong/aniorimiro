@@ -1,6 +1,6 @@
 # 용산구 상권분석 및 매출예측 서비스 프로젝트
 * 참여자 : 최호경, 김신혜, 민현진, 윤현성, 정다정, 최현호 (6명)
-* 총 개발기간 : 2022/11/26 ~ 2022/12/26 (4주)
+* 총 개발기간 : 2022/11/26 ~ 2022/12/26 (4주) 
 
 ## 회의록
 1. [팀장 회의 - 팀 선정 및 프로젝트 설명](https://justdojustin.tistory.com/50)
@@ -33,16 +33,18 @@
 > 의사결정에 도움을 줄 수 있는 다양한 상권분석 정보를 제공하여, 상권활성화 및 예비창업을 지원하기 위함
 
 ## 데이터 분석 과정
-#### 1. 데이터 탐색 및 전처리
+### 1. 데이터 탐색 및 전처리
 * 변수 정의
 * 탐색 시각화 자료
 
-#### 2. 모델링
+### 2. 모델링
 
 ## 웹 개발 과정
 ### 1. 장고(로그인, 회원가입, 마이페이지)
 #### 1) settings.py 기본 
-> templates에는 static 폴더 안에 css, data, pictures 폴더를 만듬 -> 각각 root 루트 경로를 정해줘서 한번에 모아놓고 참조해서 사용할 수 있도록 구성
+> templates와 static을 각각 BASE_DIR 경로를 정해줘서 상위 폴더로 한번에 모아놓고 참조해서 사용할 수 있도록 구성함. 
+>> templates에서는 html파일들을 accounts, analysis, etc, index로 기능별로 분류하여 저장. 
+>> static 폴더 안에 css, data, pictures로 분류하여 정적 데이터 저장 
 ``` 
 'DIRS': [os.path.join(BASE_DIR, 'templates')],
 ```
@@ -50,18 +52,43 @@
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 ```
-#### 2. 카카오 지도 API
+> MariaDB 데이터베이스 연결
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '4team',
+        'USER' : 'root',
+        'PASSWORD': '비밀번호',
+        'HOST' : '61.74.225.3',
+        'PORT':'3306',
+    }
+}
+DATABASE_OPTIONS = {'charset': 'utf-8'} 
+```
 
-#### 3. JQuery Ajax 데이터 전달
+#### 2) 
 
 
+### 2. 카카오 지도 API
 
-## 차후 개선 방향성
+### 3. JQuery Ajax 데이터 전달
+
+
+## 사용 방법(동작법) 
+
+## 미래 개선 방안
 #### 1. 마이페이지 스크랩 저장 기능
 #### 2. 인포윈도우 -> 커스텀 오버레이로 수정
 #### 3. 분석결과 시각화?
 
-## 전체 코드
+## Skills
+* **OS** : Windows, MacOS
+* **Language** : HTML5, CSS3, JavaScript(ES6), Python
+* **Framework/Library** : Django, jQurey, Pandas, SciPy, -------데이터에서 사용한 라이브러리 추가하기--------
+* **Database** : MariaDB
+* **IDE** : Eclipse, VS Code
+* **Collaboration** : GitHub, Slack, Discord, Google Sheets
 
 ## 참조 사이트
 1. [우리마을가게 상권분석서비스](https://golmok.seoul.go.kr/main.do)
