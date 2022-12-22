@@ -9,29 +9,14 @@
     <title>map</title>
 
     <style>
-html, body {width:100%;height:100%;margin:0;padding:0;overflow: hidden;} 
-.area {position: absolute;background: #fff;border: 1px solid #888;border-radius: 3px;font-size: 12px;top: -5px;left: 15px;padding:2px;}
-.info {font-size: 12px;padding: 5px;}
-.info .title {font-weight: bold;}
-html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} 
-.map_wrap {position:relative;width:100%;height:550px;}
-.radius_border{border:1px solid #919191;border-radius:5px;}
-.areacontrol {font-size:12px;position:absolute;top:10px;left:10px;height:30px;margin:0;padding:0;z-index:1;font-family:'Malgun Gothic', '맑은 고딕', 'sans-serif';}
-.areacontrol span {display:block;width:65px;height:30px;float:left;text-align:center;line-height:30px;cursor:pointer;}
-.areacontrol .btn {padding:0;font-size:12px;line-height:30px;background:#fff;background:linear-gradient(#fff,  #e6e6e6);}
-.areacontrol .btn:hover {background:#f5f5f5;background:linear-gradient(#f5f5f5,#e3e3e3);}
-.areacontrol .btn:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);}
-.areacontrol .selected_btn {color:#fff;background:#425470;background:linear-gradient(#425470, #5b6d8a);}
-.areacontrol .selected_btn:hover {color:#fff;}
-.leftCategory {position:absolute;top:50px;left:10px;width:250px;height:400px;margin:0;padding:0;z-index:1;background-color:#fff;}
 
 </style>
 <!--<link rel="stylesheet" href="{% static 'css/style.css' %}">-->
 </head>
 <body>
-
-<div>
-  <div id="map" style="width:100%;height:650px;"></div>
+<div class="map-container">
+  {% include 'etc/navbar.html' %}
+  <div id="map" style="width:100%;height:100%;"></div>
   <div class="areacontrol radius_border">
     <span id="btnBd" class="btn" onclick="setComArea('bd')">발달상권</span>
     <span id="btnGg" class="btn" onclick="setComArea('gg')">관광특구</span>
@@ -197,7 +182,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;}
 		</div>
   </aside>
 </div>
-
+{% include 'etc/footer.html' %}
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51806ebafe88ce5dbfc859c1db2a1f13"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
