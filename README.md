@@ -142,7 +142,132 @@ class CustomUserChangeForm(UserChangeForm):
 
 ### 2. 지도 기능 구현
 #### 1) 카카오 지도 API 사용
-> 지도 상에서 유용하게 사용할 수 있는 다양한 기능을 html+javascript sample 코드를 제공한다. 이를 이용하여 지도에서 
+> 지도 상에서 유용하게 사용할 수 있는 다양한 기능을 html+javascript sample 코드를 제공한다. 이를 기반으로 하고, JavaScript와 jQuery를 사용하여 아래와 같은 기능을 구현했다.
+1. 상권 영역 독립적으로 출력 및 클릭 가능
+<img width="387" alt="Screen Shot 2022-12-22 at 8 34 05 PM" src="https://user-images.githubusercontent.com/108642193/209125799-e8369476-8d3c-4ea6-a6d1-7d82d7ad07fa.png">
+
+> 새로운 빈 배열을 상권별로 생성
+
+```javascript 
+let areas_gm = new Array();
+let areas_gg = new Array();
+let areas_bd = new Array();
+let areas_jt = new Array();
+```
+
+> 제이쿼리를 사용해서 스태틱 폴더에 저장된 json 파일을 불러오고, 상권별로 각각의 변수에 담아줌
+
+```javascript 
+let jsonLoca_gm = '/static/data/gm.json';
+let jsonLoca_gg = '/static/data/gg.json';
+let jsonLoca_bd = '/static/data/bd.json';
+let jsonLoca_jt = '/static/data/jt.json';
+```
+
+
+2. hover 버튼을 통해 4개 유형 중에 1개씩만 출력
+<img width="366" alt="Screen Shot 2022-12-22 at 8 41 19 PM" src="https://user-images.githubusercontent.com/108642193/209126986-19d8da5e-a9f7-4171-8b9e-e5eef3dfb005.png">
+
+> setComArea 함수를 만들어 클릭할 때 해당 id를 가진 요소 버튼의 클래스를 변경하여 클릭된 형태의 css가 적용되게 했다. 그리고 클릭 시 서로 다른 매개변수가 함수에 전달되게 했다.
+
+```javascript
+//javacript
+function setComArea(areatype){
+  let bdControl = document.getElementById('btnBd');
+  let ggControl = document.getElementById('btnGg');
+  let gmControl = document.getElementById('btnGm');
+  let jtControl = document.getElementById('btnJt');
+  
+//html
+<div class="areacontrol radius_border">
+    <span id="btnGm" class="btn" onclick="setComArea('gm')">골목상권</span>
+    <span id="btnGg" class="btn" onclick="setComArea('gg')">관광특구</span>
+    <span id="btnBd" class="btn" onclick="setComArea('bd')">발달상권</span>
+    <span id="btnJt" class="btn" onclick="setComArea('jt')">전통시장</span>    
+</div> 
+
+```
+
+> if문을 통해 매개변수에 따라 각각 다른 영역이 생성되게 하였고, 호버 버튼이기 때문에 다른 버튼을 또 누르면 기존의 지도는 삭제되게 만들었다. 구체적인 과정은 코드의 주석을 참조.
+
+```javascript
+if(areatype === 'bd'){
+    //기존의 그려져있던 영역 삭제하고
+    $("path").remove();
+    //새로운 영역 그리기
+    //lineColor : 2838F2
+    $.getJSON(jsonLoca_bd, function(data){
+      //반복문 돌면서 상권별 데이터를 담을 준비
+      $.each(data, function(I, item){
+          //상권명과 좌표정보를 담을 객체를 생성하고 {}
+          let area = new Object();
+          //상권명은 바로 name이라는 키값에 전달한다 name:""
+          area.name = item.name;
+          //좌표정보는 path라는 키값에 전달할건데
+          //우선 새로운 배열을 생성해서
+          area.path = new Array();
+          //for문을 이용해 돌면서 좌표정보를 담을 것이다
+          for (let i=0; i<item.LatLng.length; i++){
+            //위에서 제이쿼리 each 반복문에서 가져온 위도경도 값을 카카오 LatLng 메소드에 넣고
+            //생성된 객체를 newlatlng 변수에 담았다
+            let newlatlng = new kakao.maps.LatLng(item.LatLng[i][0], item.LatLng[i][1])
+            //그리고 area라는 배열에 반복문을 돌면서 담았다
+            area.path.push(newlatlng)
+          }        
+          //담은 name과 path를 모두 담은 객체는 areas 배열에 each 반복문을 돌면서 push로 추가시킨다.
+          areas_bd.push(area);
+      })
+      //for 반복문을 돌면서 displayArea 메소드를 사용해서 상권 영역을 지도에 그린다.
+      for (var i = 0, len = areas_bd.length; i < len; i++) {
+        displayArea(areas_bd[i], '#2838F2');
+    }});
+    bdControl.className = "selected_btn";
+    ggControl.className = "btn";
+    gmControl.className = "btn";
+    jtControl.className = "btn";
+
+  }
+```
+
+
+
+4. 마우스 오버 시, 상권명 표시 및 내부색 활성화
+<img width="329" alt="Screen Shot 2022-12-22 at 8 12 51 PM" src="https://user-images.githubusercontent.com/108642193/209122504-9f21a82d-3b0f-4521-960e-ddee0450923e.png">
+
+```javascript 
+kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
+        polygon.setOptions({fillColor: '#09f'});
+
+        customOverlay.setContent('<div class="area">' + area.name + '</div>');
+        
+        customOverlay.setPosition(mouseEvent.latLng); 
+        customOverlay.setMap(map);
+    });
+```
+
+3. 상권영역 클릭 시 인포윈도우 출력하여 상권명, 영역 넓이 확인 가능 + 클릭 위치를 중심 좌표로 포커싱
+<img width="279" alt="Screen Shot 2022-12-22 at 8 22 21 PM" src="https://user-images.githubusercontent.com/108642193/209123892-5650e7c0-5fb3-4d4c-8d61-790d195cb2b4.png">
+
+```javascript 
+// 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다 
+    kakao.maps.event.addListener(polygon, 'click', function(mouseEvent) {
+
+        var content ='<div class="info">' + 
+                    '   <p class="title">' + area.name + '</p>' +
+                    '   <p class="size">총 면적 : 약 ' + Math.floor(polygon.getArea()) + ' m<sup>2</sup></p>' +
+                    '   <button type="button" name="chooseArea"> 상권 선택</button>'
+                    '</div>';
+
+        infowindow.setContent(content); 
+        infowindow.setPosition(mouseEvent.latLng); 
+        infowindow.setMap(map);
+
+        // 클릭한 영역 위치로 포커싱
+        map.panTo(mouseEvent.latLng); 
+```
+
+4. 선택하기 누르면 3가지 데이터가 인풋 값이 입력됨
+
 
 #### 1) 4개 유형의 상권 영역 좌표 JSON 파일로 저장
 > '골목상권, 관광특구, 발달상권, 전통시장' 4개 유형의 상권영역에 대한 정보를 shp(shape)파일로 다운받은 후, 자유 오픈 소스 지리정보 시스템인 'QGIS'을 활용하여 각 상권영역의 꼭짓점 데이터를 위도경도 좌표로 추출하여 JSON 파일로 저장했다.
