@@ -111,7 +111,7 @@
     <hr />
     <form method="post" id="sform">{% csrf_token %}
       <!-- <label for="tradingarea" >대분류 상권:</label> -->
-      <!-- <input type="text" id=area3 value="" name="BigTradingArea"><br/> -->
+      <input type="hidden" id=area3 value="" name="BigTradingArea"><br/>
       <label for="tradingarea" >상권 이름:</label><br />
       <!-- <span id=area1> </span><br/> -->
       <input type="text" id=area2 value="" name="tradingArea"><br/>
@@ -244,9 +244,9 @@
 			<dd>
 				<ul class="pred_list">
 					<li class="summary">1분기 예상 매출액은 <strong id="showData5"></strong></li>
-		            <li class="summary">2분기 예측 매출액은 <strong id="showData6"></strong></li>
-		            <li class="summary">3분기 예측 매출액은 <strong id="showData7"></strong></li>
-		            <li class="summary">4분기 예측 매출액은 <strong id="showData8"></strong></li>
+		            <li class="summary">2분기 예상 매출액은 <strong id="showData6"></strong></li>
+		            <li class="summary">3분기 예상 매출액은 <strong id="showData7"></strong></li>
+		            <li class="summary">4분기 예상 매출액은 <strong id="showData8"></strong></li>
 					<li class="detail"></li>
 				</ul>
 			</dd>
@@ -315,7 +315,7 @@ function setComArea(areatype){
 
 // *** $.getJSON으로 묶인 그룹은 지도에 폴리곤으로 표시할 영역데이터 배열 생성 로직입니다 ***
   if(areatype === 'bd'){
-    $("#area3").attr("value", 1)
+    $("#area3").attr("value", "발달상권")
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -351,7 +351,7 @@ function setComArea(areatype){
     jtControl.className = "btn";
 
   }else if(areatype === 'gg'){
-    $("#area3").attr("value", 2)
+    $("#area3").attr("value", "관광특구")
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -387,7 +387,7 @@ function setComArea(areatype){
     jtControl.className = "btn";
 
   }else if(areatype === 'gm'){
-    $("#area3").attr("value", 3)
+    $("#area3").attr("value", "골목상권")
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
@@ -423,7 +423,7 @@ function setComArea(areatype){
     jtControl.className = "btn";
 
   }else if(areatype === 'jt'){
-    $("#area3").attr("value", 4)
+    $("#area3").attr("value", "전통시장")
     //기존의 그려져있던 영역 삭제하고
     $("path").remove();
     //새로운 영역 그리기
