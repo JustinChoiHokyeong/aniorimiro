@@ -570,69 +570,6 @@ var month = ('0' + (today.getMonth() + 1)).slice(-2);
 var day = ('0' + today.getDate()).slice(-2);
 document.getElementById("dateString").innerHTML= year + '년' + month  + '월' + day + '일';
 
-
-//CSV 파일 HTML 테이블로 변환하기
-//ajax
-function ajaxSend(){
-  //alert("제출클릭됨!!")
-  let data = $("#sform").serialize();
-  return $.ajax({
-      url:"/analysis/calldb/",
-      type:"post",
-      data:data,
-      dataType:"json",
-      success:function(data){
-      	  //innerText보다 textContent가 속도가 빠르
-     	  //상권 소분류(1~40)
-	      document.querySelector("#showData2").textContent =data.trading;
-	      //상권 대분류(1~4)
-	      document.querySelector("#showData3").textContent =data.BigTrading;
-	
-	      //소분류 업종(1~30)
-	      document.querySelector("#showData4").textContent =data.smallBusi;
-	      //대분류 업종(고유 코드 필요X, 사용자 확인용)
-	      document.querySelector("#showData1").textContent =data.business;
-      
-       }
-  });
-}
-
-      
-
-function selectBusi(){
-  var bigBusi = document.querySelector("#selectBusiType")
-  var smallBusi = document.querySelector("#smallCategory")
-  var bigOption = bigBusi.options[bigBusi.selectedIndex].innerText;
-
-  var subOptions = {
-  food:["한식음식점", "중식음식점", "일식음식점"],
-  service:["일반의원","치과의원","당구장"],
-  retail:["의약품","서적","문구"]
-  }
-
-  switch(bigOption){
-    case "외식업":
-      var subOption = subOptions.food;
-      break;
-    case "서비스업":
-      var subOption = subOptions.service;
-      break;
-    case "소매업":
-      var subOption = subOptions.retail;
-      break;
-  }
-
-  smallBusi.options.length = 0;
-
-  for(var i=0; i < subOption.length; i++){
-    var option = document.createElement('option');
-    option.innerText = subOption[i];
-    option.value = subOption[i];
-    smallBusi.append(option);
-  }
-}
-
-
 </script>
 </body>
 </html>
