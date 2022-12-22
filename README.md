@@ -140,10 +140,12 @@ class CustomUserChangeForm(UserChangeForm):
 ### 2. 카카오 지도 API
 #### 1) 
 #### 2) 
-#### 3) 
+#### 3) 공부해서 다른 조에게 공유했던 점
 #### 4) 외부 CSS 파일로 한번에 정리 
 
 ### 3. JQuery Ajax 데이터 전달
+------- 예전 플젝에서 보완해서 연구해서 업그레이드 --------
+제이슨 공부해서 쓴거
 
 
 ## 사용 방법(동작법) 
@@ -156,13 +158,14 @@ class CustomUserChangeForm(UserChangeForm):
 ### 2. 웹 개발
 #### 1) 마이페이지 스크랩 저장 기능
 #### 2) 인포윈도우 -> 커스텀 오버레이로 수정
+3) AWS 클라우드 서버 출력
 
 
 
 
 ## Skills
 * **OS** : Windows, MacOS
-* **Language** : HTML5, CSS3, JavaScript(ES6), Python
+* **Language** : Python, HTML5, CSS3, JavaScript(ES6)
 * **Framework/Library** : Django, jQurey, Pandas, SciPy, -------데이터에서 사용한 라이브러리 추가하기--------
 * **Database** : MariaDB
 * **IDE** : Eclipse, VS Code
