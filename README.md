@@ -139,6 +139,9 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ['username', 'email', 'first_name','last_name']
 ```
 
+#### 3) 로그인, 회원가입 폼 - 장고 템플릿 오류 해결
+
+
 
 ### 2. 카카오 지도 API 사용
  
@@ -460,8 +463,15 @@ def calldbFunc(request):
 
 ### 4. CSS
 
-#### 1) 외부 CSS 파일로 한번에 정리
-#### 2) 주요 효과
+#### 1) Figma를 사용해서 웹 디자인 및 사이트맵 구성
+<img width="448" alt="Screen Shot 2022-12-23 at 11 15 53 AM" src="https://user-images.githubusercontent.com/108642193/209257579-3edf3c35-9bfb-4f2e-8cbe-763ae8e7fe60.png">
+> 피그마 툴을 사용하여 전체 웹 및 구성요소들을 디자인하고, 이를 기반으로 css를 작성하였다. 
+
+#### 2) 외부 CSS 파일로 한번에 정리
+
+> 각각의 html tag, class, id에 해당하는 디자인 속성을 외부 css 파일로 분리하여 한번에 작성하여 유지보수성을 높였다. 또한 css 학습을 위해 부트스트랩 같은 라이브러리를 사용하지 않고, 웹 브라우저의 검사 기능을 사용하여 비교하면서 세부적인 요소들을 코딩하였다.
+
+#### 3) 주요 효과
 
 
 ## 사용 방법(동작법) 
@@ -485,7 +495,7 @@ def calldbFunc(request):
 * **Framework/Library** : Django, jQurey, Pandas, SciPy, -------데이터에서 사용한 라이브러리 추가하기--------
 * **Database** : MariaDB
 * **IDE** : Eclipse, VS Code
-* **Collaboration** : GitHub, Slack, Discord, Google Sheets
+* **Collaboration** : GitHub, Slack, Discord, Google Sheets, Figma
 
 ## 참조 사이트
 1. [우리마을가게 상권분석서비스](https://golmok.seoul.go.kr/main.do)
