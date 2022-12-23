@@ -11,14 +11,6 @@
     {% endif %}
     <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
-    {% comment %} <div class="signin-container">
-        <input class="account-box" type="text" placeholder=" 이곳에 아이디를 입력해 주세요" name="{{ form.username }}" /> 
-    </div>
-
-    <div class="signin-container">
-        <input class="account-box" type="text" placeholder=" 이곳에 비밀번호를 입력해 주세요" name="{{ form.password }}" /> 
-    </div> {% endcomment %}
-
     <div class="signin-container">
         <div class="account-box" type="text">{{ form.username }}</div>
     </div>
