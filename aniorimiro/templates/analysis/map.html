@@ -147,11 +147,11 @@
 		<dd class="sang1">
 			
 			<div>
-				<strong class="spread-underline" ><a href="#als" id="showData_b">분석</a></strong>
+        <strong class="spread-underline"><a href="#pred" id="showData_p">예측</a></strong>
 			</div>
 			<hr />
 			<div>
-				<strong class="spread-underline"><a href="#pred" id="showData_p">예측</a></strong>
+				<strong class="spread-underline" ><a href="#als" id="showData_b">분석</a></strong>
 			</div>
 			
 		</dd>
@@ -542,7 +542,7 @@ function displayArea(area, lineColor) {
 
 
 
-//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+{% comment %} //마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 let markerImage = new kakao.maps.MarkerImage(
     '/static/pictures/KakaoTalk_20221123_105421668.png',
     new kakao.maps.Size(50, 50), new kakao.maps.Point(15, 34));
@@ -556,7 +556,7 @@ let marker = new kakao.maps.Marker({
 
 // 마커가 지도 위에 표시되도록 설정합니다
 marker.setMap(map);
-marker.setImage(markerImage); // 이미지도 함께
+marker.setImage(markerImage); // 이미지도 함께 {% endcomment %}
 
 /* 우측 리포트 이벤트 */
 document.querySelector("#reportBtn").addEventListener("click",function(){
