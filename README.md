@@ -139,9 +139,6 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ['username', 'email', 'first_name','last_name']
 ```
 
-#### 3) 로그인, 회원가입 폼 - 장고 템플릿 오류 해결
-
-
 
 ### 2. 카카오 지도 API 사용
  
@@ -174,7 +171,7 @@ class CustomUserChangeForm(UserChangeForm):
 		[37.540395, 126.9731875],
 		[37.5405527, 126.9740984]
 	]
-}, ...]
+}, ]
 ```
 
 #### 2) 상권 영역 독립적으로 출력 및 클릭 가능
@@ -325,7 +322,8 @@ $(document).ready(function(){
 <img width="545" alt="Screen Shot 2022-12-23 at 9 53 55 AM" src="https://user-images.githubusercontent.com/108642193/209249715-8e8b5811-051d-4713-8450-336f56d4bbae.png">
 
 <img width="353" alt="Screen Shot 2022-12-23 at 9 54 56 AM" src="https://user-images.githubusercontent.com/108642193/209249784-5b84a014-1f3a-4315-bb7f-038a2a6b9874.png">
-> 대분류 업종을 선택하면 해당되는 서로 다른 소분류 업종 리스트가 출력되도록 구성함.
+
+> 대분류 업종을 선택하면 서로 다르게 해당되는 소분류 업종 리스트가 출력되도록 구성함.
 
 ```javascript 
 // 소분류 업종
@@ -465,26 +463,69 @@ def calldbFunc(request):
 
 #### 1) Figma를 사용해서 웹 디자인 및 사이트맵 구성
 <img width="448" alt="Screen Shot 2022-12-23 at 11 15 53 AM" src="https://user-images.githubusercontent.com/108642193/209257579-3edf3c35-9bfb-4f2e-8cbe-763ae8e7fe60.png">
+
 > 피그마 툴을 사용하여 전체 웹 및 구성요소들을 디자인하고, 이를 기반으로 css를 작성하였다. 
 
-#### 2) 외부 CSS 파일로 한번에 정리
+#### 2) 외부 CSS 파일 정리
 
-> 각각의 html tag, class, id에 해당하는 디자인 속성을 외부 css 파일로 분리하여 한번에 작성하여 유지보수성을 높였다. css 학습을 위해 부트스트랩 같은 라이브러리를 사용하지 않고, 웹 브라우저의 검사 기능을 사용하여 비교하면서 세부적인 요소들을 코딩하였다.
+> 각각의 html tag, class, id에 해당하는 디자인 속성을 외부 css 파일로 분리하여, 한 곳에 모아서 작성하여 유지보수성을 높였다. css 학습을 위해 부트스트랩 같은 라이브러리를 사용하지 않고, 웹 브라우저의 검사 기능을 사용하여 비교하면서 세부적인 요소들을 코딩하였다. 이를 통해 다양한 toggle 기능, 애니메이션 효과 등을 구현할 수 있었다.
 
-#### 3) 주요 효과
+```css
+/* 3. 상권 분석, 매출 예측 */
+
+html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} 
+
+/* 3-1. 상권 분석 map */
+.areacontrol {font-size:12px;position:fixed;top:58px;left:10px;height:30px;margin:0;padding:0;z-index:1;font-family:'Malgun Gothic', '맑은 고딕', 'sans-serif';}
+.areacontrol .radius_border{border:1px solid #919191;border-radius:5px;}
+.areacontrol span {display:block;width:84px;height:50px;float:left;text-align:center;line-height:50px;cursor:pointer;border: 2px ridge;}
+
+.areacontrol .btn {padding:0;font-size:15px;line-height:50px;background:linear-gradient(#e8e8e8,  #fff);border-radius: 10px;}
+.areacontrol .btn:hover {background:#f5f5f5;background:linear-gradient(#f5f5f5,#e3e3e3);border-color:#E9AA13; color:#E9AA13;}
+.areacontrol .btn:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);border-color:#F9AB00; color:#591035;}
+.areacontrol .selected_btn {color:#591035;background:linear-gradient(#fff7dc, #ffd442);font-size: 15px;border-radius: 10px;}/*background:linear-gradient(#425470, #5b6d8a);*/
+.areacontrol .selected_btn:hover {color:#591035;}
+
+/* 3-1-1. 좌측 상단 카테고리 선택 (상권 & 업종) */
+.leftCategory {position:absolute;top:115px;left:10px;width:315px; height:400px;margin:0;padding:0 20px; z-index:1;background-color:#fff;border-radius: 10px;}
+.leftCategory > h3 {font-size:24px;text-align: left;color: #0676DD; padding:15px 0;}
+.leftCategory > hr {border-right-width: 0px;border-top-width: 0px;border-bottom-width: 2px;border-left-width: 0px;margin-bottom: 10px;}
+.leftCategory > form > ul > select{appearance:none;border-radius: 5px; width: 100% !important; height:36px;padding: 0 40px 0 20px; padding-top:2px; margin-top:5px; border: 1px solid #999;font-size: 14px;line-height: 34px; background:url(/static/pictures/arrow_bottom.svg) no-repeat right 20px center/10px auto #fff;}
+.leftCategory > form > input{height: 20px; padding: 5px 0;margin-top: 10px;margin-bottom:10px;padding-left: 10px;width: 205px;}
+.leftCategory > form > button{padding: 10px 50px;margin-top: 15px;margin-left: 70px;border: 2px ridge;background:linear-gradient(#e8e8e8,  #fff);border-radius: 10px;}
+.leftCategory > form > button:hover {background:#f5f5f5;background:linear-gradient(#f5f5f5,#e3e3e3);border-color:rgb(11, 103, 217); color:#0676dd;}
+.leftCategory > form > button:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);border-color:#0B7FD3; color:#0676dd;}
+.leftCategory > form > hr {border-right-width: 0px;border-top-width: 0px;border-bottom-width: 2px;border-left-width: 0px;margin-bottom: 10px;}
+```
 
 
-## 사용 방법(동작법) 
+#### 3) 로그인, 회원가입 폼 css 입력 - 장고 템플릿 오류 해결
+> 장고에서 제공하는 로그인, 회원가입 form을 사용하였기 때문에, 템플릿 태그를 사용하여 html 파일에서 입력창을 형성한다. 
+
+```html
+<div class="signin-container">
+        <div class="account-box" type="text">{{ form.username }}</div>
+</div>
+```
+
+<img width="406" alt="Screen Shot 2022-12-23 at 12 20 47 PM" src="https://user-images.githubusercontent.com/108642193/209264500-479d3b9f-6839-4b4f-a1e1-47d615266f9f.png">
+
+> 웹 브라우저 검사를 통해서 보면, {{ form.username }} 이 템플릿 태그 자체가 input 태그로 변형되어 출력됨을 확인할 수 있다. 따라서 css를 입력할 때, class 내부의 input 요소로 디자인 속성을 걸어서 입력해야 한다.
+
 
 ## 미래 개선 방안
 
 ### 1. 데이터 분석
-#### 1) 분석결과 시각화?
+
 
 ### 2. 웹 개발
 #### 1) 마이페이지 스크랩 저장 기능
+> 출력된 분석 결과 보고서를 이미지로 DB에 저장하고 마이페이지에서 게시판 형태로 조회 및 관리가 가능하도록 구성한다. 그러면 로그인 기능과 조합하여 활용할 수 있을 것으로 기대한다.
 #### 2) 인포윈도우 -> 커스텀 오버레이로 수정
-3) AWS 클라우드 서버 출력
+> 카카오 지도 API에서 제공하는 윈포윈도우 기능은 사용자에 의해 수정이 불가하다. 따라서 커스텀 오버레이로 대체시키면 다양한 형태로 재구성시켜서 더 많은 정보를 담을 수 있고 동시에 사용자 경험도 높일 수 있을 것으로 기대한다.
+#### 3) AWS 클라우드 서버 출력
+> 현재는 로컬에서 장고 서버를 통해 웹 사이트를 출력하고 있다. 
+
 
 
 
