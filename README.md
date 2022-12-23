@@ -9,7 +9,6 @@
 * [프로젝트 개요](#프로젝트-개요)
 * [데이터 분석 과정](#데이터-분석-과정)
 * [웹 개발 과정](#웹-개발-과정)
-* [사용 방법(동작법)](#사용-방법동작법)
 * [미래 개선 방안](#미래-개선-방안)
 * [Skills](#skills)
 * [참조 사이트](#참조-사이트)
@@ -30,7 +29,7 @@
 * [기능정의서](https://docs.google.com/spreadsheets/d/167e_ifRUj6Zdcu5U6ka96ypv0CCr_WbWnllNXcaQBX0/edit#gid=0)
 * [화면정의서](https://docs.google.com/presentation/d/1YypgBo2MCVdZVHRleeFGBvraXvuPCPOf4g5z-fwrZg0/edit#slide=id.p)
 * [WBS(Work Breakdown Structure)](https://docs.google.com/spreadsheets/d/1DsW8wfOfBu1VqastvK6YuBT5czBZfACZJwIsM4Kl9CA/edit#gid=0)
-* [발표 PPT (K-Digital Training 양식)](https://docs.google.com/presentation/d/1JeNPFPwV64P2TyMtRyJBHAofCZ2TNr_g/edit?usp=sharing&ouid=112815532964849845221&rtpof=true&sd=true)
+* 발표 PPT (K-Digital Training 양식)
 
 ## 사용 데이터
 1. [서울시_우리마을가게_상권분석서비스(신_상권_추정매출)_2019년.csv](https://data.seoul.go.kr/dataList/OA-15572/S/1/datasetView.do)
@@ -44,10 +43,12 @@
 ## 프로젝트 개요
 #### 1. 프로젝트명 : aniorimiro (아니오리미로)
 #### 2. 주제 : 용산구 상권분석 및 매출예측 서비스
-#### 3. 목적 및 배경 : 
---------프로젝트 제작 배경 및 이유 보완해서 적기 ----------
-> 의사결정에 도움을 줄 수 있는 다양한 상권분석 정보를 제공하여, 상권활성화 및 예비창업을 지원하기 위함
-
+#### 3. 배경
+> ‘우리마을가게 상권분석서비스’에 따르면 2022년 2분기 기준 ‘뜨는 동네’ 카테고리에서 이태원상권이 1분기 대비 점포 수, 매출의 증가율이 1위를 하였으며 유동 인구 증가율 또한 4위로 상위권을 차지했다. 이렇듯 이태원을 비롯한 용산구는 주목을 받고 있으며 대통령 집무실 이전으로 인해 관심은 더욱 집중될 것으로 보인다. 그렇지만 ‘뜨는 상권’에서의 용산구는 하위권을 보이고 있다. 
+>> 서울시가 제공하는 데이터를 활용하여 용산구의 상권 현황 분석을 실시하고자 한다. 단편적인 정보에 그치지 않고 추가적인 분석을 통해 용산구의 상권 활성화를 위한 인사이트 제시하고자 한다. 또한 용산구의 각 상권의 매출을 포함하여 점포 수, 이용객들의 지표를 살펴보고 매출 예측을 위한 통계학적 모형을 구축하여 예비창업자의 업종선택 및 위치 선정에 도움을 주고, 본 자료를 토대로 용산구의 상권 활성화 방안 모색 탐색에 도움을 주고자 한다.
+#### 4. 목적
+* 용산구 지역의 예비 창업자와 자영업자에게 운영 및 의사결정에 유용한 상권정보 제공을 통해 용산구 상권 활성화 방안 모색 및 정책 수립 및 집행 과정에 활용
+* 탐색적 데이터 분석을 수행하기 위한 데이터 정제, 시각화 방법 학습
 
 ## 데이터 분석 과정
 ### 1. 데이터 탐색 및 전처리
