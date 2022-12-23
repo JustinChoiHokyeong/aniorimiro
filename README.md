@@ -140,10 +140,41 @@ class CustomUserChangeForm(UserChangeForm):
 ```
 
 
-### 2. 지도 기능 구현
-#### 1) 카카오 지도 API 사용
-> 지도 상에서 유용하게 사용할 수 있는 다양한 기능을 html+javascript sample 코드를 제공한다. 이를 기반으로 하고, JavaScript와 jQuery를 사용하여 아래와 같은 기능을 구현했다.
-1. 상권 영역 독립적으로 출력 및 클릭 가능
+### 2. 카카오 지도 API 사용
+ 
+> 카카오 지도 API는 지도 상에서 유용하게 사용할 수 있는 다양한 기능을 html+javascript sample 코드로 제공한다. 이를 기반으로 하고, JavaScript와 jQuery를 사용하여 다음과 같은 기능들을 구현했다.
+
+#### 1) 4개 유형의 상권 영역 좌표 JSON 파일로 저장
+> '골목상권, 관광특구, 발달상권, 전통시장' 4개 유형의 상권영역에 대한 정보를 shp(shape)파일로 다운받은 후, 자유 오픈 소스 지리정보 시스템인 'QGIS'을 활용하여 각 상권영역의 꼭짓점 데이터를 위도경도 좌표로 추출하여 JSON 파일로 저장했다.
+>> shp 파일의 기존 좌표는 UTMK 투영법과 좌표계를 이용하여 x y 좌표가 '(953937.9, 1952051.9)' 이런 식으로 출력된다. 카카오 지도 API에 사용하기 위해서는 위도 경도 형식으로 바꿔서 '(37.5666805, 126.9784147)'처럼 나타내야 한다. 따라서 QGIS 프로그램 상단에 있는 '플러그인 설치 및 관리'에 들어가서 let latlon tools 플러그인을 설치한다. 그리고 사용할 좌표만 남기고 export하여 JSON 형식의 파일로 다른 이름으로 저장했다.
+``` json
+[{
+	"name": "남영동 먹자골목",
+	"LatLng": [
+		[37.5405527, 126.9740984],
+		[37.540641, 126.9746075],
+		[37.5416892, 126.9743639],
+		[37.5427344, 126.9740964],
+		[37.5437554, 126.9738349],
+		[37.5445814, 126.9736291],
+		[37.5452626, 126.9734797],
+		[37.5452559, 126.9734169],
+		[37.545202, 126.9729141],
+		[37.5451456, 126.9723904],
+		[37.545101, 126.9719936],
+		[37.5443504, 126.9721845],
+		[37.5435176, 126.9723976],
+		[37.5424825, 126.9726592],
+		[37.5420662, 126.9727647],
+		[37.5414565, 126.9729191],
+		[37.54113, 126.9730017],
+		[37.540395, 126.9731875],
+		[37.5405527, 126.9740984]
+	]
+}, ...]
+```
+
+#### 2) 상권 영역 독립적으로 출력 및 클릭 가능
 <img width="387" alt="Screen Shot 2022-12-22 at 8 34 05 PM" src="https://user-images.githubusercontent.com/108642193/209125799-e8369476-8d3c-4ea6-a6d1-7d82d7ad07fa.png">
 
 > 새로운 빈 배열을 상권별로 생성
@@ -165,7 +196,7 @@ let jsonLoca_jt = '/static/data/jt.json';
 ```
 
 
-2. hover 버튼을 통해 4개 유형 중에 1개씩만 출력
+#### 3) hover 버튼을 통해 4개 유형 중에 1개씩만 출력
 <img width="366" alt="Screen Shot 2022-12-22 at 8 41 19 PM" src="https://user-images.githubusercontent.com/108642193/209126986-19d8da5e-a9f7-4171-8b9e-e5eef3dfb005.png">
 
 > setComArea 함수를 만들어 클릭할 때 해당 id를 가진 요소 버튼의 클래스를 변경하여 클릭된 형태의 css가 적용되게 했다. 그리고 클릭 시 서로 다른 매개변수가 함수에 전달되게 했다.
@@ -231,7 +262,7 @@ if(areatype === 'bd'){
 
 
 
-4. 마우스 오버 시, 상권명 표시 및 내부색 활성화
+#### 4) 마우스 오버 시, 상권명 표시 및 내부색 활성화
 <img width="329" alt="Screen Shot 2022-12-22 at 8 12 51 PM" src="https://user-images.githubusercontent.com/108642193/209122504-9f21a82d-3b0f-4521-960e-ddee0450923e.png">
 
 ```javascript 
@@ -245,7 +276,7 @@ kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
     });
 ```
 
-3. 상권영역 클릭 시 인포윈도우 출력하여 상권명, 영역 넓이 확인 가능 + 클릭 위치를 중심 좌표로 포커싱
+#### 5) 상권영역 클릭 시 인포윈도우 출력하여 상권명, 영역 넓이 확인 가능 + 클릭 위치를 중심 좌표로 포커싱
 <img width="279" alt="Screen Shot 2022-12-22 at 8 22 21 PM" src="https://user-images.githubusercontent.com/108642193/209123892-5650e7c0-5fb3-4d4c-8d61-790d195cb2b4.png">
 
 ```javascript 
@@ -266,45 +297,152 @@ kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
         map.panTo(mouseEvent.latLng); 
 ```
 
-4. 선택하기 누르면 3가지 데이터가 인풋 값이 입력됨
+#### 6) 선택하기 누르면 데이터 분석에 필요한 3가지 데이터가 input 태그의 value 값으로 각각 입력됨
 
+> 예측 모델에서 필요한 값이 '대분류 상권', '소분류 상권', '소분류 업종' 3가지 변수이다. 이를 사용자가 선택하여 views.py로 보낼 수 있도록, input 태그의 value로 담기도록 구성하였다.
 
-#### 1) 4개 유형의 상권 영역 좌표 JSON 파일로 저장
-> '골목상권, 관광특구, 발달상권, 전통시장' 4개 유형의 상권영역에 대한 정보를 shp(shape)파일로 다운받은 후, 자유 오픈 소스 지리정보 시스템인 'QGIS'을 활용하여 각 상권영역의 꼭짓점 데이터를 위도경도 좌표로 추출하여 JSON 파일로 저장했다.
->> shp 파일의 기존 좌표는 UTMK 투영법과 좌표계를 이용하여 x y 좌표가 '(953937.9, 1952051.9)' 이런 식으로 출력된다. 카카오 지도 API에 사용하기 위해서는 위도 경도 형식으로 바꿔서 '(37.5666805, 126.9784147)'처럼 나타내야 한다. 따라서 QGIS 프로그램 상단에 있는 '플러그인 설치 및 관리'에 들어가서 let latlon tools 플러그인을 설치한다. 그리고 사용할 좌표만 남기고 export하여 JSON 형식의 파일로 다른 이름으로 저장했다.
-``` json
-[{
-	"name": "남영동 먹자골목",
-	"LatLng": [
-		[37.5405527, 126.9740984],
-		[37.540641, 126.9746075],
-		[37.5416892, 126.9743639],
-		[37.5427344, 126.9740964],
-		[37.5437554, 126.9738349],
-		[37.5445814, 126.9736291],
-		[37.5452626, 126.9734797],
-		[37.5452559, 126.9734169],
-		[37.545202, 126.9729141],
-		[37.5451456, 126.9723904],
-		[37.545101, 126.9719936],
-		[37.5443504, 126.9721845],
-		[37.5435176, 126.9723976],
-		[37.5424825, 126.9726592],
-		[37.5420662, 126.9727647],
-		[37.5414565, 126.9729191],
-		[37.54113, 126.9730017],
-		[37.540395, 126.9731875],
-		[37.5405527, 126.9740984]
-	]
-}, ...]
+```javascript 
+// 대분류 상권 입력
+if(areatype === 'bd'){
+    $("#area3").attr("value", "발달상권")
+    ...
+    }
 ```
-#### 2) 
-#### 3) 공부해서 다른 조에게 공유했던 점
-#### 4) 외부 CSS 파일로 한번에 정리 
+
+```javascript 
+// 소분류 상권 입력
+$(document).ready(function(){
+      $("button[name='chooseArea']").click(function(){
+      $("#area1").text(area.name);
+      $("#area2").attr("value", area.name)
+    })
+  }) 
+```
+
+<img width="545" alt="Screen Shot 2022-12-23 at 9 53 55 AM" src="https://user-images.githubusercontent.com/108642193/209249715-8e8b5811-051d-4713-8450-336f56d4bbae.png">
+
+<img width="353" alt="Screen Shot 2022-12-23 at 9 54 56 AM" src="https://user-images.githubusercontent.com/108642193/209249784-5b84a014-1f3a-4315-bb7f-038a2a6b9874.png">
+> 대분류 업종을 선택하면 해당되는 서로 다른 소분류 업종 리스트가 출력되도록 구성함.
+
+```javascript 
+// 소분류 업종
+function selectBusi(){
+        var bigBusi = document.querySelector("#selectBusiType")
+        var smallBusi = document.querySelector("#smallCategory")
+        var bigOption = bigBusi.options[bigBusi.selectedIndex].innerText;
+
+        var subOptions = {
+        food:['분식전문점', '양식음식점', '일식음식점', '제과점', '중식음식점', '치킨전문점', '커피-음료', '패스트푸드점', '한식음식점', '호프-간이주점'],
+        service:['PC방', '가전제품수리', '고시원', '골프연습장', '네일숍', '노래방', '당구장', '미용실', '부동산중개업', '세탁소', '스포츠 강습', '스포츠클럽', '여관', '예술학원', '외국어학원', '일반교습학원', '일반의원', '자동차미용', '자동차수리', '치과의원', '피부관리실', '한의원'],
+        retail:['가구', '가방', '가전제품', '문구', '미곡판매', '반찬가게', '서적', '섬유제품', '수산물판매', '슈퍼마켓', '시계및귀금속', '신발', '안경', '애완동물', '완구', '운동/경기용품', '육류판매', '의료기기', '의약품', '인테리어', '일반의류', '자전거 및 기타운송장비', '전자상거래업', '조명용품', '철물점', '청과상', '컴퓨터및주변장치판매', '편의점', '핸드폰', '화장품', '화초']
+        }
+
+        switch(bigOption){
+          case "외식업":
+            var subOption = subOptions.food;
+            break;
+          case "서비스업":
+            var subOption = subOptions.service;
+            break;
+          case "소매업":
+            var subOption = subOptions.retail;
+            break;
+        }
+
+        smallBusi.options.length = 0;
+
+        for(var i=0; i < subOption.length; i++){
+          var option = document.createElement('option');
+          option.innerText = subOption[i];
+          option.value = subOption[i];
+          smallBusi.append(option);
+        }
+      }
+
+```
+
+<img width="357" alt="Screen Shot 2022-12-23 at 9 58 33 AM" src="https://user-images.githubusercontent.com/108642193/209250236-2928bacf-e3f8-4de4-a5ac-9f3d9c58f1f6.png">
+
+> form 안에 input의 value로 views.py 로 넘겨줄 값들이 담긴 것을 확인할 수 있음.
+
+```javascript 
+<form method="post" id="sform">{% csrf_token %}
+      <!-- <label for="tradingarea" >대분류 상권:</label> -->
+      <input type="hidden" id=area3 value="" name="BigTradingArea"><br/>
+      <label for="tradingarea" >상권 이름:</label><br />
+      <!-- <span id=area1> </span><br/> -->
+      <input type="text" id=area2 value="" name="tradingArea"><br/>
+      <label for="tradingarea" >대분류 업종:</label>
+      <ul>
+	      <select name="businessType" id="selectBusiType" onchange="selectBusi()" class="sele">
+	        <option value="" selected disabled>업종을 선택해주세요</option>
+	        <option value="외식업" >외식업</option>
+	        <option value="서비스업">서비스업</option>
+	        <option value="소매업">소매업</option>
+	      </select>
+	  </ul>  
+	  <br/>
+      <label for="tradingarea" >소분류 업종:</label>
+      <ul>
+	      <select name="smallBusiType" id="smallCategory">
+	      </select>
+	  </ul>
+      <br />
+      <hr />
+      <!-- form 에서 onclick 속성을 사용 시 새로고침을 피할 수 없다.-->
+      <!-- 1. button -> div/span 로 바꾼다. 2. button 태그를 줬다면 type="button"속성을 추가해준다 -->
+      <button onclick="ajaxSend()" type="button" id="reportBtn">분석하기</button>
+</form>
+```
 
 ### 3. JQuery Ajax 데이터 전달
-------- 예전 플젝에서 보완해서 연구해서 업그레이드 --------
-제이슨 공부해서 쓴거
+------- 제이슨 공부해서 쓴거 언급 --------
+<img width="344" alt="Screen Shot 2022-12-23 at 10 14 01 AM" src="https://user-images.githubusercontent.com/108642193/209251500-1e2af7b0-3545-4b99-9538-1c1bcb18e159.png">
+> input 태그에 value를 담은 뒤 '분석하기' 클릭하면, 제이쿼리의 ajax 기능을 통해서 views.py로 데이터를 넘겨줌.
+
+```javascript 
+function ajaxSend(){
+        //alert("제출클릭됨!!")
+        let data = $("#sform").serialize();
+        return $.ajax({
+            url:"/analysis/calldb/",
+            type:"post",
+            data:data,
+            dataType:"json",
+            success:function(data){
+            //innerText보다 textContent가 속도가 빠르다
+            //상권 소분류(1~40)
+            document.querySelector("#showData2").textContent =data.tradingArea;
+            //상권 대분류(1~4)
+            document.querySelector("#showData3").textContent =data.BigTradingArea;
+
+            //소분류 업종(1~30)
+            document.querySelector("#showData4").textContent =data.smallBusiType;
+            //대분류 업종(고유 코드 필요X, 사용자 확인용)
+            document.querySelector("#showData1").textContent =data.businessType;
+	    ...
+	    }
+```
+
+> input
+
+```python
+#views.py
+def calldbFunc(request):
+    
+    if request.method=="POST":
+        print('view옴')
+        tradingArea=request.POST.get('tradingArea')
+        BigTradingArea=request.POST.get('BigTradingArea')
+        businessType=request.POST.get('businessType')
+        smallBusiType=request.POST.get('smallBusiType')
+	...
+```
+
+### 4. CSS
+
+#### 1) 외부 CSS 파일로 한번에 정리
+#### 2) 주요 효과
 
 
 ## 사용 방법(동작법) 
