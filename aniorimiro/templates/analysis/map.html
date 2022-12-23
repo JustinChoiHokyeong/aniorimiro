@@ -15,6 +15,7 @@
       function ajaxSend(){
         //alert("제출클릭됨!!")
         let data = $("#sform").serialize();
+        
         return $.ajax({
             url:"/analysis/calldb/",
             type:"post",
@@ -31,32 +32,32 @@
             document.querySelector("#showData4").textContent =data.smallBusiType;
             //대분류 업종(고유 코드 필요X, 사용자 확인용)
             document.querySelector("#showData1").textContent =data.businessType;
-			if (data.result1 == 0){
+			if (data.result1 + data.result2 + data.result3 + data.result4 == 0){
 				document.querySelector("#showData5").textContent = "데이터가 없습니다."
 			} else {
-				document.querySelector("#showData5").textContent = data.result1+' 원'
+				document.querySelector("#showData5").textContent = (data.result1+data.result2+data.result3+data.result4).toLocaleString()+' 원'
           	}
-			if (data.result2 == 0){
-				document.querySelector("#showData6").textContent = "데이터가 없습니다."
-			} else {
-				document.querySelector("#showData6").textContent = data.result2+' 원'
-          	}
-			if (data.result3 == 0){
-				document.querySelector("#showData7").textContent = "데이터가 없습니다."
-			} else {
-				document.querySelector("#showData7").textContent = data.result3+' 원'
-          	}
-			if (data.result4 == 0){
-				document.querySelector("#showData8").textContent = "데이터가 없습니다."
-			} else {
-				document.querySelector("#showData8").textContent = data.result4+' 원'
-          	}
-			}
-        })
-      }
+			Highcharts.setOptions({
 
+				lang: {
+					thousandsSep: ','
+				}
+			});
+			Highcharts.chart('container', {
+				  chart: {type: 'column'},
+				  title: {align: 'center',text: '분기별 예상 매출액'},
+				  accessibility: {announceNewData: {enabled: true}},
+				  xAxis: {type: 'category'},
+				  yAxis: {title: {text: ''}},
+				  legend: {enabled: false},
+				  plotOptions: {series: {borderWidth: 0,dataLabels: {enabled: true,format: '{point.y:,.0f}원'}}},
+				  tooltip: {headerFormat: '<span style="font-size:11px"></span><br>',pointFormat:'<span style="color:{point.color}">{point.name}</span>: {point.y}원<br/>'},
+				  series: [{colorByPoint: true,data:
+					   [{name: "1분기",y: data.result1,},
+				        {name: "2분기",y: data.result2,},
+				        {name: "3분기",y: data.result3,},
+				        {name: "4분기",y: data.result4,}]}]});}})}
       
-
       function selectBusi(){
         var bigBusi = document.querySelector("#selectBusiType")
         var smallBusi = document.querySelector("#smallCategory")
@@ -93,6 +94,14 @@
       
        
     </script>
+    
+<!-- 차트 로딩을 위한 코드 -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 </head>
 <body>
@@ -243,10 +252,14 @@
 			<dt></dt>
 			<dd>
 				<ul class="pred_list">
-					<li class="summary">1분기 예상 매출액은 <strong id="showData5"></strong></li>
-		            <li class="summary">2분기 예상 매출액은 <strong id="showData6"></strong></li>
-		            <li class="summary">3분기 예상 매출액은 <strong id="showData7"></strong></li>
-		            <li class="summary">4분기 예상 매출액은 <strong id="showData8"></strong></li>
+					<li class="summary">연간 예상 매출액 <strong id="showData5"></strong></li><br />
+					<li>
+						<figure class="highcharts-figure">
+						  <div id="container">
+						  
+						  </div>
+						</figure>
+					</li>
 					<li class="detail"></li>
 				</ul>
 			</dd>
