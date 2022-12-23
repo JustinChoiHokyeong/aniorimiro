@@ -9,7 +9,7 @@
     <title>map</title>  
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}?v={% now 'u' %}"><!-- 캐시 방지 -->
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script>
       //ajax
       function ajaxSend(){
@@ -37,6 +37,7 @@
 			} else {
 				document.querySelector("#showData5").textContent = (data.result1+data.result2+data.result3+data.result4).toLocaleString()+' 원'
           	}
+			// 예측 모델 차트 시각화
 			Highcharts.setOptions({
 
 				lang: {
@@ -56,8 +57,347 @@
 					   [{name: "1분기",y: data.result1,},
 				        {name: "2분기",y: data.result2,},
 				        {name: "3분기",y: data.result3,},
-				        {name: "4분기",y: data.result4,}]}]});}})}
-      
+				        {name: "4분기",y: data.result4,}]}]});
+			// 점포수 차트
+			var context = document.getElementById('myChart').getContext('2d');
+	        var myChart = new Chart(context, {
+	            type: 'bar', // 차트의 형태
+	            data: {
+	                datasets: [
+	                    { //데이터
+	                    	label:'1분기',
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.jum_2021_1[0]
+	                        	],
+	                        backgroundColor: [
+	                            //색상
+	                            'rgba(255, 99, 132, 0.2)'
+	                        ],
+	                        borderColor: [
+	                            //경계선 색상
+	                            'rgba(255, 99, 132, 1)'
+	                        ],
+	                        borderWidth: 1 //경계선 굵기
+	                    },{ //데이터
+	                    	label:'2분기',
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.jum_2021_2[0]
+	                        	],
+	                        backgroundColor: [
+	                            //색상
+	                            
+	                            'rgba(54, 162, 235, 0.2)'
+	                        ],
+	                        borderColor: [
+	                            //경계선 색상
+	                            
+	                            'rgba(54, 162, 235, 1)'
+	                        ],
+	                        borderWidth: 1 //경계선 굵기
+	                    },{ //데이터
+	                    	label:'3분기',
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.jum_2021_3[0]
+	                        	],
+	                        backgroundColor: [
+	                            //색상
+	                            
+	                            'rgba(255, 206, 86, 0.2)'
+	                        ],
+	                        borderColor: [
+	                            //경계선 색상
+	                            
+	                            'rgba(255, 206, 86, 1)'
+	                        ],
+	                        borderWidth: 1 //경계선 굵기
+	                    },{ //데이터
+	                    	label:'4분기',
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.jum_2021_4[0]
+	                        	],
+	                        backgroundColor: [
+	                            //색상
+	                            
+	                            'rgba(75, 192, 192, 0.2)'
+	                        ],
+	                        borderColor: [
+	                            //경계선 색상
+	                            
+	                            'rgba(75, 192, 192, 1)'
+	                        ],
+	                        borderWidth: 1 //경계선 굵기
+	                    }
+	                ]
+	            },
+	            options: {
+	            	responsive: false,
+	            	plugins: {legend: {display:false,position: 'top'}},
+	                scales: {
+	                    yAxes: [
+	                        {
+	                            ticks: {
+	                                beginAtZero: true
+	                            }
+	                        }
+	                    ]
+	                },
+	                
+	            }
+	        });
+	     	// 남녀 매출비율 차트
+			var context1_1 = document.getElementById('myChart1_1').getContext('2d');
+	        var myChart1_1 = new Chart(context1_1, {
+	            type: 'doughnut', // 차트의 형태
+	            data: { // 차트에 들어갈 데이터
+	                labels: [
+	                    //x 축
+	                    '남자','여자'
+	                ],
+	                datasets: [
+	                    { //데이터
+	                        label: 'test1', //차트 제목
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.gen_2021_1[0],data.gen_2021_1[1]
+	                        	],
+	                        backgroundColor: [
+	                            //색상
+	                            'rgba(54, 162, 235, 0.2)',
+	                            'rgba(255, 99, 132, 0.2)'
+	                            
+	                        ],
+	                        borderColor: [
+	                            //경계선 색상
+	                            'rgba(54, 162, 235, 1)',
+	                        	'rgba(255, 99, 132, 1)'
+	                        ],
+	                        borderWidth: 2 //경계선 굵기
+	                    }
+	                  
+	                ]
+	            },
+	            options: {
+	            	responsive: false
+	            }
+	        });
+	        var context1_2 = document.getElementById('myChart1_2').getContext('2d');
+	        var myChart1_2 = new Chart(context1_2, {
+	            type: 'doughnut', // 차트의 형태
+	            data: { // 차트에 들어갈 데이터
+	                labels: [
+	                    //x 축
+	                    '남자','여자'
+	                ],
+	                datasets: [
+	                    { //데이터
+	                        label: 'test1', //차트 제목
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.gen_2021_2[0],data.gen_2021_2[1]
+	                        	],
+	                        backgroundColor: [
+	                            //색상
+	                        	'rgba(54, 162, 235, 0.2)',
+	                            'rgba(255, 99, 132, 0.2)'
+	                        ],
+	                        borderColor: [
+	                            //경계선 색상
+	                        	'rgba(54, 162, 235, 1)',
+	                        	'rgba(255, 99, 132, 1)'
+	                        ],
+	                        borderWidth: 2 //경계선 굵기
+	                    }
+	                ]
+	            },
+	            options: {
+	            	responsive: false
+	            }
+	        });
+	        var context1_3 = document.getElementById('myChart1_3').getContext('2d');
+	        var myChart1_3 = new Chart(context1_3, {
+	            type: 'doughnut', // 차트의 형태
+	            data: { // 차트에 들어갈 데이터
+	                labels: [
+	                    //x 축
+	                    '남자','여자'
+	                ],
+	                datasets: [
+	                    { //데이터
+	                        label: 'test1', //차트 제목
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.gen_2021_3[0],data.gen_2021_3[1]
+	                        	],
+	                        backgroundColor: [
+	                            //색상
+	                        	'rgba(54, 162, 235, 0.2)',
+	                            'rgba(255, 99, 132, 0.2)'
+	                        ],
+	                        borderColor: [
+	                            //경계선 색상
+	                        	'rgba(54, 162, 235, 1)',
+	                        	'rgba(255, 99, 132, 1)'
+	                        ],
+	                        borderWidth: 2 //경계선 굵기
+	                    }
+	                ]
+	            },
+	            options: {
+	            	responsive: false
+	            }
+	        });
+	        var context1_4 = document.getElementById('myChart1_4').getContext('2d');
+	        var myChart1_4 = new Chart(context1_4, {
+	            type: 'doughnut', // 차트의 형태
+	            data: { // 차트에 들어갈 데이터
+	                labels: [
+	                    //x 축
+	                    '남자','여자'
+	                ],
+	                datasets: [
+	                    { //데이터
+	                        label: 'test1', //차트 제목
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.gen_2021_4[0],data.gen_2021_4[1]
+	                        	],
+	                        backgroundColor: [
+	                            //색상
+	                        	'rgba(54, 162, 235, 0.2)',
+	                            'rgba(255, 99, 132, 0.2)'
+	                        ],
+	                        borderColor: [
+	                            //경계선 색상
+	                        	'rgba(54, 162, 235, 1)',
+	                        	'rgba(255, 99, 132, 1)'
+	                        ],
+	                        borderWidth: 2 //경계선 굵기
+	                    }
+	                ]
+	            },
+	            options: {
+	            	responsive: false
+	            }
+	        });
+	     	// 시간대별 매출비율
+			var context2_1 = document.getElementById('myChart2_1').getContext('2d');
+	        var myChart2_1 = new Chart(context2_1, {
+	            type: 'bar', // 차트의 형태
+	            data: { // 차트에 들어갈 데이터
+	                labels: ['2021년 1분기','2021년 2분기','2021년 3분기','2021년 4분기'],
+	                datasets: [
+	                    { //데이터
+	                    	label:['0시~6시'],
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.time_2021_1[0],data.time_2021_2[0],,data.time_2021_3[0],,data.time_2021_4[0]
+	                        	]},
+	                    { //데이터
+	                    	label:['6시~11시'],
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.time_2021_1[1],data.time_2021_2[1],data.time_2021_3[1],data.time_2021_4[1]
+	                        	]},
+	                    { //데이터
+	                    	label:['11시~14시'],
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.time_2021_1[2],data.time_2021_2[2],data.time_2021_3[2],data.time_2021_4[2]
+	                        	]},
+	                    { //데이터
+	                    	label:['14시~17시'],
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.time_2021_1[3],data.time_2021_2[3],data.time_2021_3[3],data.time_2021_4[3]
+	                        	]},
+	                    { //데이터
+	                        label:['17시~21시'],
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.time_2021_1[4],data.time_2021_2[4],data.time_2021_3[4],data.time_2021_4[4]
+	                        	],
+	                        backgroundColor: [
+	                               //색상
+	                               'rgba(153, 102, 255, 0.2)'
+	                           ],
+                            borderColor: [
+	                               //경계선 색상
+	                               'rgba(153, 102, 255, 1)'
+                           ]},
+	                        
+	                    { //데이터
+	                    	label:['21시~24시'],
+	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
+	                        data: [
+	                        	//x축 label에 대응되는 데이터 값
+	                        	data.time_2021_1[5],data.time_2021_2[5],data.time_2021_3[5],data.time_2021_4[5]
+	                        	],
+                        	backgroundColor: [
+	                                //색상
+	                                'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+	                                //경계선 색상
+	                                'rgba(255, 159, 64, 1)'
+                            ],
+	                        	
+	                    }
+	                ]/*,
+	                backgroundColor: [
+                        //색상
+                    	'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        //경계선 색상
+                    	'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1 //경계선 굵기
+	            */},
+	            options: {
+	            	responsive: false,
+	                scales: {
+	                    yAxes: [
+	                        {
+	                            ticks: {
+	                                beginAtZero: true
+	                            }
+	                        }
+	                    ]
+	                }
+	            }
+	        });
+	       
+	        
+            }})}
+      		
+      		
       function selectBusi(){
         var bigBusi = document.querySelector("#selectBusiType")
         var smallBusi = document.querySelector("#smallCategory")
@@ -275,36 +615,24 @@
 			</dd>
 		</dl>
 		<dl>	
-			<dt>업종별 점포수</dt>
+			<dt>점포수</dt>
 			<dd>
-				<ul class="analysis_list">
-					<li class="summary"></li>
-					<li class="detail">
-					
-					</li>
-				</ul>
+				<canvas id="myChart" width ='400' height='200'></canvas>
 			</dd>
 		</dl>
 		<dl>
-			<dt>상권별 남녀 매출</dt>
+			<dt>남녀 매출비율</dt>
 			<dd>
-				<ul class="analysis_list">
-					<li class="summary"></li>
-					<li class="detail">
-					
-					</li>
-				</ul>
+				<canvas id="myChart1_1" width ='140' height='300' style='display:inline;'></canvas>
+				<canvas id="myChart1_2" width ='140' height='300' style='display:inline;'></canvas>
+				<canvas id="myChart1_3" width ='140' height='300' style='display:inline;'></canvas>
+				<canvas id="myChart1_4" width ='140' height='300' style='display:inline;'></canvas>
 			</dd>
 		</dl>
 		<dl>
-			<dt>시간대별 매출</dt>
+			<dt>시간대별 매출비율</dt>
 			<dd>
-				<ul class="analysis_list">
-					<li class="summary"></li>
-					<li class="detail">
-					
-					</li>
-				</ul>
+				<canvas id="myChart2_1" width ='600' height='400' style='display:inline;'></canvas>
 			</dd>
 		</dl>
 		</div>

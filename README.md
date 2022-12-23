@@ -3,17 +3,18 @@
 * 총 개발기간 : 2022/11/26 ~ 2022/12/26 (4주) 
 
 ## 목차
+* [시연 동영상](#시연-동영상)
 * [회의록](#회의록)
 * [프로젝트 문서](#프로젝트-문서) 
 * [사용 데이터](#사용-데이터)
 * [프로젝트 개요](#프로젝트-개요)
 * [데이터 분석 과정](#데이터-분석-과정)
 * [웹 개발 과정](#웹-개발-과정)
-* [사용 방법(동작법)](#사용-방법동작법)
 * [미래 개선 방안](#미래-개선-방안)
 * [Skills](#skills)
 * [참조 사이트](#참조-사이트)
- 
+
+## 시연 동영상
 
 ## 회의록
 1. [팀장 회의 - 팀 선정 및 프로젝트 설명](https://justdojustin.tistory.com/50)
@@ -30,7 +31,8 @@
 * [기능정의서](https://docs.google.com/spreadsheets/d/167e_ifRUj6Zdcu5U6ka96ypv0CCr_WbWnllNXcaQBX0/edit#gid=0)
 * [화면정의서](https://docs.google.com/presentation/d/1YypgBo2MCVdZVHRleeFGBvraXvuPCPOf4g5z-fwrZg0/edit#slide=id.p)
 * [WBS(Work Breakdown Structure)](https://docs.google.com/spreadsheets/d/1DsW8wfOfBu1VqastvK6YuBT5czBZfACZJwIsM4Kl9CA/edit#gid=0)
-* [발표 PPT (K-Digital Training 양식)](https://docs.google.com/presentation/d/1JeNPFPwV64P2TyMtRyJBHAofCZ2TNr_g/edit?usp=sharing&ouid=112815532964849845221&rtpof=true&sd=true)
+* [Figma 사이트맵](https://www.figma.com/file/Alkps3dZyeL7UepkwGyzKG/b4a?node-id=79%3A15)
+* 발표 PPT (K-Digital Training 양식)
 
 ## 사용 데이터
 1. [서울시_우리마을가게_상권분석서비스(신_상권_추정매출)_2019년.csv](https://data.seoul.go.kr/dataList/OA-15572/S/1/datasetView.do)
@@ -44,15 +46,44 @@
 ## 프로젝트 개요
 #### 1. 프로젝트명 : aniorimiro (아니오리미로)
 #### 2. 주제 : 용산구 상권분석 및 매출예측 서비스
-#### 3. 목적 및 배경 : 
---------프로젝트 제작 배경 및 이유 보완해서 적기 ----------
-> 의사결정에 도움을 줄 수 있는 다양한 상권분석 정보를 제공하여, 상권활성화 및 예비창업을 지원하기 위함
-
+#### 3. 배경
+> ‘우리마을가게 상권분석서비스’에 따르면 2022년 2분기 기준 ‘뜨는 동네’ 카테고리에서 이태원상권이 1분기 대비 점포 수, 매출의 증가율이 1위를 하였으며 유동 인구 증가율 또한 4위로 상위권을 차지했다. 이렇듯 이태원을 비롯한 용산구는 주목을 받고 있으며 대통령 집무실 이전으로 인해 관심은 더욱 집중될 것으로 보인다. 그렇지만 ‘뜨는 상권’에서의 용산구는 하위권을 보이고 있다. 
+>> 서울시가 제공하는 데이터를 활용하여 용산구의 상권 현황 분석을 실시하고자 한다. 단편적인 정보에 그치지 않고 추가적인 분석을 통해 용산구의 상권 활성화를 위한 인사이트 제시하고자 한다. 또한 용산구의 각 상권의 매출을 포함하여 점포 수, 이용객들의 지표를 살펴보고 매출 예측을 위한 통계학적 모형을 구축하여 예비창업자의 업종선택 및 위치 선정에 도움을 주고, 본 자료를 토대로 용산구의 상권 활성화 방안 모색 탐색에 도움을 주고자 한다.
+#### 4. 목적
+* 용산구 지역의 예비 창업자와 자영업자에게 운영 및 의사결정에 유용한 상권정보 제공을 통해 용산구 상권 활성화 방안 모색 및 정책 수립 및 집행 과정에 활용
+* 탐색적 데이터 분석을 수행하기 위한 데이터 정제, 시각화 방법 학습
 
 ## 데이터 분석 과정
+------------- 데이터 관련 글 참고해서 쓰기 ------------
 ### 1. 데이터 탐색 및 전처리
 * 변수 정의
-* 탐색 시각화 자료
+
+
+#### 1) 데이터 시각화(차트 생성)
+
+```javascript
+// 예측 모델 차트 시각화
+Highcharts.setOptions({
+
+	lang: {
+		thousandsSep: ','
+	}
+});
+Highcharts.chart('container', {
+	  chart: {type: 'column'},
+	  title: {align: 'center',text: '분기별 예상 매출액'},
+	  accessibility: {announceNewData: {enabled: true}},
+	  xAxis: {type: 'category'},
+	  yAxis: {title: {text: ''}},
+	  legend: {enabled: false},
+	  plotOptions: {series: {borderWidth: 0,dataLabels: {enabled: true,format: '{point.y:,.0f}원'}}},
+	  tooltip: {headerFormat: '<span style="font-size:11px"></span><br>',pointFormat:'<span style="color:{point.color}">{point.name}</span>: {point.y}원<br/>'},
+	  series: [{colorByPoint: true,data:
+		   [{name: "1분기",y: data.result1,},
+		{name: "2분기",y: data.result2,},
+		{name: "3분기",y: data.result3,},
+		{name: "4분기",y: data.result4,}]}]});
+```
 
 ### 2. 모델링
 
@@ -86,6 +117,9 @@ DATABASE_OPTIONS = {'charset': 'utf-8'}
 
 #### 2) 로그인, 로그아웃, 회원가입, 마이페이지 기능 구현
 > Django auth에 내장된 views, forms, models 기능를 사용하여 간단한 계정 관련 기능을 구현하였음.
+
+<img width="418" alt="Screen Shot 2022-12-23 at 5 19 33 PM" src="https://user-images.githubusercontent.com/108642193/209299656-27e222c1-7440-4c88-bc54-8cbc0de6a1db.png">
+
 ``` python
 #accounts/urls.py
 from django.urls import path
@@ -101,6 +135,9 @@ urlpatterns = [
     path('', views.index, name='index'), 
 ]
 ```
+<img width="722" alt="Screen Shot 2022-12-23 at 5 20 56 PM" src="https://user-images.githubusercontent.com/108642193/209299852-c36243af-b817-4871-9ccf-5b69b3b3c71d.png">
+
+
 > auth.models의 User 테이블과 자체 field을 활용하고, forms.py를 만든 후 마찬가지로 장고의 auth forms에 있는 폼을 사용하여 회원가입, 마이페이지, 사용자 정보 수정 기능을 구현함.
 ``` python
 #accounts/forms.py
@@ -197,7 +234,7 @@ let jsonLoca_jt = '/static/data/jt.json';
 
 
 #### 3) toggle 버튼을 통해 4개 유형 중에 1개씩만 출력
-<img width="366" alt="Screen Shot 2022-12-22 at 8 41 19 PM" src="https://user-images.githubusercontent.com/108642193/209126986-19d8da5e-a9f7-4171-8b9e-e5eef3dfb005.png">
+<img width="362" alt="Screen Shot 2022-12-23 at 4 40 53 PM" src="https://user-images.githubusercontent.com/108642193/209293780-f49def5b-6e75-43dc-bd60-5359a7d614a5.png">
 
 > setComArea 함수를 만들어 클릭할 때 해당 id를 가진 요소 버튼의 클래스를 변경하여 클릭된 형태의 css가 적용되게 했다. 그리고 클릭 시 서로 다른 매개변수가 함수에 전달되게 했다.
 
@@ -277,7 +314,7 @@ kakao.maps.event.addListener(polygon, 'mouseover', function(mouseEvent) {
 ```
 
 #### 5) 상권영역 클릭 시 인포윈도우 출력하여 상권명, 영역 넓이 확인 가능 + 클릭 위치를 중심 좌표로 포커싱
-<img width="279" alt="Screen Shot 2022-12-22 at 8 22 21 PM" src="https://user-images.githubusercontent.com/108642193/209123892-5650e7c0-5fb3-4d4c-8d61-790d195cb2b4.png">
+<img width="307" alt="Screen Shot 2022-12-23 at 4 42 32 PM" src="https://user-images.githubusercontent.com/108642193/209294047-ccbb35cd-0381-4184-ae3b-520907818910.png">
 
 ```javascript 
 // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다 
@@ -319,9 +356,10 @@ $(document).ready(function(){
   }) 
 ```
 
-<img width="545" alt="Screen Shot 2022-12-23 at 9 53 55 AM" src="https://user-images.githubusercontent.com/108642193/209249715-8e8b5811-051d-4713-8450-336f56d4bbae.png">
+<img width="518" alt="Screen Shot 2022-12-23 at 4 51 18 PM" src="https://user-images.githubusercontent.com/108642193/209295502-84922297-fb8f-4355-87ec-f19dae760a52.png">
 
-<img width="353" alt="Screen Shot 2022-12-23 at 9 54 56 AM" src="https://user-images.githubusercontent.com/108642193/209249784-5b84a014-1f3a-4315-bb7f-038a2a6b9874.png">
+
+<img width="367" alt="Screen Shot 2022-12-23 at 4 45 15 PM" src="https://user-images.githubusercontent.com/108642193/209294497-e49ceaa5-9d10-474a-8ee3-e08488b0e849.png">
 
 > 대분류 업종을 선택하면 서로 다르게 해당되는 소분류 업종 리스트가 출력되도록 구성함.
 
@@ -362,7 +400,7 @@ function selectBusi(){
 
 ```
 
-<img width="357" alt="Screen Shot 2022-12-23 at 9 58 33 AM" src="https://user-images.githubusercontent.com/108642193/209250236-2928bacf-e3f8-4de4-a5ac-9f3d9c58f1f6.png">
+<img width="362" alt="Screen Shot 2022-12-23 at 4 46 15 PM" src="https://user-images.githubusercontent.com/108642193/209294680-b378e8cd-4473-46cd-8eb7-071bfb4d4ef2.png">
 
 > form 안에 input의 value로 views.py 로 넘겨줄 값들이 담긴 것을 확인할 수 있음.
 
@@ -398,7 +436,7 @@ function selectBusi(){
 
 ### 3. JQuery Ajax 데이터 전달
 
-<img width="368" alt="Screen Shot 2022-12-23 at 10 44 50 AM" src="https://user-images.githubusercontent.com/108642193/209254366-8c0084f7-f2c1-40f6-84f5-fdbc4ef33fad.png">
+<img width="348" alt="Screen Shot 2022-12-23 at 4 47 06 PM" src="https://user-images.githubusercontent.com/108642193/209294819-f7eadfaa-abdd-4796-97fc-3c208e39aaaf.png">
 
 > input 태그에 value를 담은 뒤 '분석하기' 클릭하면, 제이쿼리의 ajax 기능을 통해서 views.py로 데이터를 넘겨줌.
 
@@ -455,7 +493,8 @@ def calldbFunc(request):
     return JsonResponse(context)
 ```
 
-<img width="458" alt="Screen Shot 2022-12-23 at 10 55 15 AM" src="https://user-images.githubusercontent.com/108642193/209255429-873c6753-8f9a-4886-b341-75e38ed74caa.png">
+<img width="511" alt="Screen Shot 2022-12-23 at 4 49 19 PM" src="https://user-images.githubusercontent.com/108642193/209295160-db113395-497a-4854-a5cf-f131ce1bbcee.png">
+
 
 
 
@@ -516,15 +555,16 @@ html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;}
 ## 미래 개선 방안
 
 ### 1. 데이터 분석
-
+------------- 데이터 관련 글 참고해서 쓰기 ------------
 
 ### 2. 웹 개발
 #### 1) 마이페이지 스크랩 저장 기능
 > 출력된 분석 결과 보고서를 이미지로 DB에 저장하고 마이페이지에서 게시판 형태로 조회 및 관리가 가능하도록 구성한다. 그러면 로그인 기능과 조합하여 활용할 수 있을 것으로 기대한다.
 #### 2) 인포윈도우 -> 커스텀 오버레이로 수정
 > 카카오 지도 API에서 제공하는 윈포윈도우 기능은 사용자에 의해 수정이 불가하다. 따라서 커스텀 오버레이로 대체시키면 다양한 형태로 재구성시켜서 더 많은 정보를 담을 수 있고 동시에 사용자 경험도 높일 수 있을 것으로 기대한다.
-#### 3) AWS 클라우드 서버 출력
-> 현재는 로컬에서 장고 서버를 통해 웹 사이트를 출력하고 있다. 
+#### [3) AWS 클라우드 서버 출력](https://justdojustin.tistory.com/58)
+> AWS EC2 를 활용하여 원격 IP로 언제 어느 컴퓨터에서도 웹 사이트에 접속가능하도록 시도했던 경험이 있다. ssh 명령어를 통해 클라우드 서버에 있는 아파치를 통해서 우븐투 리눅스 환경에 접속하였고, 제작 중이었던 장고 프로젝트를 실행시켜 보았다. 하지만 가용한 리소스가 충분하지 않아서 페이지 로딩이 너무 느려지는 이슈를 만나게 되었다. 따라서 현재는 로컬에서 장고 서버를 통해 웹 사이트를 출력하고 있으며, 프로젝트 완성 후 다시 클라우드 서버를 통한 출력을 시도해볼 계획이다.
+
 
 
 
@@ -533,7 +573,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;}
 ## Skills
 * **OS** : Windows, MacOS
 * **Language** : Python, HTML5, CSS3, JavaScript(ES6)
-* **Framework/Library** : Django, jQurey, Pandas, SciPy, -------데이터에서 사용한 라이브러리 추가하기--------
+* **Framework/Library** : Django, Numpy, Pandas, SciPy, Statsmodels, Highcharts, Chart.js, jQurey
 * **Database** : MariaDB
 * **IDE** : Eclipse, VS Code
 * **Collaboration** : GitHub, Slack, Discord, Google Sheets, Figma
