@@ -1,8 +1,11 @@
-/**기본 베이스*/
-* {
-    margin: 0;
-    padding: 0;
-}
+
+/*-- 글꼴 추가--*/
+/*
+@font-face{font-family:'NotoSansKR-Regular'; src: url('/static/font/NotoSansKR-Regular.otf') format('opentype');}
+* {font-family:'NotoSansKR-Regular';font-size:16px;}*/
+@font-face {font-family: 'Pretendard-Regular';src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');font-weight: 500;font-style: normal;}
+* {font-family:'Pretendard-Regular';font-size:16px;}
+
 
 body{
     width: 100%;
@@ -305,19 +308,20 @@ a {
 /* -- 밑줄 애니메이션 효과 -- */
 /*--- 가운데서 좌우로 펼쳐지는 라인 에니메이션 ---*/
 .rightReport > dl > dd > div > strong.spread-underline {color: #202772;text-decoration: none;display: inline-block;padding: 5px 0;position: relative;}
-.rightReport > dl > dd > div > strong.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #2c3481db;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
+.rightReport > dl > dd > div > strong.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #ffcc33;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
 .rightReport > dl > dd > div > strong.spread-underline:hover:after {width: 100%;left: 0;}
 /*--- 가운데서 오른쪽으로 펼쳐지는 라인 에니메이션 ---*/
 .rightReport > div.rightReport_info > span.spread-underline {color: #202772;text-decoration: none;display: inline-block;padding: 5px 0;position: relative;}
-.rightReport > div.rightReport_info > span.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #0676dd;;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
+.rightReport > div.rightReport_info > span.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #ffcc33;;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
 .rightReport > div.rightReport_info > span.spread-underline:hover:after {width: 71px;left: 0;}
 /* -- 밑줄 애니메이션 효과 끝 -- */
 
 /*---- 스크롤바 커스텀 ----*/
-.rightReport .rightReport_info {overflow-y: scroll; height: 555px; width: 100%;}
+.rightReport .rightReport_info {overflow-y: scroll; height: 488px; width: 100%;}
 .rightReport .rightReport_info::-webkit-scrollbar {width: 7px;} /* 스크롤바의 너비 */
 .rightReport .rightReport_info::-webkit-scrollbar-thumb {height: 30%;background: #ffcc33;border-radius: 10px;} /* 스크롤바의 길이, 스크롤바의 색상 */
 .rightReport .rightReport_info::-webkit-scrollbar-track {background: rgba(255, 235, 132, .1);} /*스크롤바 뒷 배경 색상*/
+
 
 /* 본문 */
 
@@ -338,9 +342,12 @@ a {
     font-size: 12px;
     padding: 5px;
 }
-.info.title {
-    font-weight: bold;
-}
+.info > p {font-size:12px;}
+.info > .size > sup {font-size:12px;}
+.info> .title {font-weight: bold;font-size:14px;}
+.info > button {font-size: 13px;padding: 4px 2px;margin-top: 1px; cursor: pointer;background:linear-gradient(#e8e8e8,  #fff);border-radius: 5px;border: 2px groove;}
+.info > button:hover {background:#f5f5f5;background:linear-gradient(#fff7dc,#ffd442);border-color:#E9AA13; color:#262521;}
+.info > button:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);border-color:#F9AB00; color:#591035;}
 
 
 /* 2. global */
@@ -358,54 +365,63 @@ ol, ul, li {
 
 /* 3. 상권 분석, 매출 예측 */
 
-html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} 
+html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} /*margin:0;padding:0;overflow: auto;*/
 
 /* 3-1. 상권 분석 map */
-.areacontrol {font-size:12px;position:fixed;top:58px;left:10px;height:30px;margin:0;padding:0;z-index:1;font-family:'Malgun Gothic', '맑은 고딕', 'sans-serif';}
+.areacontrol {font-size:12px;position:fixed;top:90px;left:10px;height:30px;margin:0;padding:0;z-index:1;}
 .areacontrol .radius_border{border:1px solid #919191;border-radius:5px;}
-.areacontrol span {display:block;width:84px;height:50px;float:left;text-align:center;line-height:50px;cursor:pointer;border: 2px ridge;}
+.areacontrol span {display:block;width:88.5px;height:50px;float:left;text-align:center;line-height:50px;cursor:pointer;border: 2px;}
 
 
-.areacontrol .btn {padding:0;font-size:15px;line-height:50px;background:linear-gradient(#e8e8e8,  #fff);border-radius: 10px;}
-.areacontrol .btn:hover {background:#f5f5f5;background:linear-gradient(#f5f5f5,#e3e3e3);border-color:#E9AA13; color:#E9AA13;}
+
+.areacontrol .btn {padding:0;font-size:18px;line-height:50px;background:linear-gradient(#e8e8e8,  #fff);border-radius: 10px;}
+.areacontrol .btn:hover {background:#f5f5f5;background:linear-gradient(#fff7dc,#ffd442);border-color:#E9AA13; color:#262521;}
 .areacontrol .btn:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);border-color:#F9AB00; color:#591035;}
-.areacontrol .selected_btn {color:#591035;background:linear-gradient(#fff7dc, #ffd442);font-size: 15px;border-radius: 10px;}/*background:linear-gradient(#425470, #5b6d8a);*/
+.areacontrol .selected_btn {color:#591035;background:linear-gradient(#fff7dc, #ffd442);font-size: 18px;border-radius: 10px;}/*background:linear-gradient(#425470, #5b6d8a);*/
 .areacontrol .selected_btn:hover {color:#591035;}
 
 /* 3-1-1. 좌측 상단 카테고리 선택 (상권 & 업종) */
-.leftCategory {position:absolute;top:115px;left:10px;width:315px; height:400px;margin:0;padding:0 20px; z-index:1;background-color:#fff;border-radius: 10px;}
-.leftCategory > h3 {font-size:24px;text-align: left;color: #0676DD; padding:15px 0;}
+
+.leftCategory {position:fixed;top:142px;left:10px;width:315px; height:415px;margin:0;padding:0 20px; z-index:1;background-color:#fff;border-radius: 10px;}
+.leftCategory > p  {font-size:14px;background-color: #f9f9f9;padding: 5px 5px;border-radius: 5px;}
+.leftCategory > h3 {font-size:24px;text-align: center;color: #5b6976; padding-top:17px;padding-bottom:13px;margin:0px;}
 .leftCategory > hr {border-right-width: 0px;border-top-width: 0px;border-bottom-width: 2px;border-left-width: 0px;margin-bottom: 10px;}
-.leftCategory > form > ul > select{appearance:none;border-radius: 5px; width: 100% !important; height:36px;padding: 0 40px 0 20px; padding-top:2px; margin-top:5px; border: 1px solid #999;font-size: 14px;line-height: 34px; background:url(/static/pictures/arrow_bottom.svg) no-repeat right 20px center/10px auto #fff;}
+.leftCategory > form > ul > select{appearance:none;border-radius: 5px; width: 100% !important; height:36px;padding: 0 40px 0 20px; margin-top:5px; border: 1px solid #999;font-size: 16px;line-height: 34px; background:url(/static/pictures/arrow_bottom.svg) no-repeat right 20px center/10px auto #fff;}
 .leftCategory > form > input{height: 20px; padding: 5px 0;margin-top: 10px;margin-bottom:10px;padding-left: 10px;width: 205px;}
-.leftCategory > form > button{padding: 10px 50px;margin-top: 15px;margin-left: 70px;border: 2px ridge;background:linear-gradient(#e8e8e8,  #fff);border-radius: 10px;}
-.leftCategory > form > button:hover {background:#f5f5f5;background:linear-gradient(#f5f5f5,#e3e3e3);border-color:rgb(11, 103, 217); color:#0676dd;}
-.leftCategory > form > button:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);border-color:#0B7FD3; color:#0676dd;}
+.leftCategory > form > button{padding: 10px 50px;margin-top: 7px;margin-left: 70px;border: 2px outset;background:linear-gradient(#e8e8e8,  #fff);border-radius: 10px;font-size:16px;}
+.leftCategory > form > button:hover {background:#f5f5f5;background:linear-gradient(#fff7dc,#ffd442);border-color:#E9AA13; color:#262521;}
+.leftCategory > form > button:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);border-color:#F9AB00; color:#591035;}
 .leftCategory > form > hr {border-right-width: 0px;border-top-width: 0px;border-bottom-width: 2px;border-left-width: 0px;margin-bottom: 10px;}
+.leftCategory > form > label {font-size:14px;}
+.leftCategory > form > label > span {font-size: 18px;-webkit-text-stroke: thin;}
+
+
 
 /* 3-2. aside RightReport */
-.rightReport {display:none; position:fixed;top:10px;right:0px;height:710px;width:40% ;margin:0;padding:0;z-index:1;background-color:#fff;}
+.rightReport {display:none; position:fixed;top:72px;right:0px;height:660px;width:40% ;margin:0;padding:0;z-index:1;background-color:#fff;}
 .rightReport > dl {margin:0;}
 .rightReport > dl > hr {margin-left: 22px;margin-right: 22px;border-bottom-width: 2px;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;}
-.rightReport > dl > .sang1 {display:flex; justify-content: space-around; padding-top: 0px; margin-inline-start: 0px;height: 45px;}
+.rightReport > dl > .sang1 {display:flex; justify-content: space-around; padding-top: 0px; margin-inline-start: 0px;height: 40px;}
 .rightReport > dl > .sang1 > hr {border-right-width: 0px;border-top-width: 0px;border-bottom-width: 0px;border-left-width: 0px;}
 .rightReport > dl > .sang1 > div {margin-left: 10px; margin-right: 10px;}
 .rightReport > dl > .sang1 > div > strong {font-size:15px; margin-right: 30px;margin-left: 30px;}
 .rightReport > dl > .sang1 > div > strong > a {display: block; margin-top: 8px; text-decoration: none;color: #202772;}
 
 .rightReport > dl > dt {padding:15px; background-color:#ffcc33; color:white;}
-.rightReport > dl > dt > strong {font-size:larger; margin-right:15px; margin-left:10px}
+.rightReport > dl > dt > strong {font-size:larger; margin-right:15px; margin-left:10px; font-size:22px;}
 .rightReport > dl > dt > span {font-size:small;}
 
 .rightReport > dl > .sang2 {padding-top: 0;}
 .rightReport > dl > .sang2 > div {box-shadow: inset 0px -1px 2px 0px #f1f1f1;}
 .rightReport > dl > .sang2 > div > dl {display:inline-block; margin-bottom: 15px;margin-top: 15px; font-size:14px;}
-.rightReport > dl > .sang2 > div > dl > dt {display:inline; margin-inline-start: 5px;}
+.rightReport > dl > .sang2 > div > dl > dt {display:inline; margin-inline-start: 5px; font-size:14px;}
 .rightReport > dl > .sang2 > div > dl > dd {display:inline; margin-inline-start: 7px;} 
-.rightReport > dl > .sang2 > div > dl > dt > strong {color:#393d41;font-size:16px;}
+.rightReport > dl > .sang2 > div > dl > strong > dd {color:#393d41;font-size:16px;padding-left: 5px;}
 
 
 /* 3-2-1 RightReport_Info */
+.rightReport .rightReport_info > div {font-size:14px;background-color: #f9f9f9;padding: 5px 5px;border-radius: 5px;margin: 10px;}
+.rightReport .rightReport_info > div > strong {font-size:14px;-webkit-text-stroke: thin;}
 .rightReport .rightReport_info > #als {display: block;margin-top: 20px;margin-left: 21px;font-weight:bold;}
 .rightReport .rightReport_info > #pred {display: block;margin-top: 20px;margin-left: 21px;margin-top: 35px;font-weight:bold;}
 .rightReport .rightReport_info > dl {padding:0 10px 30px; margin-left:10px; border-bottom:9px solid #f1f1f1;}
@@ -427,13 +443,13 @@ ul.pred_list > li.detail {margin-bottom:24px; padding:20px; font-size:14px; line
 ul.pred_list > li.detail strong {color:#0676dd; font-size:inherit; font-weight:500;}
 
 .map-container{
-  position:relative;
+  position:fixed;
   width:100%;
-  height:550px;
+  height:100%;
   display: flex;
   flex-flow: wrap column;
   justify-content: space-between;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 
@@ -475,7 +491,7 @@ ul.pred_list > li.detail strong {color:#0676dd; font-size:inherit; font-weight:5
   margin: 20px 10px 20px 10px;
 }
 
-.account-box{
+.account-box > input {
   width: 350px; 
   height: 45px; 
   left: 689px; 

@@ -105,9 +105,13 @@
 
 </head>
 <body>
+<div>
+	{% include 'etc/navbar.html' %}
+</div>
 <div class="map-container">
-  {% include 'etc/navbar.html' %}
+  
   <div id="map" style="width:100%;height:100%;"></div>
+
   <div class="areacontrol radius_border">
     <span id="btnGm" class="btn" onclick="setComArea('gm')">골목상권</span>
     <span id="btnGg" class="btn" onclick="setComArea('gg')">관광특구</span>
@@ -118,12 +122,13 @@
   <div class="leftCategory">
     <h3>상권, 업종 선택하기 </h3>
     <hr />
+    <p>※ 원하시는 상권버튼을 클릭 후 업종을 선택하시고 분석하기 버튼을 누르시면 됩니다.</p>
     <form method="post" id="sform">{% csrf_token %}
       <!-- <label for="tradingarea" >대분류 상권:</label> -->
       <input type="hidden" id=area3 value="" name="BigTradingArea"><br/>
-      <label for="tradingarea" >상권 이름:</label><br />
-      <!-- <span id=area1> </span><br/> -->
-      <input type="text" id=area2 value="" name="tradingArea"><br/>
+      <label for="tradingarea" >상권 이름: <span id=area1></span></label>
+      <span id=area1></span><br/>
+      <input type="hidden" id=area2 value="" name="tradingArea"><br/>
       <label for="tradingarea" >대분류 업종:</label>
       <ul>
 	      <select name="businessType" id="selectBusiType" onchange="selectBusi()" class="sele">
@@ -156,11 +161,11 @@
 		<dd class="sang1">
 			
 			<div>
-				<strong class="spread-underline" ><a href="#als" id="showData_b">분석</a></strong>
+				<strong class="spread-underline"><a href="#pred" id="showData_p">예측</a></strong>
 			</div>
 			<hr />
 			<div>
-				<strong class="spread-underline"><a href="#pred" id="showData_p">예측</a></strong>
+				<strong class="spread-underline" ><a href="#als" id="showData_b">분석</a></strong>
 			</div>
 			
 		</dd>
@@ -169,24 +174,25 @@
 	    	<div>
         	    <dl> 
 	    			<dt>대분류 상권</dt>
-	    			<dd id="showData3"></dd>
+	    			<strong><dd id="showData3"></dd></strong>
 	    		</dl>
                 <dl> 
-	    			<dt><strong>소분류 상권</strong></dt>
-	    			<dd id="showData2"></dd>
+	    			<dt>소분류 상권:</dt>
+	    			<strong><dd id="showData2"></dd></strong>
 	    		</dl>
                 <dl>
-	    			<dt><strong>대분류 업종</strong></dt>
-	    			<dd id="showData1"></dd>
+	    			<dt>대분류 업종:</dt>
+	    			<strong><dd id="showData1"></dd></strong>
 	    		</dl>
 	    		<dl>
-	    			<dt><strong>소분류 업종</strong></dt>
-	    			<dd id="showData4"></dd>
+	    			<dt>소분류 업종:</dt>
+	    			<strong><dd id="showData4"></dd></strong>
 	    		</dl>
 	    	</div>
 	    </dd>
 	</dl>
 	<div class="rightReport_info">
+		<div>본 보고서에 제공하는 내용은<strong> 추정정보</strong>이므로<strong> 실제와 다를 수</strong>있기에, <strong>사용자의 책임 하에 활용</strong>하시기 바랍니다.</div>
 		<span id="als" class="spread-underline">상권 분석</span>
 		<dl>
 			<dt>모델에 대한 결과</dt>
@@ -292,7 +298,16 @@
 				<ul class="pred_list">
 					<li class="summary"></li>
 					<li class="detail">
-					
+					"'flsdfsd'f;ls'd;fl'sdlfs'dlf'sdflsdfsdf
+					sdfsdfsdsdfsdfsdsdfsd <br />
+					sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfdf <br />
+					asdfsdfsdfsdfsdfsdfsdfsdfsdfsdf
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<p>sdfsdfsdfsd</p>
 					</li>
 				</ul>
 			</dd>
@@ -300,7 +315,6 @@
 		</div>
   </aside>
 </div>
-{% include 'etc/footer.html' %}
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51806ebafe88ce5dbfc859c1db2a1f13"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
