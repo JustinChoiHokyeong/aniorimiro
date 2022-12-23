@@ -4,6 +4,9 @@
   margin: 0;
   padding: 0;
 }
+a{
+  text-decoration: none;
+}
 
 /*-- 글꼴 추가--*/
 /*
@@ -13,7 +16,8 @@
 * {font-family:'Pretendard-Regular';font-size:16px;}
 
 body.index {
-  display: inline-block;
+  display: flex;
+  flex-flow:column;
 }
 
 body{
@@ -47,11 +51,16 @@ a {
         display: flex;
         flex-flow: column wrap;
         justify-content: space-between;
+        background-image: url("/static/pictures/main.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        margin-top: 50px;
+        padding: 100px 0px 0px 0px ;
     }
-     /**네비바*/
-     .navbar .logo{
-        color: #192E61;
-        flex:none;
+    /**네비바*/
+    .navbar .logo{
+      color: #192E61;
+      flex:none;
     }
     button {
         font-size: 28px;
@@ -165,19 +174,16 @@ a {
     .index-menu-container{
         display: flex;
         flex-flow: column;
-        height:100%; 
-        background-image: url("/static/pictures/main.png");
-        background-size: cover;
-        background-repeat: no-repeat;
-        padding: 100px 0px 0px 0px ;
     }
     .index-menu-box{
         display: flex;
         flex-flow: row;  
         justify-content: space-around;
         align-items: center;
-
-
+    }
+    .i-wrap{
+      display: flex;
+      flex-flow: column wrap;
     }
     .btn-logo{
         margin-bottom: 100px;
@@ -191,23 +197,22 @@ a {
         align-self: center;
     }
     .menu-box{
-        display: flex;
-        flex-flow: wrap column;
-        justify-content: space-evenly;
-        align-items: center;
-        width: 550px;
-        height: 600px;
-        background-color: #f9f9f9;
-        opacity: 0.9;
-        border-radius: 46px;
-    }
-    .menu-box:hover{
+      display: flex;
+      flex-flow: wrap column;
+      justify-content: space-evenly;
+      align-items: center;
+      width: 550px;
+      height: 600px;
+      background-color: #98a7bd00;
+      border-radius: 46px;
+  }
+  .menu-box:hover{
       background-color:#f9f9f9;
       transition-duration: 0.8s;
-    }
-    .btn-img{
-        width:80%;
-    }
+  }
+  .btn-img{
+      width:80%;
+  }
     .btn-s{
       font-size: 28px;
       border: 0;
@@ -215,18 +220,21 @@ a {
       background: transparent;
       cursor: pointer; 
       border: #192E61 solid;
+      background-color: #98A7BD;
+      opacity: 0.9;
       border-radius: 90px;
       width: 70%;
       height: 20%;  
             
-    }
-    .btn-s:hover{
+  }
+  .btn-s:hover{
       background-color:#192E61;
       transition-duration: 0.5s;
       color:#f3f3f3;
-    }
-    /**스크롤 아이콘*/
-    .scroll-downs {
+      opacity: 1;
+  }
+  /**스크롤 아이콘*/
+  .scroll-downs {
       display: flex;
       flex-flow: column;
       justify-content: center;
@@ -262,7 +270,7 @@ a {
     /**what we do*/
     .whatwedo{
         display: flex;
-        flex-flow: column;
+        flex-flow: column wrap;
         justify-content: center;
         padding: 200px 0px 200px 0px;
     }
@@ -271,16 +279,15 @@ a {
         justify-content: center;
         flex-flow: row wrap;
         justify-content: space-evenly;
-        padding-bottom: 150px;
+        padding-bottom: 50px;
     }
     .whatwedo-box{
         width: 500px;
-        margin: 25px 0px 25px 0px;
+        margin: 25px 10px 25px 10px;
         font-family: 'Roboto';
         font-style: normal;
-        font-weight: 300;
+        font-weight: 500;
         font-size: 20px;
-        line-height: 23px;
         vertical-align:auto;
         color:#f9f9f9;
     }
@@ -289,7 +296,7 @@ a {
       display: flex;
       flex-flow: column;
       justify-content: center;
-      padding: 100px 0px 0px 0px;
+      padding: 50px;
       background-image: url("/static/pictures/b.png");
       background-size: cover;
       background-repeat: no-repeat;
@@ -326,7 +333,6 @@ a {
         font-size: 135px;
         font-weight: 900;
         color: #f9f9f9;
-        line-height: 0.5
     }
     .aboutus-box2{
         width: 500px;
@@ -526,7 +532,7 @@ ul.pred_list > li.detail strong {color:#0676dd; font-size:inherit; font-weight:5
 
   /*로그인*/
 .account-page{
-  height: 80vh;
+  height: 100vh;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -545,7 +551,7 @@ ul.pred_list > li.detail strong {color:#0676dd; font-size:inherit; font-weight:5
   border-radius: 5px;
 }
 .login-btn{
-  width: 350px;
+  width: 400px;
   height: 45px;
   left: 689px;
   top: 564px;
@@ -563,7 +569,7 @@ ul.pred_list > li.detail strong {color:#0676dd; font-size:inherit; font-weight:5
 }
 
 .account-box > input {
-  width: 350px; 
+  width: 400px; 
   height: 45px; 
   left: 689px; 
   top: 564px;
@@ -636,3 +642,18 @@ hr{
 }
 
 
+@media (max-width: 500px) {
+  .index-container{
+    background-image: url("/static/pictures/main.png");
+    background-size:cover;
+    background-repeat: no-repeat;
+
+}
+  .menu-box{
+
+    width:70%;
+  }
+  .under-logo{
+    width:70%;
+  }
+}
