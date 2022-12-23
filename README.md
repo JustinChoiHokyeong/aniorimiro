@@ -396,8 +396,9 @@ function selectBusi(){
 ```
 
 ### 3. JQuery Ajax 데이터 전달
-------- 제이슨 공부해서 쓴거 언급 --------
-<img width="344" alt="Screen Shot 2022-12-23 at 10 14 01 AM" src="https://user-images.githubusercontent.com/108642193/209251500-1e2af7b0-3545-4b99-9538-1c1bcb18e159.png">
+
+<img width="368" alt="Screen Shot 2022-12-23 at 10 44 50 AM" src="https://user-images.githubusercontent.com/108642193/209254366-8c0084f7-f2c1-40f6-84f5-fdbc4ef33fad.png">
+
 > input 태그에 value를 담은 뒤 '분석하기' 클릭하면, 제이쿼리의 ajax 기능을 통해서 views.py로 데이터를 넘겨줌.
 
 ```javascript 
@@ -424,7 +425,7 @@ function ajaxSend(){
 	    }
 ```
 
-> input
+> input의 value에 입력된 값을 json 타입으로 보내기 위해 serialize해주고, analysis 앱의 views.py에 있는 calldb 함수로 data를 전송한다. views에서는 input 요소의 name을 가지고 각 데이터를 받아와서 사용한다. 받아온 데이터는 함수 내부에서 예측 모델로 처리하거나 사용자에게 출력해줄 변수를 정리해서 context에 key:value 형태로 담아서 다시 html 파일로 보내준다. 받아온 데이터는 특정 id 값을 가진 요소의 textContent로 입력해주면, 사용자가 볼 수 있는 화면에 잘 출력되는 것을 확인할 수 있다.
 
 ```python
 #views.py
@@ -436,8 +437,26 @@ def calldbFunc(request):
         BigTradingArea=request.POST.get('BigTradingArea')
         businessType=request.POST.get('businessType')
         smallBusiType=request.POST.get('smallBusiType')
+	
 	...
+	
+	context = {
+	  'businessType':businessType,
+	  'tradingArea':tradingArea,
+	  'BigTradingArea':BigTradingArea,
+	  'smallBusiType':smallBusiType,
+	  'result1':result1,
+	  'result2':result2,
+	  'result3':result3,
+	  'result4':result4
+	}
+
+    return JsonResponse(context)
 ```
+
+<img width="458" alt="Screen Shot 2022-12-23 at 10 55 15 AM" src="https://user-images.githubusercontent.com/108642193/209255429-873c6753-8f9a-4886-b341-75e38ed74caa.png">
+
+
 
 ### 4. CSS
 
