@@ -1,8 +1,3 @@
-/**기본 베이스*/
-* {
-    margin: 0;
-    padding: 0;
-}
 
 /*-- 글꼴 추가--*/
 /*
@@ -313,11 +308,11 @@ a {
 /* -- 밑줄 애니메이션 효과 -- */
 /*--- 가운데서 좌우로 펼쳐지는 라인 에니메이션 ---*/
 .rightReport > dl > dd > div > strong.spread-underline {color: #202772;text-decoration: none;display: inline-block;padding: 5px 0;position: relative;}
-.rightReport > dl > dd > div > strong.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #F9AB00;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
+.rightReport > dl > dd > div > strong.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #ffcc33;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
 .rightReport > dl > dd > div > strong.spread-underline:hover:after {width: 100%;left: 0;}
 /*--- 가운데서 오른쪽으로 펼쳐지는 라인 에니메이션 ---*/
 .rightReport > div.rightReport_info > span.spread-underline {color: #202772;text-decoration: none;display: inline-block;padding: 5px 0;position: relative;}
-.rightReport > div.rightReport_info > span.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #F9AB00;;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
+.rightReport > div.rightReport_info > span.spread-underline:after {background: none repeat scroll 0 0 transparent;bottom: 0;display: block;content: "";height: 2px;left: 50%;position: absolute;background: #ffcc33;;transition: width 0.3s ease 0s, left 0.3s ease 0s; width: 0;}
 .rightReport > div.rightReport_info > span.spread-underline:hover:after {width: 71px;left: 0;}
 /* -- 밑줄 애니메이션 효과 끝 -- */
 
@@ -326,6 +321,7 @@ a {
 .rightReport .rightReport_info::-webkit-scrollbar {width: 7px;} /* 스크롤바의 너비 */
 .rightReport .rightReport_info::-webkit-scrollbar-thumb {height: 30%;background: #ffcc33;border-radius: 10px;} /* 스크롤바의 길이, 스크롤바의 색상 */
 .rightReport .rightReport_info::-webkit-scrollbar-track {background: rgba(255, 235, 132, .1);} /*스크롤바 뒷 배경 색상*/
+
 
 /* 본문 */
 
@@ -369,12 +365,13 @@ ol, ul, li {
 
 /* 3. 상권 분석, 매출 예측 */
 
-html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} 
+html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} /*margin:0;padding:0;overflow: auto;*/
 
 /* 3-1. 상권 분석 map */
 .areacontrol {font-size:12px;position:fixed;top:90px;left:10px;height:30px;margin:0;padding:0;z-index:1;}
 .areacontrol .radius_border{border:1px solid #919191;border-radius:5px;}
 .areacontrol span {display:block;width:88.5px;height:50px;float:left;text-align:center;line-height:50px;cursor:pointer;border: 2px;}
+
 
 
 .areacontrol .btn {padding:0;font-size:18px;line-height:50px;background:linear-gradient(#e8e8e8,  #fff);border-radius: 10px;}
@@ -384,9 +381,10 @@ html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;}
 .areacontrol .selected_btn:hover {color:#591035;}
 
 /* 3-1-1. 좌측 상단 카테고리 선택 (상권 & 업종) */
+
 .leftCategory {position:fixed;top:142px;left:10px;width:315px; height:415px;margin:0;padding:0 20px; z-index:1;background-color:#fff;border-radius: 10px;}
 .leftCategory > p  {font-size:14px;background-color: #f9f9f9;padding: 5px 5px;border-radius: 5px;}
-.leftCategory > h3 {font-size:24px;text-align: center;color: #5b6976; padding-top:17px;padding-bottom:13px;}
+.leftCategory > h3 {font-size:24px;text-align: center;color: #5b6976; padding-top:17px;padding-bottom:13px;margin:0px;}
 .leftCategory > hr {border-right-width: 0px;border-top-width: 0px;border-bottom-width: 2px;border-left-width: 0px;margin-bottom: 10px;}
 .leftCategory > form > ul > select{appearance:none;border-radius: 5px; width: 100% !important; height:36px;padding: 0 40px 0 20px; margin-top:5px; border: 1px solid #999;font-size: 16px;line-height: 34px; background:url(/static/pictures/arrow_bottom.svg) no-repeat right 20px center/10px auto #fff;}
 .leftCategory > form > input{height: 20px; padding: 5px 0;margin-top: 10px;margin-bottom:10px;padding-left: 10px;width: 205px;}
