@@ -1,78 +1,95 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+<body class="index">
 <!--본문-->
 <div class="index-container">
     {% include 'etc/navbar.html' %}
     <!--메인메뉴-->  
-    <div class="index-menu-box">
-        
-        <div class="btn-container">
-            <div class="index-header btn-logo">                 
+    <div class="index-menu-container">
+      <div class="index-menu-box">        
+          <div class="btn-container">
+              <div class="index-header btn-logo">                 
+                  <div class="under-logo">
+                      <br><br> The wook easy and ganpyeon hagae YONGSANGU sanggeoneul bunseok see the sun.
+                      <br><br> <a class="logo" href="{% url 'index' %}">ANIORIMIRO!</a>
+                      <br>최고의 경험을 제공합니다!
+                  </div>
+              </div>        
+              <div class="menu-box">
+                  <img src="../static/pictures/btn-s4.png" class="btn-img">
+                  <button class="btn-s"  onclick="location.href='{% url 'map' %}'">
+                      상권분석
+                  </button>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="scroll-downs">
+        <div class="mousey">
+          <div class="scroller"></div>
+        </div>
+    </div>  
+
+</div>
+
+
+<!--/메인메뉴-->
+<!--what we do-->
+<div class="whatwedo">
+    <div class="index-header">
+        <a class="logo" >WHAT WE DO</a>
+    </div>
+    <div class="whatwedo-container">
+        <div class="whatwedo-box">
+            Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.
+        </div>
+        <div class="whatwedo-box">
+            Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.
+        </div>
+        <div class="whatwedo-box">
+            Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.ttis lorem tortor ut hendrerit amet diam nulla.
+        </div>
+    </div>
+    <div class="scroll-downs">
+        <div class="mousey">
+          <div class="scroller"></div>
+        </div>
+    </div> 
+</div>
+<!--/what we do-->
+<!--about us-->
+<div class="aboutus">
+    <div class="index-header">
+        <a class="logo" >ABOUT US</a>
+    </div>
+    <div class="aboutus-container">
+        <div class="aboutus-box1">
+            <div class="b4a-container">
                 <div class="under-logo">
-                    <br> The wook easy and ganpyeon hagae YONGSANGU sanggeoneul bunseok see the sun.
-                    <br><br> <a class="logo" href="{% url 'index' %}">ANIORIMIRO!</a>
-                    <br>최고의 경험을 제공합니다!</div>
-            </div>        
-            <div class="menu-box">
-                <img src="../static/pictures/btn-s4.png" class="btn-img">
+                    <span id="b4aa">Be 4</span><br>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in 
+                    </p>
+                    <div style="display: flex; justify-content: space-around;">
+                        <span id="b4aa2" style="width: auto;"></span><span id="b4aa2">& After</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="aboutus-box2">
+            <div class="logo">Have any Questions?</div>
+            <div class="box2-container">
+                <img src="../static/pictures/contact.png" class="btn-img">
                 <button class="btn-s">
-                    상권분석
+                    Contact Us
                 </button>
             </div>
-        </div>  
-    </div>
-    <!--/메인메뉴-->
-    <!--what we do-->
-    <div class="whatwedo">
-        <div class="index-header">
-            <a class="logo" >WHAT WE DO</a>
-        </div>
-        <div class="whatwedo-container">
-            <div class="whatwedo-box">
-                Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.
-            </div>
-            <div class="whatwedo-box">
-                Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.
-            </div>
-            <div class="whatwedo-box">
-                Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in ullamcorper odio eu pharetra. Ornare lobortis nulla orci amet vitae risus adipiscing. Vitae sagittis lorem tortor ut hendrerit amet diam nulla.ttis lorem tortor ut hendrerit amet diam nulla.
-            </div>
         </div>
     </div>
-    <!--/what we do-->
-    <!--about us-->
-    <div class="aboutus">
-        <div class="index-header">
-            <a class="logo" >ABOUT US</a>
-        </div>
-        <div class="aboutus-container">
-            <div class="aboutus-box1">
-                <div class="b4a-container">
-                    <div class="under-logo">
-                        <span id="b4aa">Be 4</span><br>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur. In ultricies varius tempor vitae ornare condimentum tempus nec pellentesque. Purus nullam turpis in 
-                        </p>
-                        <div style="display: flex; justify-content: space-around;">
-                            <span id="b4aa2" style="width: auto;"></span><span id="b4aa2">& After</span>
-                        </div>
-                        </div>
-                </div>
-            </div>
-            <div class="aboutus-box2">
-                <div class="logo">Have any Questions?</div>
-                <div class="box2-container">
-                    <img src="../static/pictures/contact.png" class="btn-img">
-                    <button class="btn-s">
-                        Contact Us
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>    
-    <!--/about us-->
-    <!--/본문-->
+</div>    
+<!--/about us-->
+<!--/본문-->
     
 </div>
 {% include 'etc/footer.html' %}
