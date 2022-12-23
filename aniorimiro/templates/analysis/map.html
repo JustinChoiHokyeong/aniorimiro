@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>map</title>
+    <title>map</title>  
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}?v={% now 'u' %}"><!-- 캐시 방지 -->
 
@@ -15,6 +15,7 @@
       function ajaxSend(){
         //alert("제출클릭됨!!")
         let data = $("#sform").serialize();
+        
         return $.ajax({
             url:"/analysis/calldb/",
             type:"post",
@@ -31,32 +32,32 @@
             document.querySelector("#showData4").textContent =data.smallBusiType;
             //대분류 업종(고유 코드 필요X, 사용자 확인용)
             document.querySelector("#showData1").textContent =data.businessType;
-			if (data.result1 == 0){
+			if (data.result1 + data.result2 + data.result3 + data.result4 == 0){
 				document.querySelector("#showData5").textContent = "데이터가 없습니다."
 			} else {
-				document.querySelector("#showData5").textContent = data.result1+' 원'
+				document.querySelector("#showData5").textContent = (data.result1+data.result2+data.result3+data.result4).toLocaleString()+' 원'
           	}
-			if (data.result2 == 0){
-				document.querySelector("#showData6").textContent = "데이터가 없습니다."
-			} else {
-				document.querySelector("#showData6").textContent = data.result2+' 원'
-          	}
-			if (data.result3 == 0){
-				document.querySelector("#showData7").textContent = "데이터가 없습니다."
-			} else {
-				document.querySelector("#showData7").textContent = data.result3+' 원'
-          	}
-			if (data.result4 == 0){
-				document.querySelector("#showData8").textContent = "데이터가 없습니다."
-			} else {
-				document.querySelector("#showData8").textContent = data.result4+' 원'
-          	}
-			}
-        })
-      }
+			Highcharts.setOptions({
 
+				lang: {
+					thousandsSep: ','
+				}
+			});
+			Highcharts.chart('container', {
+				  chart: {type: 'column'},
+				  title: {align: 'center',text: '분기별 예상 매출액'},
+				  accessibility: {announceNewData: {enabled: true}},
+				  xAxis: {type: 'category'},
+				  yAxis: {title: {text: ''}},
+				  legend: {enabled: false},
+				  plotOptions: {series: {borderWidth: 0,dataLabels: {enabled: true,format: '{point.y:,.0f}원'}}},
+				  tooltip: {headerFormat: '<span style="font-size:11px"></span><br>',pointFormat:'<span style="color:{point.color}">{point.name}</span>: {point.y}원<br/>'},
+				  series: [{colorByPoint: true,data:
+					   [{name: "1분기",y: data.result1,},
+				        {name: "2분기",y: data.result2,},
+				        {name: "3분기",y: data.result3,},
+				        {name: "4분기",y: data.result4,}]}]});}})}
       
-
       function selectBusi(){
         var bigBusi = document.querySelector("#selectBusiType")
         var smallBusi = document.querySelector("#smallCategory")
@@ -93,12 +94,24 @@
       
        
     </script>
+    
+<!-- 차트 로딩을 위한 코드 -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
 </head>
 <body>
+<div>
+	{% include 'etc/navbar.html' %}
+</div>
 <div class="map-container">
-  {% include 'etc/navbar.html' %}
+  
   <div id="map" style="width:100%;height:100%;"></div>
+
   <div class="areacontrol radius_border">
     <span id="btnGm" class="btn" onclick="setComArea('gm')">골목상권</span>
     <span id="btnGg" class="btn" onclick="setComArea('gg')">관광특구</span>
@@ -109,12 +122,13 @@
   <div class="leftCategory">
     <h3>상권, 업종 선택하기 </h3>
     <hr />
+    <p>※ 원하시는 상권버튼을 클릭 후 업종을 선택하시고 분석하기 버튼을 누르시면 됩니다.</p>
     <form method="post" id="sform">{% csrf_token %}
       <!-- <label for="tradingarea" >대분류 상권:</label> -->
       <input type="hidden" id=area3 value="" name="BigTradingArea"><br/>
-      <label for="tradingarea" >상권 이름:</label><br />
-      <!-- <span id=area1> </span><br/> -->
-      <input type="text" id=area2 value="" name="tradingArea"><br/>
+      <label for="tradingarea" >상권 이름: <span id=area1></span></label>
+      <span id=area1></span><br/>
+      <input type="hidden" id=area2 value="" name="tradingArea"><br/>
       <label for="tradingarea" >대분류 업종:</label>
       <ul>
 	      <select name="businessType" id="selectBusiType" onchange="selectBusi()" class="sele">
@@ -147,7 +161,9 @@
 		<dd class="sang1">
 			
 			<div>
+
         <strong class="spread-underline"><a href="#pred" id="showData_p">예측</a></strong>
+
 			</div>
 			<hr />
 			<div>
@@ -160,24 +176,25 @@
 	    	<div>
         	    <dl> 
 	    			<dt>대분류 상권</dt>
-	    			<dd id="showData3"></dd>
+	    			<strong><dd id="showData3"></dd></strong>
 	    		</dl>
                 <dl> 
-	    			<dt><strong>소분류 상권</strong></dt>
-	    			<dd id="showData2"></dd>
+	    			<dt>소분류 상권:</dt>
+	    			<strong><dd id="showData2"></dd></strong>
 	    		</dl>
                 <dl>
-	    			<dt><strong>대분류 업종</strong></dt>
-	    			<dd id="showData1"></dd>
+	    			<dt>대분류 업종:</dt>
+	    			<strong><dd id="showData1"></dd></strong>
 	    		</dl>
 	    		<dl>
-	    			<dt><strong>소분류 업종</strong></dt>
-	    			<dd id="showData4"></dd>
+	    			<dt>소분류 업종:</dt>
+	    			<strong><dd id="showData4"></dd></strong>
 	    		</dl>
 	    	</div>
 	    </dd>
 	</dl>
 	<div class="rightReport_info">
+		<div>본 보고서에 제공하는 내용은<strong> 추정정보</strong>이므로<strong> 실제와 다를 수</strong>있기에, <strong>사용자의 책임 하에 활용</strong>하시기 바랍니다.</div>
 		<span id="als" class="spread-underline">상권 분석</span>
 		<dl>
 			<dt>모델에 대한 결과</dt>
@@ -243,10 +260,14 @@
 			<dt></dt>
 			<dd>
 				<ul class="pred_list">
-					<li class="summary">1분기 예상 매출액은 <strong id="showData5"></strong></li>
-		            <li class="summary">2분기 예상 매출액은 <strong id="showData6"></strong></li>
-		            <li class="summary">3분기 예상 매출액은 <strong id="showData7"></strong></li>
-		            <li class="summary">4분기 예상 매출액은 <strong id="showData8"></strong></li>
+					<li class="summary">연간 예상 매출액 <strong id="showData5"></strong></li><br />
+					<li>
+						<figure class="highcharts-figure">
+						  <div id="container">
+						  
+						  </div>
+						</figure>
+					</li>
 					<li class="detail"></li>
 				</ul>
 			</dd>
@@ -279,7 +300,16 @@
 				<ul class="pred_list">
 					<li class="summary"></li>
 					<li class="detail">
-					
+					"'flsdfsd'f;ls'd;fl'sdlfs'dlf'sdflsdfsdf
+					sdfsdfsdsdfsdfsdsdfsd <br />
+					sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfdf <br />
+					asdfsdfsdfsdfsdfsdfsdfsdfsdfsdf
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<p>sdfsdfsdfsd</p>
 					</li>
 				</ul>
 			</dd>
@@ -287,7 +317,6 @@
 		</div>
   </aside>
 </div>
-{% include 'etc/footer.html' %}
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=51806ebafe88ce5dbfc859c1db2a1f13"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
