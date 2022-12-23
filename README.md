@@ -196,7 +196,7 @@ let jsonLoca_jt = '/static/data/jt.json';
 ```
 
 
-#### 3) hover 버튼을 통해 4개 유형 중에 1개씩만 출력
+#### 3) toggle 버튼을 통해 4개 유형 중에 1개씩만 출력
 <img width="366" alt="Screen Shot 2022-12-22 at 8 41 19 PM" src="https://user-images.githubusercontent.com/108642193/209126986-19d8da5e-a9f7-4171-8b9e-e5eef3dfb005.png">
 
 > setComArea 함수를 만들어 클릭할 때 해당 id를 가진 요소 버튼의 클래스를 변경하여 클릭된 형태의 css가 적용되게 했다. 그리고 클릭 시 서로 다른 매개변수가 함수에 전달되게 했다.
@@ -219,7 +219,7 @@ function setComArea(areatype){
 
 ```
 
-> if문을 통해 매개변수에 따라 각각 다른 영역이 생성되게 하였고, 호버 버튼이기 때문에 다른 버튼을 또 누르면 기존의 지도는 삭제되게 만들었다. 구체적인 과정은 코드의 주석을 참조.
+> if문을 통해 매개변수에 따라 각각 다른 영역이 생성되게 하였고,  버튼이기 때문에 다른 버튼을 또 누르면 기존의 지도는 삭제되게 만들었다. 구체적인 과정은 코드의 주석을 참조.
 
 ```javascript
 if(areatype === 'bd'){
