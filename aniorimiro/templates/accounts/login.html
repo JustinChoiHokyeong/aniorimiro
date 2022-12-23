@@ -12,11 +12,11 @@
     <form method="post"  action="{% url 'login' %}">
     {% csrf_token %}
     <div class="signin-container">
-        <input class="account-box" type="text" placeholder=" 이곳에 ID 를 입력해 주세요" {{ form.username }}
+        <input class="account-box" type="text" placeholder=" 이곳에 ID 를 입력해 주세요" />{{ form.username }}
     </div>
 
     <div class="signin-container">
-        <input class="account-box" type="text" placeholder=" 이곳에 비밀번호를 입력해 주세요" {{ form.password }}
+        <input class="account-box" type="text" placeholder=" 이곳에 비밀번호를 입력해 주세요" />{{ form.password }}
     </div>
     <div style="text-align: center;">
       <button class="login-btn" type="submit"> Log in </button>
