@@ -24,19 +24,19 @@
             success:function(data){
             //innerText보다 textContent가 속도가 빠르다
             //상권 소분류(1~40)
-            document.querySelector("#showData2").textContent =data.tradingArea;
+            document.querySelector("#showData2").textContent =data.preData.tradingArea;
             //상권 대분류(1~4)
-            document.querySelector("#showData3").textContent =data.BigTradingArea;
-
+            document.querySelector("#showData3").textContent =data.preData.BigTradingArea;
             //소분류 업종(1~30)
-            document.querySelector("#showData4").textContent =data.smallBusiType;
+            document.querySelector("#showData4").textContent =data.preData.smallBusiType;
             //대분류 업종(고유 코드 필요X, 사용자 확인용)
-            document.querySelector("#showData1").textContent =data.businessType;
-			if (data.result1 + data.result2 + data.result3 + data.result4 == 0){
+            document.querySelector("#showData1").textContent =data.preData.businessType;
+            //매출액 출력코드 0을 받으면 데이터가 없다는 문구를 출력하고 
+			if (data.preData.result1 == 0){
 				document.querySelector("#showData5").textContent = "데이터가 없습니다."
-			} else {
-				document.querySelector("#showData5").textContent = (data.result1+data.result2+data.result3+data.result4).toLocaleString()+' 원'
-          	}
+			} else { // 있다면 총합을 출력한다.
+				document.querySelector("#showData5").textContent = (data.preData.result1+data.preData.result2+data.preData.result3+data.preData.result4).toLocaleString()+' 원'
+
 			// 예측 모델 차트 시각화
 			Highcharts.setOptions({
 
@@ -54,104 +54,78 @@
 				  plotOptions: {series: {borderWidth: 0,dataLabels: {enabled: true,format: '{point.y:,.0f}원'}}},
 				  tooltip: {headerFormat: '<span style="font-size:11px"></span><br>',pointFormat:'<span style="color:{point.color}">{point.name}</span>: {point.y}원<br/>'},
 				  series: [{colorByPoint: true,data:
-					   [{name: "1분기",y: data.result1,},
-				        {name: "2분기",y: data.result2,},
-				        {name: "3분기",y: data.result3,},
-				        {name: "4분기",y: data.result4,}]}]});
+					   [{name: "1분기",y: data.preData.result1,},
+				        {name: "2분기",y: data.preData.result2,},
+				        {name: "3분기",y: data.preData.result3,},
+				        {name: "4분기",y: data.preData.result4,}]}]});
+			
 			// 점포수 차트
-			var context = document.getElementById('myChart').getContext('2d');
-	        var myChart = new Chart(context, {
-	            type: 'bar', // 차트의 형태
-	            data: {
-	                datasets: [
-	                    { //데이터
-	                    	label:'1분기',
-	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-	                        data: [
-	                        	//x축 label에 대응되는 데이터 값
-	                        	data.jum_2021_1[0]
-	                        	],
-	                        backgroundColor: [
-	                            //색상
-	                            'rgba(255, 99, 132, 0.2)'
-	                        ],
-	                        borderColor: [
-	                            //경계선 색상
-	                            'rgba(255, 99, 132, 1)'
-	                        ],
-	                        borderWidth: 1 //경계선 굵기
-	                    },{ //데이터
-	                    	label:'2분기',
-	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-	                        data: [
-	                        	//x축 label에 대응되는 데이터 값
-	                        	data.jum_2021_2[0]
-	                        	],
-	                        backgroundColor: [
-	                            //색상
-	                            
-	                            'rgba(54, 162, 235, 0.2)'
-	                        ],
-	                        borderColor: [
-	                            //경계선 색상
-	                            
-	                            'rgba(54, 162, 235, 1)'
-	                        ],
-	                        borderWidth: 1 //경계선 굵기
-	                    },{ //데이터
-	                    	label:'3분기',
-	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-	                        data: [
-	                        	//x축 label에 대응되는 데이터 값
-	                        	data.jum_2021_3[0]
-	                        	],
-	                        backgroundColor: [
-	                            //색상
-	                            
-	                            'rgba(255, 206, 86, 0.2)'
-	                        ],
-	                        borderColor: [
-	                            //경계선 색상
-	                            
-	                            'rgba(255, 206, 86, 1)'
-	                        ],
-	                        borderWidth: 1 //경계선 굵기
-	                    },{ //데이터
-	                    	label:'4분기',
-	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-	                        data: [
-	                        	//x축 label에 대응되는 데이터 값
-	                        	data.jum_2021_4[0]
-	                        	],
-	                        backgroundColor: [
-	                            //색상
-	                            
-	                            'rgba(75, 192, 192, 0.2)'
-	                        ],
-	                        borderColor: [
-	                            //경계선 색상
-	                            
-	                            'rgba(75, 192, 192, 1)'
-	                        ],
-	                        borderWidth: 1 //경계선 굵기
-	                    }
-	                ]
-	            },
+			const ctx = document.getElementById('myChart').getContext('2d');
+			const myChart = new Chart(ctx, {
+			    type: 'bar',
+			    data: {
+			        labels: ['1분기','2분기','3분기','4분기'],
+			        datasets: [{
+			            label: "2019년",
+			            data: data.reportData.jum19,
+			            backgroundColor: [
+			                'rgba(255, 99, 132, 0.2)',
+			                'rgba(255, 99, 132, 0.2)',
+			                'rgba(255, 99, 132, 0.2)',
+			                'rgba(255, 99, 132, 0.2)',
+			            ],
+			            borderColor: [
+			                'rgba(255, 99, 132, 1)',
+			                'rgba(255, 99, 132, 1)',
+			                'rgba(255, 99, 132, 1)',
+			                'rgba(255, 99, 132, 1)',
+			            ],
+			            borderWidth: 1
+			        },{
+			            label: "2020년",
+			            data: data.reportData.jum20,
+			            backgroundColor: [
+			                'rgba(54, 162, 235, 0.2)',
+			                'rgba(54, 162, 235, 0.2)',
+			                'rgba(54, 162, 235, 0.2)',
+			                'rgba(54, 162, 235, 0.2)',
+			            ],
+			            borderColor: [
+			                'rgba(54, 162, 235, 1)',
+			                'rgba(54, 162, 235, 1)',
+			                'rgba(54, 162, 235, 1)',
+			                'rgba(54, 162, 235, 1)',
+			            ],
+			            borderWidth: 1
+			        },{
+			            label: "2021년",
+			            data: data.reportData.jum21,
+			            backgroundColor: [
+			                'rgba(255, 206, 86, 0.2)',
+			                'rgba(255, 206, 86, 0.2)',
+			                'rgba(255, 206, 86, 0.2)',
+			                'rgba(255, 206, 86, 0.2)',
+			            ],
+			            borderColor: [
+			                'rgba(255, 206, 86, 1)',
+			                'rgba(255, 206, 86, 1)',
+			                'rgba(255, 206, 86, 1)',
+			                'rgba(255, 206, 86, 1)',
+			            ],
+			            borderWidth: 1
+			         }
+			        ]
+			    },
 	            options: {
 	            	responsive: false,
-	            	plugins: {legend: {display:false,position: 'top'}},
 	                scales: {
-	                    yAxes: [
-	                        {
-	                            ticks: {
-	                                beginAtZero: true
-	                            }
-	                        }
-	                    ]
-	                },
-	                
+	                    y: {
+	                        beginAtZero: true
+	                    }
+	                }
 	            }
-	        });
+			});
+
 	     	// 남녀 매출비율 차트
 			var context1_1 = document.getElementById('myChart1_1').getContext('2d');
 	        var myChart1_1 = new Chart(context1_1, {
@@ -167,7 +141,7 @@
 	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
 	                        data: [
 	                        	//x축 label에 대응되는 데이터 값
-	                        	data.gen_2021_1[0],data.gen_2021_1[1]
+	                        	data.reportData.gen21[0],data.reportData.gen21[1]
 	                        	],
 	                        backgroundColor: [
 	                            //색상
@@ -203,7 +177,7 @@
 	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
 	                        data: [
 	                        	//x축 label에 대응되는 데이터 값
-	                        	data.gen_2021_2[0],data.gen_2021_2[1]
+	                        	data.reportData.gen20[0],data.reportData.gen20[1]
 	                        	],
 	                        backgroundColor: [
 	                            //색상
@@ -233,11 +207,11 @@
 	                ],
 	                datasets: [
 	                    { //데이터
-	                        label: 'test1', //차트 제목
+	                        label: '남여 매출 비율', //차트 제목
 	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
 	                        data: [
 	                        	//x축 label에 대응되는 데이터 값
-	                        	data.gen_2021_3[0],data.gen_2021_3[1]
+	                        	data.reportData.gen19[0],data.reportData.gen19[1]
 	                        	],
 	                        backgroundColor: [
 	                            //색상
@@ -271,7 +245,7 @@
 	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
 	                        data: [
 	                        	//x축 label에 대응되는 데이터 값
-	                        	data.gen_2021_4[0],data.gen_2021_4[1]
+	                        	data.reportData.gen19[0],data.reportData.gen19[1]
 	                        	],
 	                        backgroundColor: [
 	                            //색상
@@ -294,107 +268,46 @@
 	     	// 시간대별 매출비율
 			var context2_1 = document.getElementById('myChart2_1').getContext('2d');
 	        var myChart2_1 = new Chart(context2_1, {
-	            type: 'bar', // 차트의 형태
-	            data: { // 차트에 들어갈 데이터
-	                labels: ['2021년 1분기','2021년 2분기','2021년 3분기','2021년 4분기'],
+	        	type: 'line',
+	            data: {
+	                labels: ['00~06', '06~11', '11~14', '14~17', '17~21', '21~24'],
 	                datasets: [
-	                    { //데이터
-	                    	label:['0시~6시'],
-	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-	                        data: [
-	                        	//x축 label에 대응되는 데이터 값
-	                        	data.time_2021_1[0],data.time_2021_2[0],,data.time_2021_3[0],,data.time_2021_4[0]
-	                        	]},
-	                    { //데이터
-	                    	label:['6시~11시'],
-	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-	                        data: [
-	                        	//x축 label에 대응되는 데이터 값
-	                        	data.time_2021_1[1],data.time_2021_2[1],data.time_2021_3[1],data.time_2021_4[1]
-	                        	]},
-	                    { //데이터
-	                    	label:['11시~14시'],
-	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-	                        data: [
-	                        	//x축 label에 대응되는 데이터 값
-	                        	data.time_2021_1[2],data.time_2021_2[2],data.time_2021_3[2],data.time_2021_4[2]
-	                        	]},
-	                    { //데이터
-	                    	label:['14시~17시'],
-	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-	                        data: [
-	                        	//x축 label에 대응되는 데이터 값
-	                        	data.time_2021_1[3],data.time_2021_2[3],data.time_2021_3[3],data.time_2021_4[3]
-	                        	]},
-	                    { //데이터
-	                        label:['17시~21시'],
-	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-	                        data: [
-	                        	//x축 label에 대응되는 데이터 값
-	                        	data.time_2021_1[4],data.time_2021_2[4],data.time_2021_3[4],data.time_2021_4[4]
-	                        	],
-	                        backgroundColor: [
-	                               //색상
-	                               'rgba(153, 102, 255, 0.2)'
-	                           ],
-                            borderColor: [
-	                               //경계선 색상
-	                               'rgba(153, 102, 255, 1)'
-                           ]},
-	                        
-	                    { //데이터
-	                    	label:['21시~24시'],
-	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-	                        data: [
-	                        	//x축 label에 대응되는 데이터 값
-	                        	data.time_2021_1[5],data.time_2021_2[5],data.time_2021_3[5],data.time_2021_4[5]
-	                        	],
-                        	backgroundColor: [
-	                                //색상
-	                                'rgba(255, 159, 64, 0.2)'
-                            ],
-                            borderColor: [
-	                                //경계선 색상
-	                                'rgba(255, 159, 64, 1)'
-                            ],
-	                        	
+	                    {
+	                        label: '2019년도',
+	                        data: data.reportData.time19,
+	                        fill: false,
+	                        borderColor:'rgba(255, 206, 86, 1)',
+	                        borderWidth: 1
+	                    },
+	                    {
+	                        label: '2020년도',
+	                        data: data.reportData.time20,
+	                        fill: false,
+	                        borderColor: 'rgba(54, 162, 235, 1)',
+	                        borderWidth: 1
+	                    },
+	                    {
+	                        label: '2021년도',
+	                        data: data.reportData.time21,
+	                        fill: false,
+	                        borderColor: 'rgb(75, 192, 192)',
+	                        borderWidth: 1
 	                    }
-	                ]/*,
-	                backgroundColor: [
-                        //색상
-                    	'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        //경계선 색상
-                    	'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1 //경계선 굵기
-	            */},
+	                ]
+	            },
 	            options: {
-	            	responsive: false,
-	                scales: {
-	                    yAxes: [
-	                        {
-	                            ticks: {
-	                                beginAtZero: true
-	                            }
-	                        }
-	                    ]
-	                }
+	                maintainAspectRatio: false,
+	                plugins: {
+	                    title: {
+	                        display: true,
+	                        text: '시간대별 매출 비율.'
+	                    }
+	                },
 	            }
 	        });
 	       
-	        
+          	}
+            
             }})}
       		
       		
@@ -537,105 +450,72 @@
 		<div>본 보고서에 제공하는 내용은<strong> 추정정보</strong>이므로<strong> 실제와 다를 수</strong>있기에, <strong>사용자의 책임 하에 활용</strong>하시기 바랍니다.</div>
 		
     <span id="pred" class="spread-underline">매출 예측</span>
-		<dl>
-			<dt></dt>
-			<dd>
-				<ul class="pred_list">
-					<li class="summary">연간 예상 매출액 <strong id="showData5"></strong></li><br />
-					<li>
-						<figure class="highcharts-figure">
-						  <div id="container">
+	<dl>
+		<dt></dt>
+		<dd>
+			<ul class="pred_list">
+				<li class="summary">연간 예상 매출액 <strong id="showData5"></strong> </li><br />
+				<li>
+					<figure class="highcharts-figure">
+					  <div id="container">
 
-						  </div>
-						</figure>
-					</li>
-					<li class="detail"></li>
-				</ul>
-			</dd>
-		</dl>
-		<dl>	
-			<dt>모델에 대한 결과</dt>
-			<dd>
-				<ul class="pred_list">
-					<li class="summary"></li>
-					<li class="detail">
-					
-					</li>
-				</ul>
-			</dd>
-		</dl>
-		<dl>
-			<dt>건수, 요일별 매출</dt>
-			<dd>
-				<ul class="pred_list">
-					<li class="summary"></li>
-					<li class="detail">
-					
-					</li>
-				</ul>
-			</dd>
-		</dl>
-		<dl>
-			<dt>시간대별 매출</dt>
-			<dd>
-				<ul class="pred_list">
-					<li class="summary"></li>
-					<li class="detail">
-					
-					</li>
-				</ul>
-			</dd>
-		</dl>
-    <dl>
-			<dt>모델에 대한 결과</dt>
-			<dd>
-				<ul class="analysis_list">
-					<li class="summary">
-					</li>
-					<li class="detail">
-					
-					</li>
-				</ul>
-			</dd>
-		</dl>
-
+					  </div>
+					</figure>
+				</li>
+				<li class="detail"></li>
+			</ul>
+		</dd>
+	</dl>
     <span id="als" class="spread-underline">상권 분석</span>
-		<dl>
-			<dt>업종 분포현황</dt>
-			<dd>
-				<ul class="analysis_list">
-					<li class="summary">
-						<strong id="showData1"></strong>이 가장많고
-						<strong id="showData1"></strong> 이 증가하는 추세입니다.
-					</li>
-					<li class="detail">
-					
-					</li>
-				</ul>
-			</dd>
-		</dl>
-		<dl>	
-			<dt>점포수</dt>
-			<dd>
-				<canvas id="myChart" width ='400' height='200'></canvas>
-			</dd>
-		</dl>
-		<dl>
-			<dt>남녀 매출비율</dt>
-			<dd>
+	<dl>
+		<dt>시간대별 매출비율</dt>
+		<dd>
+			<ul class="analysis_list">
+				<li class="summary">
+					시간대별 매출 비율 입니다.
+				</li>
+				<canvas id="myChart2_1" width ='600' height='400' style='display:inline;'></canvas>
+			</ul>
+		</dd>
+	</dl>
+	<dl>	
+		<dt>점포수</dt>
+		<dd>
+			<ul class="analysis_list">
+				<li class="summary">
+					연도별 점포수 입니다.
+				</li>
+			<canvas id="myChart" style="width:100%;"></canvas>
+			</ul>
+		</dd>
+	</dl>
+	<dl>
+		<dt>남녀 매출비율</dt>
+		<dd>
+			<ul class="analysis_list">
+				<li class="summary">
+					<strong id="showData2"></strong>상권의
+					<strong id="showData4"></strong>남녀 매출 비율 입니다.
+				</li>
 				<canvas id="myChart1_1" width ='140' height='300' style='display:inline;'></canvas>
 				<canvas id="myChart1_2" width ='140' height='300' style='display:inline;'></canvas>
 				<canvas id="myChart1_3" width ='140' height='300' style='display:inline;'></canvas>
 				<canvas id="myChart1_4" width ='140' height='300' style='display:inline;'></canvas>
-			</dd>
-		</dl>
-		<dl>
-			<dt>시간대별 매출비율</dt>
-			<dd>
-				<canvas id="myChart2_1" width ='600' height='400' style='display:inline;'></canvas>
-			</dd>
-		</dl>
-		</div>
+			</ul>
+		</dd>
+	</dl>
+	<dl>
+		<dt></dt>
+		<dd>
+			<ul class="analysis_list">
+				<li class="summary">
+				</li>
+				<li class="detail">
+				</li>
+			</ul>
+		</dd>
+	</dl>
+	</div>
   </aside>
 </div>
 

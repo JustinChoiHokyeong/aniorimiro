@@ -7,11 +7,6 @@ warnings.filterwarnings(action='ignore')# 경고출력안하기
 import scipy.stats as stats
 # from sklearn.preprocessing import LabelEncoder   
 import statsmodels.formula.api as smf
-  
-# # Colab 한글 깨짐 현상 방지
-# !sudo apt-get install -y fonts-nanum 
-# !sudo fc-cache -fv
-# !rm ~/.cache/matplotlib -rf
 
 pd.options.display.float_format = '{:.5f}'.format
 pd.set_option('display.max_rows', None)
@@ -20,594 +15,85 @@ pd.set_option('display.max_columns', None)
 from django.shortcuts import render
 from django.http import JsonResponse
 
-#데이터 탐색용
-df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiro_data/master/yongsan_192021.csv", encoding='utf-8')
-
 def map(request):
-
   return render(request, 'analysis/map.html')
 
-
-
+## 데이터 파일 정리
+df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiroDATA/master/yongsan2021.csv")
 def calldbFunc(request):
-    
+    # map.html 에서 post방식으로 form 이 넘어온다.
     if request.method=="POST":
         print('view옴')
-        tradingArea=request.POST.get('tradingArea')
+        # 상권구분코드명(골목상권, 발달상권, 전통시장, 관광특구)
         BigTradingArea=request.POST.get('BigTradingArea')
+        # 상권코드명
+        tradingArea=request.POST.get('tradingArea')
+        # 서비스업종 대분류
         businessType=request.POST.get('businessType')
+        # 서비스업종 소분류
         smallBusiType=request.POST.get('smallBusiType')
-
         
-        print(BigTradingArea)
-        print(tradingArea)
-        print(smallBusiType)
+        print('BigTradingArea:',BigTradingArea)
+        print('tradingArea:',tradingArea)
+        print('smallBusiType',smallBusiType)
         
+        ##### 모델 예측
+        ################################################모델 저장필요
+        global df
+        gol= df[df['상권_구분_코드_명']=='골목상권']
+        # 모델
+        model = smf.ols(formula = '분기당_매출_금액 ~ 월요일_매출_금액 + 토요일_매출_금액 + 일요일_매출_금액 + 월요일_매출_건수 + 토요일_매출_건수 + 일요일_매출_건수',data = gol).fit()
+        ################################################
         
-        # 요청을 받으면 해당 상권에 맞는 코드 실행하기
-        # 발달상권 예측모델 실행
-        if BigTradingArea == '발달상권':
+        ###################   예측 predict data   ###################
+        # tradingArea,smallBusiType를 받는 predict 함수 호출
+        # 상권마다 모델이 다르다. 해당 상권에 변수에 맞춰 새로운 예측변수를 가져온다.
+        if BigTradingArea == "골목상권":
+            pdata=golpredx(tradingArea,smallBusiType)       
+        elif BigTradingArea == "발달상권":
+            pdata=balpredx(tradingArea,smallBusiType)
+        elif BigTradingArea == "전통시장":
+            pdata=jpredx(tradingArea,smallBusiType) 
+        elif BigTradingArea == "관광특구":
+            pdata=culpredx(tradingArea,smallBusiType)
+        print(pdata)
+        # 해당 상권에 선택한 서비스업종이 있다면
+        if pdata != 0:
+            # pdata에서 각 분기별로 값을 꺼낸다.
+            pred1 = model.predict(pdata.iloc[0])
+            pred2 = model.predict(pdata.iloc[1])
+            pred3 = model.predict(pdata.iloc[2])
+            pred4 = model.predict(pdata.iloc[3])
             
-            #발달상권
-            bal=pd.read_csv("https://raw.githubusercontent.com/Choizard/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EB%B0%9C%EB%8B%AC%EC%83%81%EA%B6%8C_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
-            print('발달상권 매출 예상')
-            sang_bal = bal[bal['상권_코드_명']==tradingArea]
-            # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
+            # predict 값에서 values로 꺼내면 ndarray로 담기는데, json으로 넘길 수 없어서 list로 바꿔준다
+            result1 = round((pred1/ pdata['점포수'].iloc[0]).values.tolist()[0])
+            result2 = round((pred2/ pdata['점포수'].iloc[1]).values.tolist()[0])
+            result3 = round((pred3/ pdata['점포수'].iloc[2]).values.tolist()[0])
+            result4 = round((pred4/ pdata['점포수'].iloc[3]).values.tolist()[0])
             
-            if smallBusiType in list(sang_bal['서비스_업종_코드_명']):
-                service_bal = sang_bal[sang_bal['서비스_업종_코드_명']==smallBusiType]
-                # 업종의 분기별 평균을 토대로 예상매출액을 계산
-                
-                # 1분기
-                bal_1 = service_bal[service_bal['기준_분기_코드']==1]
-                bal_1_a = bal_1['월요일_매출_금액'].mean()
-                bal_1_b = bal_1['토요일_매출_금액'].mean()
-                bal_1_c = bal_1['일요일_매출_금액'].mean()
-                bal_1_mon = bal_1['월요일_매출_건수'].mean()
-                bal_1_sat = bal_1['토요일_매출_건수'].mean()
-                bal_1_sn = bal_1['일요일_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_1 = list(bal_1[bal_1['기준_년_코드']=='2021-1']['점포수'])
-                print(jum_2021_1,type(jum_2021_1))
-                # 남녀 매출
-                gen_2021_1 = (bal_1[bal_1['기준_년_코드']=='2021-1'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                print(gen_2021_1,type(gen_2021_1))
-                # 시간대별 매출
-                time_2021_1 = (bal_1[bal_1['기준_년_코드']=='2021-1'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-                print(time_2021_1,type(time_2021_1))
-                # 2분기
-                bal_2 = service_bal[service_bal['기준_분기_코드']==2]
-                bal_2_a = bal_2['월요일_매출_금액'].mean()
-                bal_2_b = bal_2['토요일_매출_금액'].mean()
-                bal_2_c = bal_2['일요일_매출_금액'].mean()
-                bal_2_mon = bal_2['월요일_매출_건수'].mean()
-                bal_2_sat = bal_2['토요일_매출_건수'].mean()
-                bal_2_sn = bal_2['일요일_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_2 = list(bal_2[bal_2['기준_년_코드']=='2021-2']['점포수'])
-                # 남녀 매출
-                gen_2021_2 = (bal_2[bal_2['기준_년_코드']=='2021-2'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_2 = (bal_2[bal_2['기준_년_코드']=='2021-2'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-             
-                # 3분기
-                bal_3 = service_bal[service_bal['기준_분기_코드']==3]
-                bal_3_a = bal_3['월요일_매출_금액'].mean()
-                bal_3_b = bal_3['토요일_매출_금액'].mean()
-                bal_3_c = bal_3['일요일_매출_금액'].mean()
-                bal_3_mon = bal_3['월요일_매출_건수'].mean()
-                bal_3_sat = bal_3['토요일_매출_건수'].mean()
-                bal_3_sn = bal_3['일요일_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_3 = list(bal_3[bal_3['기준_년_코드']=='2021-3']['점포수'])
-                # 남녀 매출
-                gen_2021_3 = (bal_3[bal_3['기준_년_코드']=='2021-3'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_3 = (bal_3[bal_3['기준_년_코드']=='2021-3'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-             
-                # 4분기
-                bal_4 = service_bal[service_bal['기준_분기_코드']==4]
-                bal_4_a = bal_4['월요일_매출_금액'].mean()
-                bal_4_b = bal_4['토요일_매출_금액'].mean()
-                bal_4_c = bal_4['일요일_매출_금액'].mean()
-                bal_4_mon = bal_4['월요일_매출_건수'].mean()
-                bal_4_sat = bal_4['토요일_매출_건수'].mean()
-                bal_4_sn = bal_4['일요일_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_4 = list(bal_4[bal_4['기준_년_코드']=='2021-4']['점포수'])
-                # 남녀 매출
-                gen_2021_4 = (bal_4[bal_4['기준_년_코드']=='2021-4'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_4 = (bal_4[bal_4['기준_년_코드']=='2021-4'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-             
-                # 모델
-                model_bal = smf.ols(formula = '분기당_매출_금액 ~ 서비스_업종_코드 + 월요일_매출_금액 + 토요일_매출_금액 + 일요일_매출_금액 + 월요일_매출_건수 + 토요일_매출_건수 + 일요일_매출_건수',data = service_bal).fit()
-                
-                # 1분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_bal.values[0][7]],
-                                    '월요일_매출_금액':[bal_1_a],'토요일_매출_금액':[bal_1_b],'일요일_매출_금액':[bal_1_c],
-                                    '월요일_매출_건수':[bal_1_mon],'토요일_매출_건수':[bal_1_sat],'일요일_매출_건수':[bal_1_sn]})
-                pred1 = model_bal.predict(x_new2)
-                result1 = round((pred1 /bal_1['점포수'].mean()).values[0],-1)
-                result1 = np.nan_to_num(result1)
-                print('실제값 1:',bal_1['분기당_매출_금액'].mean() / bal_1['점포수'].mean())
-                print('예측값 1:',pred1 / bal_1['점포수'].mean())
-        
-                # 2분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_bal.values[0][7]],
-                                    '월요일_매출_금액':[bal_2_a],'토요일_매출_금액':[bal_2_b],'일요일_매출_금액':[bal_2_c],
-                                    '월요일_매출_건수':[bal_2_mon],'토요일_매출_건수':[bal_2_sat],'일요일_매출_건수':[bal_2_sn]})
-                pred2 = model_bal.predict(x_new2)
-                result2 = round((pred2 /bal_2['점포수'].mean()).values[0],-1)
-                result2 = np.nan_to_num(result2)
-                print('실제값 2:',(bal_2['분기당_매출_금액'].mean()) / bal_2['점포수'].mean())
-                print('예측값 2:',pred2 / bal_2['점포수'].mean())
-        
-        
-                # 3분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_bal.values[0][7]],
-                                    '월요일_매출_금액':[bal_3_a],'토요일_매출_금액':[bal_3_b],'일요일_매출_금액':[bal_3_c],
-                                    '월요일_매출_건수':[bal_3_mon],'토요일_매출_건수':[bal_3_sat],'일요일_매출_건수':[bal_3_sn]})
-                pred3 = model_bal.predict(x_new2)
-                result3 = round((pred3 /bal_3['점포수'].mean()).values[0],-1)
-                result3 = np.nan_to_num(result3)
-                print('실제값 3:',(bal_3['분기당_매출_금액'].mean()) / bal_3['점포수'].mean())
-                print('예측값 3:',pred3 / bal_3['점포수'].mean())
-        
-        
-                # 4분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_bal.values[0][7]],
-                                    '월요일_매출_금액':[bal_4_a],'토요일_매출_금액':[bal_4_b],'일요일_매출_금액':[bal_4_c],
-                                    '월요일_매출_건수':[bal_4_mon],'토요일_매출_건수':[bal_4_sat],'일요일_매출_건수':[bal_4_sn]})
-                pred4 = model_bal.predict(x_new2)
-                result4 = round((pred4 /bal_4['점포수'].mean()).values[0],-1)
-                result4 = np.nan_to_num(result4)
-                print('실제값 4:',(bal_4['분기당_매출_금액'].mean()) / bal_4['점포수'].mean())
-                print('예측값 4:',pred4 / bal_4['점포수'].mean())
-                
-                print(model_bal.summary())
-            else : 
-                result1 = 0
-                result2 = 0
-                result3 = 0
-                result4 = 0
-                
-                gen_2021_1 = 0
-                gen_2021_2 = 0
-                gen_2021_3 = 0
-                gen_2021_4 = 0
-                
-                jum_2021_1 = 0
-                jum_2021_2 = 0
-                jum_2021_3 = 0
-                jum_2021_4 = 0
-                
-                time_2021_1 = 0
-                time_2021_2 = 0
-                time_2021_3 = 0
-                time_2021_4 = 0
-                
-        # 관광특구 예측모델 실행
-        elif BigTradingArea == '관광특구':
-            
-            #관광특구
-            cul=pd.read_csv("https://raw.githubusercontent.com/Choizard/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EA%B4%80%EA%B4%91%ED%8A%B9%EA%B5%AC_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
-            print('관광특구 매출 예상')
-            sang_cul = cul[cul['상권_코드_명']==tradingArea]
-            # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
-            
-            if smallBusiType in list(sang_cul['서비스_업종_코드_명']):
-                service_cul = sang_cul[sang_cul['서비스_업종_코드_명']==smallBusiType] 
-            
-                # 업종의 분기별 평균을 토대로 예상매출액을 계산
-                cul_1 = service_cul[service_cul['기준_분기_코드']==1]
-                cul_1_a = cul_1['월요일_매출_금액'].mean()
-                cul_1_b = cul_1['토요일_매출_금액'].mean()
-                cul_1_c = cul_1['일요일_매출_금액'].mean()
-                cul_1_mon = cul_1['월요일_매출_건수'].mean()
-                cul_1_sat = cul_1['토요일_매출_건수'].mean()
-                cul_1_sn = cul_1['일요일_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_1 = list(cul_1[cul_1['기준_년_코드']=='2021-1']['점포수'])
-                # 남녀 매출
-                gen_2021_1 = (cul_1[cul_1['기준_년_코드']=='2021-1'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_1 = (cul_1[cul_1['기준_년_코드']=='2021-1'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-             
-                cul_2 = service_cul[service_cul['기준_분기_코드']==2]
-                cul_2_a = cul_2['월요일_매출_금액'].mean()
-                cul_2_b = cul_2['토요일_매출_금액'].mean()
-                cul_2_c = cul_2['일요일_매출_금액'].mean()
-                cul_2_mon = cul_2['월요일_매출_건수'].mean()
-                cul_2_sat = cul_2['토요일_매출_건수'].mean()
-                cul_2_sn = cul_2['일요일_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_2 = list(cul_2[cul_2['기준_년_코드']=='2021-2']['점포수'])
-                # 남녀 매출
-                gen_2021_2 = (cul_2[cul_2['기준_년_코드']=='2021-2'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_2 = (cul_2[cul_2['기준_년_코드']=='2021-2'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-             
-                cul_3 = service_cul[service_cul['기준_분기_코드']==3]
-                cul_3_a = cul_3['월요일_매출_금액'].mean()
-                cul_3_b = cul_3['토요일_매출_금액'].mean()
-                cul_3_c = cul_3['일요일_매출_금액'].mean()
-                cul_3_mon = cul_3['월요일_매출_건수'].mean()
-                cul_3_sat = cul_3['토요일_매출_건수'].mean()
-                cul_3_sn = cul_3['일요일_매출_건수'].mean()
-            
-                # 점포수
-                jum_2021_3 = list(cul_3[cul_3['기준_년_코드']=='2021-3']['점포수'])
-                # 남녀 매출
-                gen_2021_3 = (cul_3[cul_3['기준_년_코드']=='2021-3'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_3 = (cul_3[cul_3['기준_년_코드']=='2021-3'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-             
-                cul_4 = service_cul[service_cul['기준_분기_코드']==4]
-                cul_4_a = cul_4['월요일_매출_금액'].mean()
-                cul_4_b = cul_4['토요일_매출_금액'].mean()
-                cul_4_c = cul_4['일요일_매출_금액'].mean()
-                cul_4_mon = cul_4['월요일_매출_건수'].mean()
-                cul_4_sat = cul_4['토요일_매출_건수'].mean()
-                cul_4_sn = cul_4['일요일_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_4 = list(cul_4[cul_4['기준_년_코드']=='2021-4']['점포수'])
-                # 남녀 매출
-                gen_2021_4 = (cul_4[cul_4['기준_년_코드']=='2021-4'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_4 = (cul_4[cul_4['기준_년_코드']=='2021-4'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-             
-                # 모델
-                model_cul = smf.ols(formula = '분기당_매출_금액 ~ 서비스_업종_코드 + 월요일_매출_금액 + 토요일_매출_금액 + 일요일_매출_금액 + 월요일_매출_건수 + 토요일_매출_건수 + 일요일_매출_건수',data = service_cul).fit()
-                
-                # 1분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_cul.values[0][7]],
-                                    '월요일_매출_금액':[cul_1_a],'토요일_매출_금액':[cul_1_b],'일요일_매출_금액':[cul_1_c],
-                                    '월요일_매출_건수':[cul_1_mon],'토요일_매출_건수':[cul_1_sat],'일요일_매출_건수':[cul_1_sn]})
-                pred1 = model_cul.predict(x_new2)
-                result1 = round((pred1 /cul_1['점포수'].mean()).values[0],-1)
-                result1 = np.nan_to_num(result1)
-                print('실제값 1:',(cul_1['분기당_매출_금액'].mean()) / cul_1['점포수'].mean())
-                print('예측값 1:',pred1 / cul_1['점포수'].mean())
+            ################### 분석 report data   ###################
+            # tradingArea,smallBusiType를 받는 report함수 호출
+            rdata=report(BigTradingArea,tradingArea,smallBusiType)
+            # index=1,2,3,4분기 columns=2019, 2020, 2021년
+            jum19= rdata[0]['2019'].values.tolist()
+            jum20= rdata[0]['2020'].values.tolist()
+            jum21= rdata[0]['2021'].values.tolist()
+            # index=남,녀 columns=2019, 2020, 2021년
+            gen19= rdata[1]['2019'].values.tolist()
+            gen20= rdata[1]['2020'].values.tolist()
+            gen21= rdata[1]['2021'].values.tolist()
+            # index='00~06','06~11','11~14','14~17','17~21','21~24' columns=2019, 2020, 2021년
+            time19= rdata[2]['2019'].values.tolist()
+            time20= rdata[2]['2020'].values.tolist()
+            time21= rdata[2]['2021'].values.tolist()
+            print(time21)
+        # 0이 넘어온다면 0을 담는다.
+        elif pdata == 0:
+            result1=0; result2=0; result3=0; result4=0; jum19=0; jum20=0; jum21=0; 
+            gen19=0; gen20=0; gen21=0; time19=0; time20=0; time21=0; 
             
             
-                # 2분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_cul.values[0][7]],
-                                    '월요일_매출_금액':[cul_2_a],'토요일_매출_금액':[cul_2_b],'일요일_매출_금액':[cul_2_c],
-                                    '월요일_매출_건수':[cul_2_mon],'토요일_매출_건수':[cul_2_sat],'일요일_매출_건수':[cul_2_sn]})
-                pred2 = model_cul.predict(x_new2)
-                result2 = round((pred2 /cul_2['점포수'].mean()).values[0],-1)
-                result2 = np.nan_to_num(result2)
-                print('실제값 2:',(cul_2['분기당_매출_금액'].mean()) / cul_2['점포수'].mean())
-                print('예측값 2:',pred2 / cul_2['점포수'].mean())
-            
-            
-                # 3분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_cul.values[0][7]],
-                                    '월요일_매출_금액':[cul_3_a],'토요일_매출_금액':[cul_3_b],'일요일_매출_금액':[cul_3_c],
-                                    '월요일_매출_건수':[cul_3_mon],'토요일_매출_건수':[cul_3_sat],'일요일_매출_건수':[cul_3_sn]})
-                pred3 = model_cul.predict(x_new2)
-                result3 = round((pred3 /cul_3['점포수'].mean()).values[0],-1)
-                result3 = np.nan_to_num(result3)
-                print('실제값 3:',(cul_3['분기당_매출_금액'].mean()) / cul_3['점포수'].mean())
-                print('예측값 3:',pred3 / cul_3['점포수'].mean())
-            
-            
-                # 4분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_cul.values[0][7]],
-                                    '월요일_매출_금액':[cul_4_a],'토요일_매출_금액':[cul_4_b],'일요일_매출_금액':[cul_4_c],
-                                    '월요일_매출_건수':[cul_4_mon],'토요일_매출_건수':[cul_4_sat],'일요일_매출_건수':[cul_4_sn]})
-                pred4 = model_cul.predict(x_new2)
-                result4 = round((pred4 /cul_4['점포수'].mean()).values[0],-1)
-                result4 = np.nan_to_num(result4)
-                print('실제값 4:',(cul_4['분기당_매출_금액'].mean()) / cul_4['점포수'].mean())
-                print('예측값 4:',pred4 / cul_4['점포수'].mean())
-            
-                print(model_cul.summary())
-                
-            else :
-                result1 = 0
-                result2 = 0
-                result3 = 0
-                result4 = 0
-                
-                gen_2021_1 = 0
-                gen_2021_2 = 0
-                gen_2021_3 = 0
-                gen_2021_4 = 0
-                
-                jum_2021_1 = 0
-                jum_2021_2 = 0
-                jum_2021_3 = 0
-                jum_2021_4 = 0
-                
-                time_2021_1 = 0
-                time_2021_2 = 0
-                time_2021_3 = 0
-                time_2021_4 = 0
-                
-        # 골목상권 예측모델 실행 
-        elif BigTradingArea == '골목상권':
-            
-            #골목상권
-            gol=pd.read_csv("https://raw.githubusercontent.com/Choizard/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EA%B3%A8%EB%AA%A9%EC%83%81%EA%B6%8C_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
-            print('골목상권 매출 예상')
-            sang_gol = gol[gol['상권_코드_명']==tradingArea]
-            # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
-            
-            if smallBusiType in list(sang_gol['서비스_업종_코드_명']):
-                service_gol = sang_gol[sang_gol['서비스_업종_코드_명']==smallBusiType] 
-            
-                # 업종의 분기별 평균을 토대로 예상매출액을 계산
-                gol_1 = service_gol[service_gol['기준_분기_코드']==1]
-                gol_1_a = gol_1['월요일_매출_금액'].mean()
-                gol_1_b = gol_1['토요일_매출_금액'].mean()
-                gol_1_c = gol_1['일요일_매출_금액'].mean()
-                gol_1_mon = gol_1['월요일_매출_건수'].mean()
-                gol_1_sat = gol_1['토요일_매출_건수'].mean()
-                gol_1_sn = gol_1['일요일_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_1 = list(gol_1[gol_1['기준_년_코드']=='2021-1']['점포수'])
-                # 남녀 매출
-                gen_2021_1 = (gol_1[gol_1['기준_년_코드']=='2021-1'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_1 = (gol_1[gol_1['기준_년_코드']=='2021-1'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-                             
-                gol_2 = service_gol[service_gol['기준_분기_코드']==2]
-                gol_2_a = gol_2['월요일_매출_금액'].mean()
-                gol_2_b = gol_2['토요일_매출_금액'].mean()
-                gol_2_c = gol_2['일요일_매출_금액'].mean()
-                gol_2_mon = gol_2['월요일_매출_건수'].mean()
-                gol_2_sat = gol_2['토요일_매출_건수'].mean()
-                gol_2_sn = gol_2['일요일_매출_건수'].mean()
-            
-                # 점포수
-                jum_2021_2 = list(gol_2[gol_2['기준_년_코드']=='2021-2']['점포수'])
-                # 남녀 매출
-                gen_2021_2 = (gol_2[gol_2['기준_년_코드']=='2021-2'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_2 = (gol_2[gol_2['기준_년_코드']=='2021-2'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-                
-                gol_3 = service_gol[service_gol['기준_분기_코드']==3]
-                gol_3_a = gol_3['월요일_매출_금액'].mean()
-                gol_3_b = gol_3['토요일_매출_금액'].mean()
-                gol_3_c = gol_3['일요일_매출_금액'].mean()
-                gol_3_mon = gol_3['월요일_매출_건수'].mean()
-                gol_3_sat = gol_3['토요일_매출_건수'].mean()
-                gol_3_sn = gol_3['일요일_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_3 = list(gol_3[gol_3['기준_년_코드']=='2021-3']['점포수'])
-                # 남녀 매출
-                gen_2021_3 = (gol_3[gol_3['기준_년_코드']=='2021-3'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_3 = (gol_3[gol_3['기준_년_코드']=='2021-3'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-                
-                gol_4 = service_gol[service_gol['기준_분기_코드']==4]
-                gol_4_a = gol_4['월요일_매출_금액'].mean()
-                gol_4_b = gol_4['토요일_매출_금액'].mean()
-                gol_4_c = gol_4['일요일_매출_금액'].mean()
-                gol_4_mon = gol_4['월요일_매출_건수'].mean()
-                gol_4_sat = gol_4['토요일_매출_건수'].mean()
-                gol_4_sn = gol_4['일요일_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_4 = list(gol_4[gol_4['기준_년_코드']=='2021-4']['점포수'])
-                # 남녀 매출
-                gen_2021_4 = (gol_4[gol_4['기준_년_코드']=='2021-4'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_4 = (gol_4[gol_4['기준_년_코드']=='2021-4'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-                
-                # 모델
-                model_gol = smf.ols(formula = '분기당_매출_금액 ~ 서비스_업종_코드 + 월요일_매출_금액 + 토요일_매출_금액 + 일요일_매출_금액 + 월요일_매출_건수 + 토요일_매출_건수 + 일요일_매출_건수',data = service_gol).fit()
-                
-                # 1분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_gol.values[0][7]],
-                                    '월요일_매출_금액':[gol_1_a],'토요일_매출_금액':[gol_1_b],'일요일_매출_금액':[gol_1_c],
-                                    '월요일_매출_건수':[gol_1_mon],'토요일_매출_건수':[gol_1_sat],'일요일_매출_건수':[gol_1_sn]})
-                pred1 = model_gol.predict(x_new2)
-                result1 = round((pred1 /gol_1['점포수'].mean()).values[0],-1)
-                result1 = np.nan_to_num(result1)
-                print('실제값 1:',(gol_1['분기당_매출_금액'].mean()) / gol_1['점포수'].mean())
-                print('예측값 1:',pred1 / gol_1['점포수'].mean())
-            
-            
-                # 2분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_gol.values[0][7]],
-                                    '월요일_매출_금액':[gol_2_a],'토요일_매출_금액':[gol_2_b],'일요일_매출_금액':[gol_2_c],
-                                    '월요일_매출_건수':[gol_2_mon],'토요일_매출_건수':[gol_2_sat],'일요일_매출_건수':[gol_2_sn]})
-                pred2 = model_gol.predict(x_new2)
-                result2 = round((pred2 /gol_2['점포수'].mean()).values[0],-1)
-                result2 = np.nan_to_num(result2)
-                print('실제값 2:',(gol_2['분기당_매출_금액'].mean()) / gol_2['점포수'].mean())
-                print('예측값 2:',pred2 / gol_2['점포수'].mean())
-            
-            
-                # 3분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_gol.values[0][7]],
-                                    '월요일_매출_금액':[gol_3_a],'토요일_매출_금액':[gol_3_b],'일요일_매출_금액':[gol_3_c],
-                                    '월요일_매출_건수':[gol_3_mon],'토요일_매출_건수':[gol_3_sat],'일요일_매출_건수':[gol_3_sn]})
-                pred3 = model_gol.predict(x_new2)
-                result3 = round((pred3 /gol_3['점포수'].mean()).values[0],-1)
-                result3 = np.nan_to_num(result3)
-                print('실제값 3:',(gol_3['분기당_매출_금액'].mean()) / gol_3['점포수'].mean())
-                print('예측값 3:',pred3 / gol_3['점포수'].mean())
-            
-            
-                # 4분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_gol.values[0][7]],
-                                    '월요일_매출_금액':[gol_4_a],'토요일_매출_금액':[gol_4_b],'일요일_매출_금액':[gol_4_c],
-                                    '월요일_매출_건수':[gol_4_mon],'토요일_매출_건수':[gol_4_sat],'일요일_매출_건수':[gol_4_sn]})
-                pred4 = model_gol.predict(x_new2)
-                result4 = round((pred4 / gol_4['점포수'].mean()).values[0],-1)
-                result4 = np.nan_to_num(result4)
-                print('실제값 4:',(gol_4['분기당_매출_금액'].mean()) / gol_4['점포수'].mean())
-                print('예측값 4:',pred4 / gol_4['점포수'].mean())
-            
-                print(model_gol.summary())
-                
-            else :
-                result1 = 0
-                result2 = 0
-                result3 = 0
-                result4 = 0
-                
-                gen_2021_1 = 0
-                gen_2021_2 = 0
-                gen_2021_3 = 0
-                gen_2021_4 = 0
-                
-                jum_2021_1 = 0
-                jum_2021_2 = 0
-                jum_2021_3 = 0
-                jum_2021_4 = 0
-                
-                time_2021_1 = 0
-                time_2021_2 = 0
-                time_2021_3 = 0
-                time_2021_4 = 0
-                
-        # 전통시장 예측모델 실행
-        elif BigTradingArea == '전통시장':
-            
-            #전통시장
-            jeon=pd.read_csv("https://raw.githubusercontent.com/Choizard/aniorimiro/master/aniorimiro/static/data/%EC%9A%A9%EC%82%B0%EA%B5%AC_%EC%A0%84%ED%86%B5%EC%8B%9C%EC%9E%A5_%EC%9D%B8%EC%BD%94%EB%94%A9.csv", encoding='utf-8')
-            print('전통시장 매출 예상')
-            sang_jeon = jeon[jeon['상권_코드_명']==tradingArea]
-            # 존재하지 않는 업종이 선택되어 데이터가 없다면 '데이터가 없습니다' 로 도출
-            
-            if smallBusiType in list(sang_jeon['서비스_업종_코드_명']):
-                service_jeon = sang_jeon[sang_jeon['서비스_업종_코드_명']==smallBusiType] 
-            
-                # 업종의 분기별 평균을 토대로 예상매출액을 계산
-                jeon_1 = service_jeon[service_jeon['기준_분기_코드']==1]
-                jeon_1_a = jeon_1['월요일_매출_금액'].mean()
-                jeon_1_b = jeon_1['수요일_매출_금액'].mean()
-                jeon_1_c = jeon_1['목요일_매출_금액'].mean()
-                jeon_1_bun = jeon_1['분기당_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_1 = list(jeon_1[jeon_1['기준_년_코드']=='2021-1']['점포수'])
-                # 남녀 매출
-                gen_2021_1 = (jeon_1[jeon_1['기준_년_코드']=='2021-1'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_1 = (jeon_1[jeon_1['기준_년_코드']=='2021-1'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-                                
-                jeon_2 = service_jeon[service_jeon['기준_분기_코드']==2]
-                jeon_2_a = jeon_2['월요일_매출_금액'].mean()
-                jeon_2_b = jeon_2['수요일_매출_금액'].mean()
-                jeon_2_c = jeon_2['목요일_매출_금액'].mean()
-                jeon_2_bun = jeon_2['분기당_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_2 = list(jeon_2[jeon_2['기준_년_코드']=='2021-2']['점포수'])
-                # 남녀 매출
-                gen_2021_2 = (jeon_2[jeon_2['기준_년_코드']=='2021-2'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_2 = (jeon_2[jeon_2['기준_년_코드']=='2021-2'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-                                
-                jeon_3 = service_jeon[service_jeon['기준_분기_코드']==3]
-                jeon_3_a = jeon_3['월요일_매출_금액'].mean()
-                jeon_3_b = jeon_3['수요일_매출_금액'].mean()
-                jeon_3_c = jeon_3['목요일_매출_금액'].mean()
-                jeon_3_bun = jeon_3['분기당_매출_건수'].mean()
-            
-                # 점포수
-                jum_2021_3 = list(jeon_3[jeon_3['기준_년_코드']=='2021-3']['점포수'])
-                # 남녀 매출
-                gen_2021_3 = (jeon_3[jeon_3['기준_년_코드']=='2021-3'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_3 = (jeon_3[jeon_3['기준_년_코드']=='2021-3'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-                
-                jeon_4 = service_jeon[service_jeon['기준_분기_코드']==4]
-                jeon_4_a = jeon_4['월요일_매출_금액'].mean()
-                jeon_4_b = jeon_4['수요일_매출_금액'].mean()
-                jeon_4_c = jeon_4['목요일_매출_금액'].mean()
-                jeon_4_bun = jeon_4['분기당_매출_건수'].mean()
-                
-                # 점포수
-                jum_2021_4 = list(jeon_4[jeon_4['기준_년_코드']=='2021-4']['점포수'])
-                # 남녀 매출
-                gen_2021_4 = (jeon_4[jeon_4['기준_년_코드']=='2021-4'][['남성_매출_비율','여성_매출_비율']].values[0]).tolist()
-                # 시간대별 매출
-                time_2021_4 = (jeon_4[jeon_4['기준_년_코드']=='2021-4'][['시간대_00_06_매출_비율','시간대_06_11_매출_비율','시간대_11_14_매출_비율','시간대_14_17_매출_비율','시간대_17_21_매출_비율','시간대_21_24_매출_비율']].values[0]).tolist()
-                
-                # 모델
-                model_jeon = smf.ols(formula = '분기당_매출_금액 ~ 월요일_매출_금액 + 수요일_매출_금액 + 목요일_매출_금액 + 분기당_매출_건수',data = service_jeon).fit()
-                
-                # 1분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_jeon.values[0][7]],
-                                    '월요일_매출_금액':[jeon_1_a],'수요일_매출_금액':[jeon_1_b],'목요일_매출_금액':[jeon_1_c],
-                                    '분기당_매출_건수':[jeon_1_bun]})
-                pred1 = model_jeon.predict(x_new2)
-                result1 = round((pred1 / jeon_1['점포수'].mean()).values[0],-1)
-                result1 = np.nan_to_num(result1)
-                print('실제값 1:',(jeon_1['분기당_매출_금액'].mean()) / jeon_1['점포수'].mean())
-                print('예측값 1:',pred1 / jeon_1['점포수'].mean())
-            
-            
-                # 2분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_jeon.values[0][7]],
-                                    '월요일_매출_금액':[jeon_2_a],'수요일_매출_금액':[jeon_2_b],'목요일_매출_금액':[jeon_2_c],
-                                    '분기당_매출_건수':[jeon_2_bun]})
-                pred2 = model_jeon.predict(x_new2)
-                result2 = round((pred2 / jeon_2['점포수'].mean()).values[0],-1)
-                result2 = np.nan_to_num(result2)
-                print('실제값 2:',(jeon_2['분기당_매출_금액'].mean()) / jeon_2['점포수'].mean())
-                print('예측값 2:',pred2 / jeon_2['점포수'].mean())
-            
-            
-                # 3분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_jeon.values[0][7]],
-                                    '월요일_매출_금액':[jeon_3_a],'수요일_매출_금액':[jeon_3_b],'목요일_매출_금액':[jeon_3_c],
-                                    '분기당_매출_건수':[jeon_3_bun]})
-                pred3 = model_jeon.predict(x_new2)
-                result3 = round((pred3 / jeon_3['점포수'].mean()).values[0],-1)
-                result3 = np.nan_to_num(result3)
-                print('실제값 3:',(jeon_3['분기당_매출_금액'].mean()) / jeon_3['점포수'].mean())
-                print('예측값 3:',pred3 / jeon_3['점포수'].mean())
-            
-                # 4분기 매출
-                x_new2 = pd.DataFrame({'서비스_업종_코드':[service_jeon.values[0][7]],
-                                    '월요일_매출_금액':[jeon_4_a],'수요일_매출_금액':[jeon_4_b],'목요일_매출_금액':[jeon_4_c],
-                                    '분기당_매출_건수':[jeon_4_bun]})
-                pred4 = model_jeon.predict(x_new2)
-                result4 = round((pred4 / jeon_4['점포수'].mean()).values[0],-1)
-                result4 = np.nan_to_num(result4)
-                print('실제값 4:',(jeon_4['분기당_매출_금액'].mean()) / jeon_4['점포수'].mean())
-                print('예측값 4:',pred4 / jeon_4['점포수'].mean()) 
-                
-                print(model_jeon.summary())
-                
-            else :
-                result1 = 0
-                result2 = 0
-                result3 = 0
-                result4 = 0
-                
-                gen_2021_1 = 0
-                gen_2021_2 = 0
-                gen_2021_3 = 0
-                gen_2021_4 = 0
-                
-                jum_2021_1 = 0
-                jum_2021_2 = 0
-                jum_2021_3 = 0
-                jum_2021_4 = 0
-                
-                time_2021_1 = 0
-                time_2021_2 = 0
-                time_2021_3 = 0
-                time_2021_4 = 0
-        context = {
+        preData={
             'businessType':businessType,
             'tradingArea':tradingArea,
             'BigTradingArea':BigTradingArea,
@@ -616,30 +102,198 @@ def calldbFunc(request):
             'result1':result1,
             'result2':result2,
             'result3':result3,
-            'result4':result4,
-            
-            'gen_2021_1':gen_2021_1,
-            'gen_2021_2':gen_2021_2,
-            'gen_2021_3':gen_2021_3,
-            'gen_2021_4':gen_2021_4,
-            
-            'jum_2021_1':jum_2021_1,
-            'jum_2021_2':jum_2021_2,
-            'jum_2021_3':jum_2021_3,
-            'jum_2021_4':jum_2021_4,
-            
-            'time_2021_1':time_2021_1,
-            'time_2021_2':time_2021_2,
-            'time_2021_3':time_2021_3,
-            'time_2021_4':time_2021_4
-            
+            'result4':result4           
         }
         
-    return JsonResponse(context)
+        reportData={
+            'jum19':jum19,
+            'jum20':jum20,
+            'jum21':jum21,
+            
+            'gen19':gen19,
+            'gen20':gen20,
+            'gen21':gen21,
+            
+            'time19':time19,
+            'time20':time20,
+            'time21':time21
+        }
+        
+    return JsonResponse({'preData':preData,'reportData':reportData})
 
+df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiroDATA/master/yongsan2021.csv", encoding='utf-8')
+def report(BigTradingArea,tradingArea,smallBusiType):
+    global df
+    df=df[df['상권_구분_코드_명']==BigTradingArea]
+    sang = df[df['상권_코드_명']==tradingArea]
+    # 선택한 업종이 있으면 데이터를 불러오고 없으면 0을 리턴한다.
+    if smallBusiType in list(sang['서비스_업종_코드_명']):
+        # 선택한 서비스업종의 행들만 불러온다.
+        service = sang[sang['서비스_업종_코드_명']==smallBusiType]  
+                   
+        ###### 분석 리포트에 출력 할 자료이다.
+        # 년도별로 나타낼 예정이라 년도별로 담아준다.   
+        s19=service[service['기준_년_코드']==2019]
+        s20=service[service['기준_년_코드']==2020]
+        s21=service[service['기준_년_코드']==2021]
+        
+        # 해당년도의 점포수를 가져와
+        jum19 = s19['점포수'].tolist()
+        jum20 = s20['점포수'].tolist()
+        jum21 = s21['점포수'].tolist()
+        # dataframe에 담아준다.
+        jum=pd.DataFrame(zip(jum19,jum20,jum21), columns=['2019','2020','2021'], index=['1분기','2분기','3분기','4분기'])
+        
+        # 해당년도의 남.녀 매출 비율의 가져와
+        jen19 = s19[['남성_매출_비율','여성_매출_비율']].iloc[0].values
+        jen20 = s20[['남성_매출_비율','여성_매출_비율']].iloc[0].values
+        jen21 = s21[['남성_매출_비율','여성_매출_비율']].iloc[0].values
+        # dataframe에 담아준다.
+        jen=pd.DataFrame(zip(jen19,jen20,jen21), columns=['2019','2020','2021'], index=['남','여'])
 
+        # 해당년도의 시간대 매출 비율의 가져와
+        time19 = s19[['시간대_00~06_매출_비율','시간대_06~11_매출_비율','시간대_11~14_매출_비율','시간대_14~17_매출_비율','시간대_17~21_매출_비율','시간대_21~24_매출_비율']].iloc[0].values
+        time20 = s20[['시간대_00~06_매출_비율','시간대_06~11_매출_비율','시간대_11~14_매출_비율','시간대_14~17_매출_비율','시간대_17~21_매출_비율','시간대_21~24_매출_비율']].iloc[0].values
+        time21 = s21[['시간대_00~06_매출_비율','시간대_06~11_매출_비율','시간대_11~14_매출_비율','시간대_14~17_매출_비율','시간대_17~21_매출_비율','시간대_21~24_매출_비율']].iloc[0].values
+        # dataframe에 담아준다.
+        time=pd.DataFrame(zip(time19,time20,time21), columns=['2019','2020','2021'], index=['00~06','06~11','11~14','14~17','17~21','21~24'])
 
+        return jum, jen, time
+ 
+def balpredx(tradingArea,smallBusiType):
+    global df
+    df=df[df['상권_구분_코드_명']=="골목상권"]
+    sang = df[df['상권_코드_명']==tradingArea]
+    # 선택한 업종이 있으면 데이터를 불러오고 없으면 0을 리턴한다.
+    if smallBusiType in list(sang['서비스_업종_코드_명']):
+        # 선택한 서비스업종의 행들만 불러온다.
+        service = sang[sang['서비스_업종_코드_명']==smallBusiType]
+        
+        ###### 모델에 넣어줄 미지의 값이다.(예측값에 사용)
+        # 분기별 평균을 구한다.
+        xdata=service.groupby(service['기준_분기_코드']).mean()
+        # 예측값에 넣을 변수들만 담기위해 빈 데이터 프레임을 만들어준다.
+        predictdata=pd.DataFrame()
+        # 산정이 안된 분기가 있을 경우 길이를 모르기때문에 index를 돈다.
+        for i in xdata.index:
+            # 0부터 시작하기때문에 -1을 해준다.
+            df = pd.DataFrame({'월요일_매출_금액':xdata['월요일_매출_금액'].iloc[i-1],
+                              '토요일_매출_금액':xdata['토요일_매출_금액'].iloc[i-1],
+                              '일요일_매출_금액':xdata['일요일_매출_금액'].iloc[i-1],
+                              '월요일_매출_건수':xdata['월요일_매출_건수'].iloc[i-1],
+                              '토요일_매출_건수':xdata['토요일_매출_건수'].iloc[i-1],
+                              '일요일_매출_건수':xdata['일요일_매출_건수'].iloc[i-1],
+                              '점포수':xdata['점포수'].iloc[i-1]},index = [str(i)+'분기'])
+            
+            # 위 행들을 준비해둔 데이터 프레임에 담아준다.
+            predictdata=pd.concat([predictdata,df])
+            # 계속돈다.
+            i+1
 
-
-
+        return predictdata
+    else:
+        return 0
+    
+def golpredx(tradingArea,smallBusiType):
+    global df
+    df=df[df['상권_구분_코드_명']=="골목상권"]
+    sang = df[df['상권_코드_명']==tradingArea]
+    # 선택한 업종이 있으면 데이터를 불러오고 없으면 0을 리턴한다.
+    if smallBusiType in list(sang['서비스_업종_코드_명']):
+        # 선택한 서비스업종의 행들만 불러온다.
+        service = sang[sang['서비스_업종_코드_명']==smallBusiType]
+        
+        ###### 모델에 넣어줄 미지의 값이다.(예측값에 사용)
+        # 분기별 평균을 구한다.
+        xdata=service.groupby(service['기준_분기_코드']).mean()
+        # 예측값에 넣을 변수들만 담기위해 빈 데이터 프레임을 만들어준다.
+        predictdata=pd.DataFrame()
+        # 산정이 안된 분기가 있을 경우 길이를 모르기때문에 index를 돈다.
+        for i in xdata.index:
+            print(i)
+            # 0부터 시작하기때문에 -1을 해준다.
+            df = pd.DataFrame({'월요일_매출_금액':xdata['월요일_매출_금액'].iloc[i-1],
+                              '토요일_매출_금액':xdata['토요일_매출_금액'].iloc[i-1],
+                              '일요일_매출_금액':xdata['일요일_매출_금액'].iloc[i-1],
+                              '월요일_매출_건수':xdata['월요일_매출_건수'].iloc[i-1],
+                              '토요일_매출_건수':xdata['토요일_매출_건수'].iloc[i-1],
+                              '일요일_매출_건수':xdata['일요일_매출_건수'].iloc[i-1],
+                              '점포수':xdata['점포수'].iloc[i-1]},index = [str(i)+'분기'])
+            
+            # 위 행들을 준비해둔 데이터 프레임에 담아준다.
+            predictdata=pd.concat([predictdata,df])
+            # 계속돈다.
+            i+1
   
+        return predictdata 
+    else:
+        return 0
+
+def jpredx(tradingArea,smallBusiType):
+    global df
+    df=df[df['상권_구분_코드_명']=="전통시장"]
+    sang = df[df['상권_코드_명']==tradingArea]
+    # 선택한 업종이 있으면 데이터를 불러오고 없으면 0을 리턴한다.
+    if smallBusiType in list(sang['서비스_업종_코드_명']):
+        # 선택한 서비스업종의 행들만 불러온다.
+        service = sang[sang['서비스_업종_코드_명']==smallBusiType]
+        
+        ###### 모델에 넣어줄 미지의 값이다.(예측값에 사용)
+        # 분기별 평균을 구한다.
+        xdata=service.groupby(service['기준_분기_코드']).mean()
+        # 예측값에 넣을 변수들만 담기위해 빈 데이터 프레임을 만들어준다.
+        predictdata=pd.DataFrame()
+        # 산정이 안된 분기가 있을 경우 길이를 모르기때문에 index를 돈다.
+        for i in xdata.index:
+            # 0부터 시작하기때문에 -1을 해준다.
+            df = pd.DataFrame({'월요일_매출_금액':xdata['월요일_매출_금액'].iloc[i-1],
+                              '토요일_매출_금액':xdata['토요일_매출_금액'].iloc[i-1],
+                              '일요일_매출_금액':xdata['일요일_매출_금액'].iloc[i-1],
+                              '월요일_매출_건수':xdata['월요일_매출_건수'].iloc[i-1],
+                              '토요일_매출_건수':xdata['토요일_매출_건수'].iloc[i-1],
+                              '일요일_매출_건수':xdata['일요일_매출_건수'].iloc[i-1],
+                              '점포수':xdata['점포수'].iloc[i-1]},index = [str(i)+'분기'])
+            
+            # 위 행들을 준비해둔 데이터 프레임에 담아준다.
+            predictdata=pd.concat([predictdata,df])
+            # 계속돈다.
+            i+1
+            
+        return predictdata
+    else:
+        return 0
+
+def culpredx(tradingArea,smallBusiType):
+    global df
+    df=df[df['상권_구분_코드_명']=="관광특구"] 
+    sang = df[df['상권_코드_명']==tradingArea]
+    # 선택한 업종이 있으면 데이터를 불러오고 없으면 0을 리턴한다.
+    if smallBusiType in list(sang['서비스_업종_코드_명']):
+        # 선택한 서비스업종의 행들만 불러온다.
+        service = sang[sang['서비스_업종_코드_명']==smallBusiType]
+        
+        ###### 모델에 넣어줄 미지의 값이다.(예측값에 사용)
+        # 분기별 평균을 구한다.
+        xdata=service.groupby(service['기준_분기_코드']).mean()
+        # 예측값에 넣을 변수들만 담기위해 빈 데이터 프레임을 만들어준다.
+        predictdata=pd.DataFrame()
+        # 산정이 안된 분기가 있을 경우 길이를 모르기때문에 index를 돈다.
+        for i in xdata.index:
+            print(i)
+            # 0부터 시작하기때문에 -1을 해준다.
+            df = pd.DataFrame({'월요일_매출_금액':xdata['월요일_매출_금액'].iloc[i-1],
+                              '토요일_매출_금액':xdata['토요일_매출_금액'].iloc[i-1],
+                              '일요일_매출_금액':xdata['일요일_매출_금액'].iloc[i-1],
+                              '월요일_매출_건수':xdata['월요일_매출_건수'].iloc[i-1],
+                              '토요일_매출_건수':xdata['토요일_매출_건수'].iloc[i-1],
+                              '일요일_매출_건수':xdata['일요일_매출_건수'].iloc[i-1],
+                              '점포수':xdata['점포수'].iloc[i-1]},index = [str(i)+'분기'])
+            
+            # 위 행들을 준비해둔 데이터 프레임에 담아준다.
+            predictdata=pd.concat([predictdata,df])
+            # 계속돈다.
+            i+1
+            
+        return predictdata 
+    else:
+        return 0
