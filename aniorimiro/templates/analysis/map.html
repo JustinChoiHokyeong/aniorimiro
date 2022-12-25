@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}?v={% now 'u' %}"><!-- 캐시 방지 -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <script>
       //ajax
       function ajaxSend(){
@@ -71,14 +72,15 @@
 	                        	//x축 label에 대응되는 데이터 값
 	                        	data.jum_2021_1[0]
 	                        	],
-	                        backgroundColor: [
+	                        backgroundColor: 
 	                            //색상
 	                            'rgba(255, 99, 132, 0.2)'
-	                        ],
-	                        borderColor: [
+	                            
+	                        ,
+	                        borderColor: 
 	                            //경계선 색상
 	                            'rgba(255, 99, 132, 1)'
-	                        ],
+	                        ,
 	                        borderWidth: 1 //경계선 굵기
 	                    },{ //데이터
 	                    	label:'2분기',
@@ -89,13 +91,11 @@
 	                        	],
 	                        backgroundColor: [
 	                            //색상
-	                            
-	                            'rgba(54, 162, 235, 0.2)'
+	                             'rgba(54, 162, 235, 0.2)'
 	                        ],
 	                        borderColor: [
 	                            //경계선 색상
-	                            
-	                            'rgba(54, 162, 235, 1)'
+	                             'rgba(54, 162, 235, 1)'
 	                        ],
 	                        borderWidth: 1 //경계선 굵기
 	                    },{ //데이터
@@ -107,13 +107,11 @@
 	                        	],
 	                        backgroundColor: [
 	                            //색상
-	                            
-	                            'rgba(255, 206, 86, 0.2)'
+	                             'rgba(255, 206, 86, 0.2)'
 	                        ],
 	                        borderColor: [
 	                            //경계선 색상
-	                            
-	                            'rgba(255, 206, 86, 1)'
+	                             'rgba(255, 206, 86, 1)'
 	                        ],
 	                        borderWidth: 1 //경계선 굵기
 	                    },{ //데이터
@@ -125,13 +123,11 @@
 	                        	],
 	                        backgroundColor: [
 	                            //색상
-	                            
-	                            'rgba(75, 192, 192, 0.2)'
+	                             'rgba(75, 192, 192, 0.2)'
 	                        ],
 	                        borderColor: [
 	                            //경계선 색상
-	                            
-	                            'rgba(75, 192, 192, 1)'
+	                             'rgba(75, 192, 192, 1)',
 	                        ],
 	                        borderWidth: 1 //경계선 굵기
 	                    }
@@ -186,7 +182,10 @@
 	                ]
 	            },
 	            options: {
-	            	responsive: false
+	            	responsive: false,
+	            	legend:{
+	                    display:true
+	                  }
 	            }
 	        });
 	        var context1_2 = document.getElementById('myChart1_2').getContext('2d');
@@ -220,9 +219,13 @@
 	                ]
 	            },
 	            options: {
-	            	responsive: false
+	            	responsive: false,
+	            	legend:{
+	                    display:false
+	                }
 	            }
 	        });
+	        
 	        var context1_3 = document.getElementById('myChart1_3').getContext('2d');
 	        var myChart1_3 = new Chart(context1_3, {
 	            type: 'doughnut', // 차트의 형태
@@ -254,8 +257,12 @@
 	                ]
 	            },
 	            options: {
-	            	responsive: false
+	            	responsive: false,
+	            	legend:{
+	                    display: true
+	                },
 	            }
+	            
 	        });
 	        var context1_4 = document.getElementById('myChart1_4').getContext('2d');
 	        var myChart1_4 = new Chart(context1_4, {
@@ -288,9 +295,14 @@
 	                ]
 	            },
 	            options: {
-	            	responsive: false
+	            	responsive: false,
+	            	legend:{
+	                    display:false
+	                  }
 	            }
+	            
 	        });
+	        
 	     	// 시간대별 매출비율
 			var context2_1 = document.getElementById('myChart2_1').getContext('2d');
 	        var myChart2_1 = new Chart(context2_1, {
@@ -304,28 +316,56 @@
 	                        data: [
 	                        	//x축 label에 대응되는 데이터 값
 	                        	data.time_2021_1[0],data.time_2021_2[0],,data.time_2021_3[0],,data.time_2021_4[0]
-	                        	]},
+	                        	],
+                        	backgroundColor: [
+	                        	'rgba(7, 7, 8, 0.4)',
+	                        	'rgba(7, 7, 8, 0.4)',
+	                        	'rgba(7, 7, 8, 0.4)',
+	                        	'rgba(7, 7, 8, 0.4)'
+	                        ],
+	                    },
 	                    { //데이터
 	                    	label:['6시~11시'],
 	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
 	                        data: [
 	                        	//x축 label에 대응되는 데이터 값
 	                        	data.time_2021_1[1],data.time_2021_2[1],data.time_2021_3[1],data.time_2021_4[1]
-	                        	]},
+	                        	],
+                        	backgroundColor: [
+	                        	'rgba(203, 56, 70, 0.4)',
+	                        	'rgba(203, 56, 70, 0.4)',
+	                        	'rgba(203, 56, 70, 0.4)',
+	                        	'rgba(203, 56, 70, 0.4)'
+	                        ],
+	                    },
 	                    { //데이터
 	                    	label:['11시~14시'],
 	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
 	                        data: [
 	                        	//x축 label에 대응되는 데이터 값
 	                        	data.time_2021_1[2],data.time_2021_2[2],data.time_2021_3[2],data.time_2021_4[2]
-	                        	]},
+	                        	],
+                        	backgroundColor: [
+	                        	'rgba(89, 237, 141, 0.4)',
+	                        	'rgba(89, 237, 141, 0.4)',
+	                        	'rgba(89, 237, 141, 0.4)',
+	                        	'rgba(89, 237, 141, 0.4)'
+	                        ],    	
+	                    },
 	                    { //데이터
 	                    	label:['14시~17시'],
 	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
 	                        data: [
 	                        	//x축 label에 대응되는 데이터 값
 	                        	data.time_2021_1[3],data.time_2021_2[3],data.time_2021_3[3],data.time_2021_4[3]
-	                        	]},
+	                        	],
+	                        backgroundColor: [
+	                        	'rgba(56, 64, 151, 0.4)',
+	                        	'rgba(56, 64, 151, 0.4)',
+	                        	'rgba(56, 64, 151, 0.4)',
+	                        	'rgba(56, 64, 151, 0.4)'
+	                        ],
+	                        	},
 	                    { //데이터
 	                        label:['17시~21시'],
 	                        fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
@@ -335,12 +375,13 @@
 	                        	],
 	                        backgroundColor: [
 	                               //색상
-	                               'rgba(153, 102, 255, 0.2)'
+	                               "rgba(153, 102, 255, 0.4)",
+	                               "rgba(153, 102, 255, 0.4)",
+	                               "rgba(153, 102, 255, 0.4)",
+	                               "rgba(153, 102, 255, 0.4)"
 	                           ],
-                            borderColor: [
-	                               //경계선 색상
-	                               'rgba(153, 102, 255, 1)'
-                           ]},
+                            
+                           },
 	                        
 	                    { //데이터
 	                    	label:['21시~24시'],
@@ -351,12 +392,12 @@
 	                        	],
                         	backgroundColor: [
 	                                //색상
-	                                'rgba(255, 159, 64, 0.2)'
+	                                'rgba(255, 159, 64, 0.4)',
+	                                'rgba(255, 159, 64, 0.4)',
+	                                'rgba(255, 159, 64, 0.4)',
+	                                'rgba(255, 159, 64, 0.4)'
                             ],
-                            borderColor: [
-	                                //경계선 색상
-	                                'rgba(255, 159, 64, 1)'
-                            ],
+                            
 	                        	
 	                    }
 	                ]/*,
@@ -466,10 +507,10 @@
     <form method="post" id="sform">{% csrf_token %}
       <!-- <label for="tradingarea" >대분류 상권:</label> -->
       <input type="hidden" id=area3 value="" name="BigTradingArea"><br/>
-      <label for="tradingarea" >상권 이름: <span id=area1></span></label>
+      <label for="tradingarea" >상권 이름<span id=area1 style='margin-left:10px; font-size:21px'></span></label>
       <span id=area1></span><br/>
       <input type="hidden" id=area2 value="" name="tradingArea"><br/>
-      <label for="tradingarea" >대분류 업종:</label>
+      <label for="tradingarea" >대분류 업종</label>
       <ul>
 	      <select name="businessType" id="selectBusiType" onchange="selectBusi()" class="sele">
 	        <option value="" selected disabled>업종을 선택해주세요</option>
@@ -479,7 +520,7 @@
 	      </select>
 	  </ul>  
 	  <br/>
-      <label for="tradingarea" >소분류 업종:</label>
+      <label for="tradingarea" >소분류 업종</label>
       <ul>
 	      <select name="smallBusiType" id="smallCategory">
 	      </select>
@@ -499,35 +540,31 @@
 	    	<span id="dateString"></span>
 	    </dt>
 		<dd class="sang1">
-			
 			<div>
-
-        <strong class="spread-underline"><a href="#pred" id="showData_p">예측</a></strong>
-
+        		<strong class="spread-underline"><a href="#pred" id="showData_p">예측</a></strong>
 			</div>
 			<hr />
 			<div>
 				<strong class="spread-underline" ><a href="#als" id="showData_b">분석</a></strong>
 			</div>
-			
 		</dd>
 		<hr />
 	    <dd class="sang2">
 	    	<div>
         	    <dl> 
-	    			<dt>대분류 상권</dt>
+	    			<dt>상권</dt>
 	    			<strong><dd id="showData3"></dd></strong>
 	    		</dl>
                 <dl> 
-	    			<dt>소분류 상권:</dt>
+	    			<dt>지역</dt>
 	    			<strong><dd id="showData2"></dd></strong>
 	    		</dl>
                 <dl>
-	    			<dt>대분류 업종:</dt>
+	    			<dt>업종</dt>
 	    			<strong><dd id="showData1"></dd></strong>
 	    		</dl>
 	    		<dl>
-	    			<dt>소분류 업종:</dt>
+	    			<dt>서비스명</dt>
 	    			<strong><dd id="showData4"></dd></strong>
 	    		</dl>
 	    	</div>
@@ -535,7 +572,6 @@
 	</dl>
 	<div class="rightReport_info">
 		<div>본 보고서에 제공하는 내용은<strong> 추정정보</strong>이므로<strong> 실제와 다를 수</strong>있기에, <strong>사용자의 책임 하에 활용</strong>하시기 바랍니다.</div>
-		
     <span id="pred" class="spread-underline">매출 예측</span>
 		<dl>
 			<dt></dt>
@@ -545,11 +581,9 @@
 					<li>
 						<figure class="highcharts-figure">
 						  <div id="container">
-
 						  </div>
 						</figure>
 					</li>
-					<li class="detail"></li>
 				</ul>
 			</dd>
 		</dl>
@@ -557,48 +591,9 @@
 			<dt>모델에 대한 결과</dt>
 			<dd>
 				<ul class="pred_list">
-					<li class="summary"></li>
-					<li class="detail">
-					
-					</li>
 				</ul>
 			</dd>
 		</dl>
-		<dl>
-			<dt>건수, 요일별 매출</dt>
-			<dd>
-				<ul class="pred_list">
-					<li class="summary"></li>
-					<li class="detail">
-					
-					</li>
-				</ul>
-			</dd>
-		</dl>
-		<dl>
-			<dt>시간대별 매출</dt>
-			<dd>
-				<ul class="pred_list">
-					<li class="summary"></li>
-					<li class="detail">
-					
-					</li>
-				</ul>
-			</dd>
-		</dl>
-    <dl>
-			<dt>모델에 대한 결과</dt>
-			<dd>
-				<ul class="analysis_list">
-					<li class="summary">
-					</li>
-					<li class="detail">
-					
-					</li>
-				</ul>
-			</dd>
-		</dl>
-
     <span id="als" class="spread-underline">상권 분석</span>
 		<dl>
 			<dt>업종 분포현황</dt>
@@ -608,16 +603,13 @@
 						<strong id="showData1"></strong>이 가장많고
 						<strong id="showData1"></strong> 이 증가하는 추세입니다.
 					</li>
-					<li class="detail">
-					
-					</li>
 				</ul>
 			</dd>
 		</dl>
 		<dl>	
 			<dt>점포수</dt>
 			<dd>
-				<canvas id="myChart" width ='400' height='200'></canvas>
+				<canvas id="myChart" width ='600' height='400'></canvas>
 			</dd>
 		</dl>
 		<dl>
@@ -635,7 +627,7 @@
 				<canvas id="myChart2_1" width ='600' height='400' style='display:inline;'></canvas>
 			</dd>
 		</dl>
-		</div>
+	</div>
   </aside>
 </div>
 
@@ -891,8 +883,8 @@ function displayArea(area, lineColor) {
 }      
 
 
-
-{% comment %} //마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+/*
+//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 let markerImage = new kakao.maps.MarkerImage(
     '/static/pictures/KakaoTalk_20221123_105421668.png',
     new kakao.maps.Size(50, 50), new kakao.maps.Point(15, 34));
@@ -906,7 +898,7 @@ let marker = new kakao.maps.Marker({
 
 // 마커가 지도 위에 표시되도록 설정합니다
 marker.setMap(map);
-marker.setImage(markerImage); // 이미지도 함께 {% endcomment %}
+marker.setImage(markerImage); // 이미지도 함께 */
 
 /* 우측 리포트 이벤트 */
 document.querySelector("#reportBtn").addEventListener("click",function(){

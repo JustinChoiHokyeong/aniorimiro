@@ -394,7 +394,7 @@ a {
 /* -- 밑줄 애니메이션 효과 끝 -- */
 
 /*---- 스크롤바 커스텀 ----*/
-.rightReport .rightReport_info {overflow-y: scroll; height: 710px; width: 100%;}
+.rightReport .rightReport_info {overflow-y: scroll; height: 70vh; width: 100%;}
 .rightReport .rightReport_info::-webkit-scrollbar {width: 7px;} /* 스크롤바의 너비 */
 .rightReport .rightReport_info::-webkit-scrollbar-thumb {height: 30%;background: #ffcc33;border-radius: 10px;} /* 스크롤바의 길이, 스크롤바의 색상 */
 .rightReport .rightReport_info::-webkit-scrollbar-track {background: rgba(255, 235, 132, .1);} /*스크롤바 뒷 배경 색상*/
@@ -422,7 +422,7 @@ a {
 .info > p {font-size:12px;}
 .info > .size > sup {font-size:12px;}
 .info > .title {font-weight: bold;font-size:14px;}
-.info > button {font-size: 13px;padding: 4px 2px;margin-top: 1px; cursor: pointer;background:linear-gradient(#e8e8e8,  #fff);border-radius: 5px;border: 2px groove;}
+.info > button {font-size: 13px;padding: 4px 2px;margin-top: 1px; cursor: pointer;background:#5bacff61;border-radius: 5px;border: 2px groove;}
 .info > button:hover {background:#f5f5f5;background:linear-gradient(#fff7dc,#ffd442);border-color:#E9AA13; color:#262521;}
 .info > button:active {background:#e6e6e6;background:linear-gradient(#e6e6e6, #fff);border-color:#F9AB00; color:#591035;}
 
@@ -475,7 +475,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;} /*margin:
 
 
 /* 3-2. aside RightReport */
-.rightReport {display:none; position:fixed;top:72px;right:0px;height:860px;width:40% ;margin:0;padding:0;z-index:1;background-color:#fff;}
+.rightReport {display:none; position:fixed;top:72px;right:0px;height:100vh;width:40% ;margin:0;padding:0;z-index:1;background-color:#fff;}
 .rightReport > dl {margin:0;}
 .rightReport > dl > hr {margin-left: 22px;margin-right: 22px;border-bottom-width: 2px;border-top-width: 0px;border-right-width: 0px;border-left-width: 0px;}
 .rightReport > dl > .sang1 {display:flex; justify-content: space-around; padding-top: 0px; margin-inline-start: 0px;height: 40px;}
