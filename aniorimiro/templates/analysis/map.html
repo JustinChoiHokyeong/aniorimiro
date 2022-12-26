@@ -184,7 +184,7 @@
 	            options: {
 	            	responsive: false,
 	            	legend:{
-	                    display:true
+	                    display: false
 	                  }
 	            }
 	        });
@@ -259,7 +259,7 @@
 	            options: {
 	            	responsive: false,
 	            	legend:{
-	                    display: true
+	                    display:false
 	                },
 	            }
 	            
@@ -400,27 +400,7 @@
                             
 	                        	
 	                    }
-	                ]/*,
-	                backgroundColor: [
-                        //색상
-                    	'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        //경계선 색상
-                    	'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1 //경계선 굵기
-	            */},
+	                ]},
 	            options: {
 	            	responsive: false,
 	                scales: {
@@ -577,7 +557,7 @@
 			<dt></dt>
 			<dd>
 				<ul class="pred_list">
-					<li class="summary">연간 예상 매출액 <strong id="showData5"></strong></li><br />
+					<li class="summary">연간 예상 매출액은 <strong id="showData5"></strong>입니다.</li><br />
 					<li>
 						<figure class="highcharts-figure">
 						  <div id="container">
@@ -587,33 +567,19 @@
 				</ul>
 			</dd>
 		</dl>
+   	 	<span id="als" class="spread-underline">상권 분석</span>
 		<dl>	
-			<dt>모델에 대한 결과</dt>
-			<dd>
-				<ul class="pred_list">
-				</ul>
-			</dd>
-		</dl>
-    <span id="als" class="spread-underline">상권 분석</span>
-		<dl>
-			<dt>업종 분포현황</dt>
-			<dd>
-				<ul class="analysis_list">
-					<li class="summary">
-						<strong id="showData1"></strong>이 가장많고
-						<strong id="showData1"></strong> 이 증가하는 추세입니다.
-					</li>
-				</ul>
-			</dd>
-		</dl>
-		<dl>	
-			<dt>점포수</dt>
+			<dt>분기별 점포수 현황입니다.</dt><br />
 			<dd>
 				<canvas id="myChart" width ='600' height='400'></canvas>
 			</dd>
 		</dl>
 		<dl>
-			<dt>남녀 매출비율</dt>
+			<dt>분기별 남·녀 매출비율 입니다.</dt><br />
+			<div>
+				<img class="male" src="/static/pictures/mens_icon.svg"/>
+				<img class="female" src="/static/pictures/woman_icon.svg"/>
+			</div>
 			<dd>
 				<canvas id="myChart1_1" width ='140' height='300' style='display:inline;'></canvas>
 				<canvas id="myChart1_2" width ='140' height='300' style='display:inline;'></canvas>
@@ -622,7 +588,7 @@
 			</dd>
 		</dl>
 		<dl>
-			<dt>시간대별 매출비율</dt>
+			<dt>분기별 각 시간대별 매출비율 입니다.</dt><br />
 			<dd>
 				<canvas id="myChart2_1" width ='600' height='400' style='display:inline;'></canvas>
 			</dd>
@@ -878,27 +844,7 @@ function displayArea(area, lineColor) {
     })
   }) 
     });
-
-    
 }      
-
-
-/*
-//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-let markerImage = new kakao.maps.MarkerImage(
-    '/static/pictures/KakaoTalk_20221123_105421668.png',
-    new kakao.maps.Size(50, 50), new kakao.maps.Point(15, 34));
-    markerPosition = new kakao.maps.LatLng(37.53481662194368, 126.9809016009247 );// 마커가 표시될 위치입니다.
-
-// 마커를 생성합니다
-let marker = new kakao.maps.Marker({
-    position: markerPosition, 
-    image: markerImage // 마커이미지 설정 
-});
-
-// 마커가 지도 위에 표시되도록 설정합니다
-marker.setMap(map);
-marker.setImage(markerImage); // 이미지도 함께 */
 
 /* 우측 리포트 이벤트 */
 document.querySelector("#reportBtn").addEventListener("click",function(){

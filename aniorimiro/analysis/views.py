@@ -21,7 +21,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 
 #데이터 탐색용
-df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiro_data/master/yongsan_192021.csv", encoding='utf-8')
+# df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiro_data/master/yongsan_192021.csv", encoding='utf-8')
 
 def map(request):
 
