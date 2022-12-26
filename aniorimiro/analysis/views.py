@@ -40,7 +40,7 @@ def calldbFunc(request):
         ##### 모델 예측
         ################################################모델 저장필요
         global df
-        gol= df[df['상권_구분_코드_명']=='골목상권']
+        gol= df[df['상권_구분_코드_명']=="발달상권"]
         # 모델
         model = smf.ols(formula = '분기당_매출_금액 ~ 월요일_매출_금액 + 토요일_매출_금액 + 일요일_매출_금액 + 월요일_매출_건수 + 토요일_매출_건수 + 일요일_매출_건수',data = gol).fit()
         ################################################
@@ -58,7 +58,7 @@ def calldbFunc(request):
             pdata=culpredx(tradingArea,smallBusiType)
         print(pdata)
         # 해당 상권에 선택한 서비스업종이 있다면
-        if pdata != 0:
+        if len(pdata) != 0:
             # pdata에서 각 분기별로 값을 꺼낸다.
             pred1 = model.predict(pdata.iloc[0])
             pred2 = model.predict(pdata.iloc[1])
@@ -88,7 +88,7 @@ def calldbFunc(request):
             time21= rdata[2]['2021'].values.tolist()
             print(time21)
         # 0이 넘어온다면 0을 담는다.
-        elif pdata == 0:
+        elif pdata == False:
             result1=0; result2=0; result3=0; result4=0; jum19=0; jum20=0; jum21=0; 
             gen19=0; gen20=0; gen21=0; time19=0; time20=0; time21=0; 
             
@@ -121,10 +121,11 @@ def calldbFunc(request):
         
     return JsonResponse({'preData':preData,'reportData':reportData})
 
-df=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiroDATA/master/yongsan2021.csv", encoding='utf-8')
+dfdata=pd.read_csv("https://raw.githubusercontent.com/Kshinhye/aniorimiroDATA/master/yongsan2021.csv", encoding='utf-8')
 def report(BigTradingArea,tradingArea,smallBusiType):
-    global df
-    df=df[df['상권_구분_코드_명']==BigTradingArea]
+    global dfdata
+    print(dfdata.info())
+    df=dfdata[dfdata['상권_구분_코드_명']==BigTradingArea]
     sang = df[df['상권_코드_명']==tradingArea]
     # 선택한 업종이 있으면 데이터를 불러오고 없으면 0을 리턴한다.
     if smallBusiType in list(sang['서비스_업종_코드_명']):
@@ -161,8 +162,8 @@ def report(BigTradingArea,tradingArea,smallBusiType):
         return jum, jen, time
  
 def balpredx(tradingArea,smallBusiType):
-    global df
-    df=df[df['상권_구분_코드_명']=="골목상권"]
+    global dfdata
+    df=dfdata[dfdata['상권_구분_코드_명']=="발달상권"]
     sang = df[df['상권_코드_명']==tradingArea]
     # 선택한 업종이 있으면 데이터를 불러오고 없으면 0을 리턴한다.
     if smallBusiType in list(sang['서비스_업종_코드_명']):
@@ -192,11 +193,11 @@ def balpredx(tradingArea,smallBusiType):
 
         return predictdata
     else:
-        return 0
+        return False
     
 def golpredx(tradingArea,smallBusiType):
-    global df
-    df=df[df['상권_구분_코드_명']=="골목상권"]
+    global dfdata
+    df=dfdata[dfdata['상권_구분_코드_명']=="골목상권"]
     sang = df[df['상권_코드_명']==tradingArea]
     # 선택한 업종이 있으면 데이터를 불러오고 없으면 0을 리턴한다.
     if smallBusiType in list(sang['서비스_업종_코드_명']):
@@ -227,11 +228,11 @@ def golpredx(tradingArea,smallBusiType):
   
         return predictdata 
     else:
-        return 0
+        return False
 
 def jpredx(tradingArea,smallBusiType):
-    global df
-    df=df[df['상권_구분_코드_명']=="전통시장"]
+    global dfdata
+    df=dfdata[dfdata['상권_구분_코드_명']=="전통시장"]
     sang = df[df['상권_코드_명']==tradingArea]
     # 선택한 업종이 있으면 데이터를 불러오고 없으면 0을 리턴한다.
     if smallBusiType in list(sang['서비스_업종_코드_명']):
@@ -261,12 +262,14 @@ def jpredx(tradingArea,smallBusiType):
             
         return predictdata
     else:
-        return 0
+        return False
 
 def culpredx(tradingArea,smallBusiType):
-    global df
-    df=df[df['상권_구분_코드_명']=="관광특구"] 
+    global dfdata
+    print("관광")
+    df=dfdata[dfdata['상권_구분_코드_명']=="관광특구"] 
     sang = df[df['상권_코드_명']==tradingArea]
+    print(sang)
     # 선택한 업종이 있으면 데이터를 불러오고 없으면 0을 리턴한다.
     if smallBusiType in list(sang['서비스_업종_코드_명']):
         # 선택한 서비스업종의 행들만 불러온다.
@@ -296,4 +299,4 @@ def culpredx(tradingArea,smallBusiType):
             
         return predictdata 
     else:
-        return 0
+        return False
