@@ -272,7 +272,7 @@ def balpredx(tradingArea,smallBusiType):
                               '시간대_11_14_매출_금액':xdata['시간대_11_14_매출_금액'].iloc[i-1],
                               '월요일_매출_금액':xdata['월요일_매출_금액'].iloc[i-1],
                               '금요일_매출_금액':xdata['금요일_매출_금액'].iloc[i-1],
-                              '점포수':xdata['점포수'].iloc[i-1]})
+                              '점포수':xdata['점포수'].iloc[i-1]},index = [str(i)+'분기'])
             
             # 위 행들을 준비해둔 데이터 프레임에 담아준다.
             predictdata=pd.concat([predictdata,df])
