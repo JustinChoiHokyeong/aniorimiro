@@ -7,9 +7,8 @@
 <head>
     <meta charset="utf-8">
     <title>map</title>  
-
     <link rel="stylesheet" href="{% static 'css/style.css' %}?v={% now 'u' %}"><!-- 캐시 방지 -->
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script>
       //ajax
       function ajaxSend(){
@@ -281,7 +280,6 @@
             
             }})}
             
-            
       function selectBusi(){
         var bigBusi = document.querySelector("#selectBusiType")
         var smallBusi = document.querySelector("#smallCategory")
@@ -314,9 +312,6 @@
           smallBusi.append(option);
         }
       }
-
-      
-       
     </script>
     
 <!-- 차트 로딩을 위한 코드 -->
@@ -333,16 +328,13 @@
    {% include 'etc/navbar.html' %}
 </div>
 <div class="map-container">
-  
   <div id="map" style="width:100%;height:100%;"></div>
-
   <div class="areacontrol radius_border">
     <span id="btnGm" class="btn" onclick="setComArea('gm')">골목상권</span>
     <span id="btnGg" class="btn" onclick="setComArea('gg')">관광특구</span>
     <span id="btnBd" class="btn" onclick="setComArea('bd')">발달상권</span>
     <span id="btnJt" class="btn" onclick="setComArea('jt')">전통시장</span>    
   </div> 
-  
   <div class="leftCategory">
     <h3>상권, 업종 선택하기 </h3>
     <hr />
@@ -365,9 +357,8 @@
      <br/>
       <label for="tradingarea" >소분류 업종:</label>
       <ul>
-         <select name="smallBusiType" id="smallCategory">
-         </select>
-     </ul>
+         <select name="smallBusiType" id="smallCategory"></select>
+      </ul>
       <br />
       <hr />
       <!-- form 에서 onclick 속성을 사용 시 새로고침을 피할 수 없다.-->
@@ -383,22 +374,18 @@
           <span id="dateString"></span>
        </dt>
       <dd class="sang1">
-         
          <div>
-
-        <strong class="spread-underline"><a href="#pred" id="showData_p">예측</a></strong>
-
+            <strong class="spread-underline"><a href="#pred" id="showData_p">예측</a></strong>
          </div>
          <hr />
          <div>
             <strong class="spread-underline" ><a href="#als" id="showData_b">분석</a></strong>
          </div>
-         
       </dd>
       <hr />
-       <dd class="sang2">
+      <dd class="sang2">
           <div>
-               <dl> 
+             <dl> 
                 <dt>대분류 상권</dt>
                 <strong><dd id="showData3"></dd></strong>
              </dl>
@@ -419,8 +406,7 @@
    </dl>
    <div class="rightReport_info">
       <div>본 보고서에 제공하는 내용은<strong> 추정정보</strong>이므로<strong> 실제와 다를 수</strong>있기에, <strong>사용자의 책임 하에 활용</strong>하시기 바랍니다.</div>
-      
-    <span id="pred" class="spread-underline">매출 예측</span>
+      <span id="pred" class="spread-underline">매출 예측</span>
    <dl>
       <dt></dt>
       <dd>
@@ -428,12 +414,9 @@
             <li class="summary">연간 예상 매출액 <strong id="showData5"></strong> </li><br />
             <li>
                <figure class="highcharts-figure">
-                 <div id="container">
-
-                 </div>
+                 <div id="container"></div>
                </figure>
             </li>
-            <li class="detail"></li>
          </ul>
       </dd>
    </dl>
@@ -477,11 +460,8 @@
    <dl>
       <dt></dt>
       <dd>
-         <ul class="analysis_list">
-            <li class="summary">
-            </li>
-            <li class="detail">
-            </li>
+         <ul>
+            <li></li>
          </ul>
       </dd>
    </dl>
