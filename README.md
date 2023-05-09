@@ -15,6 +15,7 @@
 * [참조 사이트](#참조-사이트)
 
 ## 시연 동영상
+[시연 동영상](https://cliff-celestite-93e.notion.site/33ae79a124b549a584f9c3e2d720adba)
 
 ## 회의록
 1. [팀장 회의 - 팀 선정 및 프로젝트 설명](https://justdojustin.tistory.com/50)
