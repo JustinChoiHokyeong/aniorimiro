@@ -555,7 +555,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;overflow: auto;}
 ## 미래 개선 방안
 
 ### 1. 데이터 분석
-------------- 데이터 관련 글 참고해서 쓰기 ------------
+[데이터 분석 보고서](https://cliff-celestite-93e.notion.site/33ae79a124b549a584f9c3e2d720adba)
 
 ### 2. 웹 개발
 #### 1) 마이페이지 스크랩 저장 기능
